@@ -8,6 +8,8 @@
       <RouterLink :to="{name:'signup'}" v-if="!userStore.isLogin">Signup | </RouterLink>
       <!-- 로그인 페이지로 이동 -->
       <RouterLink :to="{name:'login'}" v-if="!userStore.isLogin">Login | </RouterLink>
+      <!-- 게시판으로 이동 -->
+      <RouterLink :to="{name:'board'}">Board | </RouterLink>
       <span @click="userStore.logOut">Logout | </span>
     </nav>
   </header>
