@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import MainView from '@/views/MainView.vue'
 import { useUserStore } from '@/stores/user'
 import MainView from '@/views/MainView.vue'
 import SignUpView from '@/views/SignUpView.vue'
 import LogInView from '@/views/LogInView.vue'
+import BoardArticleView from '@/views/BoardArticleView.vue'
+import BoardArticleCreateView from '@/views/BoardArticleCreateView.vue'
+import BoardArticleDetailView from '@/views/BoardArticleDetailView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,8 +15,6 @@ const router = createRouter({
       name: 'main',
       component: MainView
     },
-  ]
-})
     {
 			path: '/signup',
 			name: 'signup',
@@ -24,7 +24,23 @@ const router = createRouter({
 			path: '/login',
 			name: 'login',
 			component: LogInView
-		}
+		},
+    {
+			path: '/board',
+			name: 'board',
+			component: BoardArticleView
+		},
+    {
+			path: '/board-create',
+			name: 'board_create',
+			component: BoardArticleCreateView
+		},
+    {
+			path: '/board-detail/:id',
+			name: 'board_detail',
+			component: BoardArticleDetailView
+		},
+    
   ]
 })
 

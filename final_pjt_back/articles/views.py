@@ -22,7 +22,7 @@ def board_article_list(request):
     # 게시판 글 작성
     elif request.method == 'POST':
         serializer = BoardArticleSerializer(data=request.data)
-        if serializer.is_vaild(raise_exception=True):
+        if serializer.is_valid(raise_exception=True):
             serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 

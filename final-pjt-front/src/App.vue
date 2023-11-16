@@ -2,13 +2,14 @@
 <template>
   <header>
     <nav>
-      <RouterLink :to="{name:'main'}">Home</RouterLink> |
       <!-- 메인페이지로 이동 -->
       <RouterLink :to="{name:'main'}">Home</RouterLink> |
       <!-- 회원가입 페이지로 이동 -->
       <RouterLink :to="{name:'signup'}" v-if="!userStore.isLogin">Signup | </RouterLink>
       <!-- 로그인 페이지로 이동 -->
       <RouterLink :to="{name:'login'}" v-if="!userStore.isLogin">Login | </RouterLink>
+      <!-- 게시판으로 이동 -->
+      <RouterLink :to="{name:'board'}">Board | </RouterLink>
     </nav>
   </header>
   <RouterView />

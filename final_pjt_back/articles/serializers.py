@@ -13,6 +13,7 @@ class BoardArticleListSerializer(serializers.ModelSerializer):
 
 # 게시판 글 단일
 class BoardArticleSerializer(serializers.ModelSerializer):
+    user_name = serializers.ReadOnlyField(source='user.username')
 
     class Meta:
         model = BoardArticle
