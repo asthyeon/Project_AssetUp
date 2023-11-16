@@ -48,6 +48,23 @@ export const useUserStore = defineStore('user', () => {
       .catch(err => console.log(err))
   }
 
+  // 로그아웃 함수
+  const logOut = function () {
+    axios({
+      method: 'post',
+      url: `${API_URL}/accounts/logout/`,
+      headers: {
+        Authorization: `Token ${token.value}`
+      }
+    })
+      .then(() => {
+        // 로그아웃 성공 시 로컬 상태 초기화
+        token.value = null
+      })
+      .catch(err => console.log(err))
+  }
+
+  // 로그인 여부
   const isLogin = computed(() => {
     if (token.value === null) {
       return false
@@ -56,5 +73,5 @@ export const useUserStore = defineStore('user', () => {
     }
   })
 
-  return { signUp, logIn, isLogin, token }
+  return { signUp, logIn, logOut, isLogin, token }
 }, { persist: true })
