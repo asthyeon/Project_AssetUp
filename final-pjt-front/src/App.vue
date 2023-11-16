@@ -10,6 +10,7 @@
       <RouterLink :to="{name:'login'}" v-if="!userStore.isLogin">Login | </RouterLink>
       <!-- 게시판으로 이동 -->
       <RouterLink :to="{name:'board'}">Board | </RouterLink>
+      <span @click="userStore.logOut">Logout | </span>
     </nav>
   </header>
   <RouterView />
