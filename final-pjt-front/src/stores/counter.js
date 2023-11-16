@@ -5,4 +5,4 @@ import axios from 'axios'
 export const useCounterStore = defineStore('counter', () => {
 
   return {  }
-})
+}, { persist: true })
