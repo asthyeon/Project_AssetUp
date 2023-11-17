@@ -6,6 +6,8 @@ import LogInView from '@/views/LogInView.vue'
 import BoardArticleView from '@/views/BoardArticleView.vue'
 import BoardArticleCreateView from '@/views/BoardArticleCreateView.vue'
 import BoardArticleDetailView from '@/views/BoardArticleDetailView.vue'
+import MapView from '@/views/MapView.vue'
+import ExchangeView from '@/views/ExchangeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,7 +42,16 @@ const router = createRouter({
 			name: 'board_detail',
 			component: BoardArticleDetailView
 		},
-    
+    {
+			path: '/map',
+			name: 'map',
+			component: MapView
+		},
+    {
+			path: '/exchange',
+			name: 'exchange',
+			component: ExchangeView
+		},
   ]
 })
 
