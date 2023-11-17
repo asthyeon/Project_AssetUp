@@ -41,7 +41,7 @@ const createBoardArticle = function () {
   })
     .then((res) => {
       // console.log(res)
-      router.push({ name: 'board_create' })
+      router.push({ name: 'board' })
     })
     .catch((err) => {
       console.log(err.response.data)

@@ -10,6 +10,10 @@
       <RouterLink :to="{name:'login'}" v-if="!userStore.isLogin">Login | </RouterLink>
       <!-- 게시판으로 이동 -->
       <RouterLink :to="{name:'board'}">Board | </RouterLink>
+      <!-- 카카오맵 보기 -->
+      <RouterLink :to="{name:'map'}">Map | </RouterLink>
+      <!-- 환율계산기 -->
+      <RouterLink :to="{name:'exchange'}">Exchange | </RouterLink>
       <span @click="userStore.logOut">Logout | </span>
     </nav>
   </header>
