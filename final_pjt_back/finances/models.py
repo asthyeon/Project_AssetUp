@@ -23,7 +23,6 @@ class BankOption(models.Model):
 
 # 예금 상품
 class DepositProduct(models.Model):
-    user = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='deposit_products', blank=True)
     bank = models.ForeignKey(Bank, on_delete=models.CASCADE)    # 외래키
     dcls_month = models.TextField()             # 공시 제출월[YYYYMM]
     fin_co_no = models.TextField()   # 금융회사코드
@@ -54,7 +53,6 @@ class DepositOption(models.Model):
 
 # 적금 상품
 class SavingProduct(models.Model):
-    user = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='saving_products', blank=True)
     bank = models.ForeignKey(Bank, on_delete=models.CASCADE)    # 외래키
     dcls_month = models.TextField()             # 공시 제출월[YYYYMM]
     fin_co_no = models.TextField()   # 금융회사코드
