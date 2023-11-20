@@ -9,6 +9,8 @@ import ArticleDetailView from '@/views/ArticleDetailView.vue'
 import ArticleUpdateView from '@/views/ArticleUpdateView.vue'
 import MapView from '@/views/MapView.vue'
 import ExchangeView from '@/views/ExchangeView.vue'
+import FinanceComparsionView from '@/views/FinanceComparsionView.vue'
+import ProductDetailView from '@/views/ProductDetailView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,16 +21,26 @@ const router = createRouter({
       component: MainView
     },
     {
-			path: '/signup',
-			name: 'signup',
-			component: SignUpView
+      path: '/compare',
+      name: 'compare',
+      component: FinanceComparsionView
+    },
+    {
+      path: '/product-detail/:fin_prdt_cd',
+      name: 'product_detail',
+      component: ProductDetailView
+    },
+    {
+		path: '/signup',
+		name: 'signup',
+		component: SignUpView
 		},
     {
-			path: '/login',
-			name: 'login',
-			component: LogInView
+		path: '/login',
+		name: 'login',
+		component: LogInView
 		},
-    {
+		{
 			path: '/articles',
 			name: 'articles',
 			component: ArticleView
@@ -49,15 +61,15 @@ const router = createRouter({
 			component: ArticleUpdateView
 		},
     {
-			path: '/map',
-			name: 'map',
-			component: MapView
-		},
+		path: '/map',
+		name: 'map',
+		component: MapView
+	},
     {
-			path: '/exchange',
-			name: 'exchange',
-			component: ExchangeView
-		},
+		path: '/exchange',
+		name: 'exchange',
+		component: ExchangeView
+	},
   ]
 })
 
