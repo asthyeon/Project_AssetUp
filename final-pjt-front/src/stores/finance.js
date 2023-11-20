@@ -10,14 +10,16 @@ export const useFinanceStore = defineStore('finance', () => {
 
   // 금융회사 목록
   const companys = ref([])
-  // 정기예금 상품 목록
+  // 전체 정기예금 상품 목록
   const depositProductList = ref([])
   // 정기예금 옵션 목록
   const depositProductOptionList = ref([])
-  // 적금 상품 목록
+  // 전체 적금 상품 목록
   const savingProductList = ref([])
   // 적금 옵션 목록
+  const savingProductOptionList = ref([])
   const savingOptionList = ref([])
+  const productType = ref('')
 
   const getCompanys = function () {
     axios({
@@ -31,8 +33,8 @@ export const useFinanceStore = defineStore('finance', () => {
 
   const filteredProducts = ref([])
 
-  // 상품 검색
-  const searchProducts = function (fin_co_no, save_trm) {
+  // 예금 상품 검색
+  const searchDepositProducts = function (fin_co_no, save_trm) {
       fin_co_no = fin_co_no || '전체'
       save_trm = save_trm || 0
       console.log(fin_co_no, save_trm)
@@ -44,6 +46,25 @@ export const useFinanceStore = defineStore('finance', () => {
         filteredProducts.value = res.data
         console.log(filteredProducts.value)
         console.log(filteredProducts.value.length)
+        productType.value = 'deposit'
+    }).catch(err => console.log(err))
+  }
+
+  // 적금 상품 검색
+  const searchSavingProducts = function (fin_co_no, save_trm) {
+      fin_co_no = fin_co_no || '전체'
+      save_trm = save_trm || 0
+      console.log(fin_co_no, save_trm)
+    axios({
+        method: 'get',
+        url: `${API_URL}/finances/search-saving-products/${fin_co_no}/${save_trm}/`
+    }).then(res => {
+        console.log('검색 완료')
+        filteredProducts.value = res.data
+        console.log(filteredProducts.value)
+        console.log(filteredProducts.value.length)
+        productType.value = 'saving'
+
     }).catch(err => console.log(err))
   }
 
@@ -51,7 +72,7 @@ export const useFinanceStore = defineStore('finance', () => {
   const getDepositProducts = function () {
     axios({
         method: 'get',
-        url: `${API_URL}/finances/get-deposit-products/`
+        url: `${API_URL}/finances/get-deposit-products/`,
     }).then(res => {
         console.log('예금 상품 조회 완료')
         depositProductList.value = res.data
@@ -62,7 +83,7 @@ export const useFinanceStore = defineStore('finance', () => {
   const getSavingProducts = function () {
     axios({
         method: 'get',
-        url: `${API_URL}/finances/get_saving_products/`
+        url: `${API_URL}/finances/get-saving-products/`
     }).then(res => {
         console.log('적금 상품 조회 완료')
         savingProductList.value = res.data
@@ -71,7 +92,8 @@ export const useFinanceStore = defineStore('finance', () => {
 
   // 단일 예금 상품
   const depositProduct = ref(null)
-
+  const savingProduct = ref(null)
+  
   // 단일 예금 상품 상세 정보 조회
   const getDepositProductDetail = function (finPrdtCd) {
     axios({
@@ -85,6 +107,18 @@ export const useFinanceStore = defineStore('finance', () => {
     }).catch(err => console.log(err))
   }
 
+  // 단일 적금 상품 상세 정보 조회
+  const getSavingProductDetail = function (finPrdtCd) {
+    axios({
+        method: 'get',
+        url: `${API_URL}/finances/get-saving-product-detail/${finPrdtCd}/`
+    }).then(res => {
+        console.log('단일 적금 상품 상세 조회 성공')
+        console.log(res.data)
+        savingProduct.value = res.data
+    }).catch(err => console.log(err))
+  }
+
   // 단일 예금 상품의 옵션 목록 조회
   const getDepositProductOptions = function (finPrdtCd) {
     axios({
@@ -94,6 +128,18 @@ export const useFinanceStore = defineStore('finance', () => {
         console.log('단일 예금 상품 옵션 조회 성공');
         depositProductOptionList.value = res.data
         console.log(depositProductOptionList.value)
+    }).catch(err => console.log(err))
+  }
+
+  // 단일 적금 상품의 옵션 목록 조회
+  const getSavingProductOptions = function (finPrdtCd) {
+    axios({
+        method:'get',
+        url: `${API_URL}/finances/get-saving-product-options/${finPrdtCd}/`
+    }).then(res => {
+        console.log('단일 적금 상품 옵션 조회 성공');
+        savingProductOptionList.value = res.data
+        console.log(savingProductOptionList.value)
     }).catch(err => console.log(err))
   }
 
@@ -166,9 +212,10 @@ export const useFinanceStore = defineStore('finance', () => {
 
   return {
     companys,
-    depositProductList, depositProduct, depostiOptionLIst, depositProductOptionList,
-    savingProductList, savingOptionList,
+    depositProductList, depositProduct, savingProduct, depostiOptionLIst, depositProductOptionList,
+    savingProductList, savingOptionList, productType, savingProductOptionList,
     getCompanys, getDepositProducts, getDepositOptions, getDepositProductOptions, getDepositProductDetail,
-    getSavingProducts,
-    filteredProducts, searchProducts, sortProducts }
+    getSavingProducts, getSavingProductOptions,
+    getSavingProductDetail,
+    filteredProducts, searchDepositProducts, searchSavingProducts, sortProducts }
 }, { persist: true })
