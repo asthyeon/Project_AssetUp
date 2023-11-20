@@ -30,9 +30,9 @@ environ.Env.read_env(
 )
 
 # 환경변수 읽어오기
-EXCHANGE_KEY = env('EXCHANGE_KEY')
-FINANCE_KEY = env('FINANCE_KEY')
-KAKAO_KEY = env('KAKAO_KEY')
+EXCHANGE_API_KEY = env('EXCHANGE_API_KEY')
+FINANCE_API_KEY = env('FINANCE_API_KEY')
+KAKAO_API_KEY = env('KAKAO_API_KEY')
 
 
 # Quick-start development settings - unsuitable for production
@@ -164,6 +164,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.USER'
 
+AUTH_EMAIL_REQUIRED = False
+AUTH_EMAIL_VERIFICATION = None
+
+AUTHENTICATION_BACKENDS = (
+    # django 기본 인증 백엔드
+    "django.contrib.auth.backends.ModelBackend",
+    # django-allauth 패키지에서 제공하는 인증 백엔드 클래스,
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+
 REST_FRAMEWORK = {
     # Authentication
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -181,5 +191,3 @@ env = environ.Env(DEBUG=(bool, True))
 environ.Env.read_env(
     env_file=os.path.join(BASE_DIR, '.env')
 )
-
-FINANCE_API_KEY = env('FINANCE_API_KEY')

@@ -7,369 +7,131 @@
   - 6274d5007922d6c151bfa2f76ad3d7e8
 
 
-# 정기예금 API 예제 url json
-http://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json?auth={발급받은 인증키}&topFinGrpNo=020000&pageNo=1
+# 프로젝트 목표
 
-# 정기예금 요청 변수
-요청변수 명	요청변수 ID	타입	필수여부	설명 및 예시
-서비스명	-	text	필수	* 각 API의 구분자로 사용
-Ex) depositProductsSearch
-응답방식	-	text	필수	* API호출 후 받을 결과 값 형태 선택.
-Ex) xml, json
-인증키	auth	text	필수	* 인증키 신청 후 발급받은 인증키(32자리)
-Ex)123XXXXXXX45XXXXXXXXX67XXXXXXXC89
-권역코드	topFinGrpNo	text	필수	* 금융회사가 속한 권역 코드
-Ex) 020000(은행), 030200(여신전문), 030300(저축은행), 050000(보험), 060000(금융투자)
-페이지 번호	pageNo	text	필수	* 조회하고자 하는 페이지 번호
-Ex) 1, 2, 3
-금융회사 코드 또는 명	financeCd	text	선택	* 금융회사 코드 또는 명
-Ex) 0010587, 0010588, 0010722, 국민, 상호, 하나
+## 타겟정보
+ - 이용층 : 그냥 일반 사람 - 싸피 출신 개발자
+ - 목적 : 재테크계획이 필요함 - 결혼 후 자가마련을 위해 재테크 계획
 
-# 정기예금 API 결과 변수
-result	설명
-err_cd		응답코드
-err_msg		응답메시지
-total_count		총 상품건수
-max_page_no		총 페이지 건수 (총 페이지 건수 = 총 상품건수/1회 조회 개수*)
-now_page_no		현재 조회 페이지 번호
-products	상품목록
-product	상품
-baseinfo	기본정보
-dcls_month **	공시 제출월 [YYYYMM]
-fin_co_no **	금융회사 코드
-kor_co_nm	금융회사 명
-fin_prdt_cd **	금융상품 코드
-fin_prdt_nm	금융 상품명
-join_way	가입 방법
-mtrt_int	만기 후 이자율
-spcl_cnd	우대조건
-join_deny	가입제한
-Ex) 1:제한없음, 2:서민전용, 3:일부제한
-join_member	가입대상
-etc_note	기타 유의사항
-max_limit	최고한도
-dcls_strt_day	공시 시작일
-dcls_end_day	공시 종료일
-fin_co_subm_day	금융회사 제출일 [YYYYMMDDHH24MI]
-options	옵션목록
-options	옵션
-intr_rate_type	저축 금리 유형
-intr_rate_type_nm	저축 금리 유형명
-save_trm	저축 기간 [단위: 개월]
-intr_rate	저축 금리 [소수점 2자리]
-intr_rate2	최고 우대금리 [소수점 2자리]
+## 어플정보
+ - 목적 : 은행에 갈 시간이 없는 사람을 위해 금융정보를 한 눈에 알 수 있음
+ - 필수기능
 
-# 적금 API 예제 url
-http://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json?auth={발급받은 인증키}&topFinGrpNo=020000&pageNo=1
+  ### 1. 예금 & 적금 금리 비교
+   (필수)
+   - 전체정렬이 은행별 선택가능해야함
+   - 전체정렬이 가입기간별 선택가능해야함
+   - 가입기간별로 정렬이 가능해야함
+    - 인덱스명이 공시제출일, 금융회사명, 상품명, 가입기간별 금리 금리
+   - 상세조회가 가능해야함
+    - 인덱스명이 공시제출일, 금융회사명, 상품명, 가입제한(1, 2, 3), 우대조건
+   - 가입이 가능해야함(즐겨찾기기능)
+   (구상)
+   - (상품의 금리 정보가 수정되면 가입한 유저의 이메일로 메일이 전송되도록 구현해야함)
+   - 상세조회에서는 가입제한에 대한 설명 추가, 우대조건에 대한 설명 추가
+   - 가입기간, 이자율도 다시 상세에서 볼 수 있게, 적금일시 저축기간
+   - 그 상품에 대한 기업웹사이트를 제공(링크)
 
-# 적금 요청 변수
-요청변수 명	요청변수 ID	타입	필수여부	설명 및 예시
-서비스명	-	text	필수	* 각 API의 구분자로 사용
-Ex) savingProductsSearch
-응답방식	-	text	필수	* API호출 후 받을 결과 값 형태 선택.
-Ex) xml, json
-인증키	auth	text	필수	* 인증키 신청 후 발급받은 인증키(32자리)
-Ex)123XXXXXXX45XXXXXXXXX67XXXXXXXC89
-권역코드	topFinGrpNo	text	필수	* 금융회사가 속한 권역 코드
-Ex) 020000(은행), 030200(여신전문), 030300(저축은행), 050000(보험), 060000(금융투자)
-페이지 번호	pageNo	text	필수	* 조회하고자 하는 페이지 번호
-Ex) 1, 2, 3
-금융회사 코드 또는 명	financeCd	text	선택	* 금융회사 코드 또는 명
-Ex) 0010587, 0010588, 0010722, 국민, 상호, 하나
-
-# 적금 API 결과 변수
-result	설명
-err_cd		응답코드
-err_msg		응답메시지
-total_count		총 상품건수
-max_page_no		총 페이지 건수 (총 페이지 건수 = 총 상품건수/1회 조회 개수*)
-now_page_no		현재 조회 페이지 번호
-products	상품목록
-product	상품
-baseinfo	기본정보
-dcls_month **	공시 제출월 [YYYYMM]
-fin_co_no **	금융회사 코드
-kor_co_nm	금융회사 명
-fin_prdt_cd**	금융상품 코드
-fin_prdt_nm	금융 상품명
-join_way	가입 방법
-mtrt_int	만기 후 이자율
-spcl_cnd	우대조건
-join_deny	가입제한
-Ex) 1:제한없음, 2:서민전용, 3:일부제한
-join_member	가입대상
-etc_note	기타 유의사항
-max_limit	최고한도
-dcls_strt_day	공시 시작일
-dcls_end_day	공시 종료일
-fin_co_subm_day	금융회사 제출일 [YYYYMMDDHH24MI]
-options	옵션목록
-options	옵션
-intr_rate_type	저축 금리 유형
-intr_rate_type_nm	저축 금리 유형명
-rsrv_type	적립 유형
-rsrv_type_nm	적립 유형명
-save_trm	저축 기간 [단위: 개월]
-intr_rate	저축 금리 [소수점 2자리]
-intr_rate2	최고 우대금리 [소수점 2자리]
-
-# 연금저축 API 예제 URL
-http://finlife.fss.or.kr/finlifeapi/annuitySavingProductsSearch.json?auth={발급받은 인증키}&topFinGrpNo=060000&pageNo=1
-
-# 연금저축 요청 변수
-요청변수 명	요청변수 ID	타입	필수여부	설명 및 예시
-서비스명	-	text	필수	* 각 API의 구분자로 사용
-Ex) savingProductsSearch
-응답방식	-	text	필수	* API호출 후 받을 결과 값 형태 선택.
-Ex) xml, json
-인증키	auth	text	필수	* 인증키 신청 후 발급받은 인증키(32자리)
-Ex)123XXXXXXX45XXXXXXXXX67XXXXXXXC89
-권역코드	topFinGrpNo	text	필수	* 금융회사가 속한 권역 코드
-Ex) 020000(은행), 030200(여신전문), 030300(저축은행), 050000(보험), 060000(금융투자)
-페이지 번호	pageNo	text	필수	* 조회하고자 하는 페이지 번호
-Ex) 1, 2, 3
-금융회사 코드 또는 명	financeCd	text	선택	* 금융회사 코드 또는 명
-Ex) 0010587, 0010588, 0010722, 국민, 상호, 하나
-
-# 연금저축 API 결과 변수
-result	설명
-err_cd		응답코드
-err_msg		응답메시지
-total_count		총 상품건수
-max_page_no		총 페이지 건수 (총 페이지 건수 = 총 상품건수/1회 조회 개수*)
-now_page_no		현재 조회 페이지 번호
-products	상품목록
-product	상품
-baseinfo	기본정보
-dcls_month **	공시 제출월 [YYYYMM]
-fin_co_no **	금융회사 코드
-kor_co_nm	금융회사 명
-fin_prdt_cd**	금융상품 코드
-fin_prdt_nm	금융 상품명
-join_way	가입 방법
-pnsn_kind	연금종류
-pnsn_kind_nm	연금종류명
-sale_strt_day	판매 개시일
-mntn_cnt	유지건수[단위: 건] 또는 설정액 [단위: 원]
-prdt_type	상품유형
-prdt_type_nm	상품유형명
-dcls_rate	공시이율 [소수점 2자리]
-guar_rate	최저 보증이율
-btrm_prft_rate_1	과거 수익률1(전년도) [소수점 2자리]
-btrm_prft_rate_2	과거 수익률2(전전년도) [소수점 2자리]
-btrm_prft_rate_3	과거 수익률3(전전전년도) [소수점 2자리]
-etc	기타사항
-sale_co	판매사
-dcls_strt_day	공시 시작일
-dcls_end_day	공시 종료일
-fin_co_subm_day	금융회사 제출일 [YYYYMMDDHH24MI]
-options	옵션목록
-options	옵션
-intr_rate_type	저축 금리 유형
-intr_rate_type_nm	저축 금리 유형명
-rsrv_type	적립 유형
-rsrv_type_nm	적립 유형명
-save_trm	저축 기간 [단위: 개월]
-intr_rate	저축 금리 [소수점 2자리]
-intr_rate2	최고 우대금리 [소수점 2자리]
+  ### 2. 신혼 여행을 위한 환율 계산기
+   (필수)
+   - 단순 환율 계산
+   (구상)
+   - 전신환 0인 것도 있음 - 삭제 : 매매 기준율만 넣기
+   - 그 국가에 대한 관광지 등 정보 넣는 것은 어떨까
+   - 네이버 여행 정보 이용하기(크롤링)
 
 
-# 금융회사 API 예제 URL
-http://finlife.fss.or.kr/finlifeapi/companySearch.json?auth={발급받은 인증키}&topFinGrpNo=020000&pageNo=1
+  ### 3. 내 집 주변 은행 검색
+   (필수)
+   - 도시별, 구별, 은행 위치를 띄울 수 있게 함
+   (구상)
+   - 은행 상세정보 페이지를 만들어서 회사이름, 홈페이지 주소, 콜센터 전화번호(데이터)
+   - 카카오에서 연결되있을 수도 있는 정보도 가져올 수 있으면 가져오기
+   - 즐겨찾기 추가(유저필드에 은행목록 넣기)
+   - 카테고리로 장소 검색하기
 
-# 금융회사 요청 변수
-요청변수 명	요청변수 ID	타입	필수여부	설명 및 예시
-서비스명	-	text	필수	* 각 API의 구분자로 사용
-Ex) companySearch
-응답방식	-	text	필수	* API호출 후 받을 결과 값 형태 선택.
-Ex) xml, json
-인증키	auth	text	필수	* 인증키 신청 후 발급받은 인증키(32자리)
-Ex)123XXXXXXX45XXXXXXXXX67XXXXXXXC89
-권역코드	topFinGrpNo	text	필수	* 금융회사가 속한 권역 코드
-Ex) 020000(은행), 030200(여신전문), 030300(저축은행), 050000(보험), 060000(금융투자)
-페이지 번호	pageNo	text	필수	* 조회하고자 하는 페이지 번호
-Ex) 1, 2, 3
-금융회사 코드 또는 명	financeCd	text	선택	* 금융회사 코드 또는 명
-Ex) 0010587, 0010588, 0010722, 국민, 상호, 하나
+  ### 4. 프로필 페이지
+   (필수)
+   - 회원정보: 회원번호(pk), ID, EMAIL, NICKNAME, 나이, 자산, 연봉
+   - 가입한상품, 가입한 상품별 금리를 차트로 나대기(평균필드 추가)
+   (구상)
+   - 상품디테일페이지 연결
+   - 회원정보에 목표자산필드 추가
+   - 현재자산부터 목표자산까지 내가 가입한 상품들의 금리로 언제 도달할 수 있는 대략적인 기간 나타내기(싸피처럼 게이지 딱 주고 딱 하기) - 메인페이지에
+   - 현재자산은 항상 최신화되어 있음 - (우리가 금리까지계산해서 다음날의 현재자산까지 자동계산)
+   - 은행정보 필드
 
-# 금융회사 API 결과 변수
-result	설명
-err_cd		응답코드
-err_msg		응답메시지
-total_count		총 상품건수
-max_page_no		총 페이지 건수 (총 페이지 건수 = 총 상품건수/1회 조회 개수*)
-now_page_no		현재 조회 페이지 번호
-products	상품목록
-product	상품
-baseinfo	기본정보
-dcls_month **	공시 제출월 [YYYYMM]
-fin_co_no **	금융회사코드
-kor_co_nm	금융회사 명
-dcls_chrg_man	공시담당자
-homp_url	홈페이지주소
-cal_tel	콜센터전화번호
-options	옵션목록
-options	옵션
-area_cd	지역구분
-area_nm	지역이름
-exis_yn	점포소재여부
+  ### 5. 나에게 맞는 상품 추천(가장 중요)
+   (예시)
+   - 나와 나이, 현재가진금액, 연봉이 비슷한 사람들이 가입한 상품 리스트(유사도로 하기)
+   - 포트폴리오로 추천(저축성향, 알뜰형, 도전형, 성실형, 최애 은행)
+   (구상)
+   #### 1. 연봉 + 현재자산을 이용해서 목표 자산을 달성하기 위해 필요한 기간별로 금융상품 추천
+    - 현재자산을 자유롭게 설정하게끔 만들어주기(디폴트: 그사람의 현재자산)
+   #### 2. (나이, 성별, 직업, 현재가진금액, 연봉) 유사도 구해서 상품 추천(단계별)
+    - 상품별 베스트(이용량), 유저정보를 이용해 필터링이 가능하게 하기
+    - 단순히 이용량 추천
+    - 챗봇 형식으로도 구현 가능
+   #### 3. 목적별(테마별) 추천(결혼, 노후, 자가마련, 자동차, 아이, 학생, 여행, 직업별)
+    - 우리가 생각했을 때 추천
+    - 목적별로 너가 사고싶은 금융상품(대출포함) 추천
+   #### 4. 키워드
+   #### 5. 금융계산기
 
-# 주택담보대출 API
-http://finlife.fss.or.kr/finlifeapi/mortgageLoanProductsSearch.json?auth={발급받은 인증키}&topFinGrpNo=050000&pageNo=1
+## 포트폴리오 포함(프로필 페이지로 구현) 얘를 기준으로 정렬
+ - 도전형: 예적금연금(X), 펀드대출(O)
+ - 알뜰형: 월납입금이 크다
+ - 성실형: 납입기간이 길다
+1. 금융상품별 추천(사용량)
+2. 테마별 금융상품 추천(사용량)
+3. 개인정보를 고려한(필터링) 금융상품 추천(사용량)
+4. 1 3 5 10 20 30년도별로 목표자산을 맞출 때 가장 유용한 금융상품
+ - 기간이 길면 - 연금, 중간이면 - 예적금, 짧으면 - 대출
+5. (선택) 챗봇, 금융계산기
 
-# 주택담보대출 요청 변수
-요청변수 명	요청변수 ID	타입	필수여부	설명 및 예시
-서비스명	-	text	필수	* 각 API의 구분자로 사용
-Ex) mortgageLoanProductsSearch
-응답방식	-	text	필수	* API호출 후 받을 결과 값 형태 선택.
-Ex) xml, json
-인증키	auth	text	필수	* 인증키 신청 후 발급받은 인증키(32자리)
-Ex)123XXXXXXX45XXXXXXXXX67XXXXXXXC89
-권역코드	topFinGrpNo	text	필수	* 금융회사가 속한 권역 코드
-Ex) 020000(은행), 030200(여신전문), 030300(저축은행), 050000(보험), 060000(금융투자)
-페이지 번호	pageNo	text	필수	* 조회하고자 하는 페이지 번호
-Ex) 1, 2, 3
-금융회사 코드 또는 명	financeCd	text	선택	* 금융회사 코드 또는 명
-Ex) 0010587, 0010588, 0010722, 국민, 상호, 하나
+## 네비게이션 바
+- 로고 / 금융상품 / 상품추천 / 환율 / 지도 / 게시판 / - 회원가입 / 로그인 - 프로필 / 로그아웃
 
-# 주택담보대출 API 결과 변수
-result	설명
-err_cd		응답코드
-err_msg		응답메시지
-total_count		총 상품건수
-max_page_no		총 페이지 건수 (총 페이지 건수 = 총 상품건수/1회 조회 개수*)
-now_page_no		현재 조회 페이지 번호
-products	상품목록
-product	상품
-baseinfo	기본정보
-dcls_month ***	공시 제출월 [YYYYMM]
-fin_co_no ***	금융회사 코드
-kor_co_nm	금융회사 명
-fin_prdt_cd***	금융상품 코드
-fin_prdt_nm	금융 상품명
-join_way	가입 방법
-loan_inci_expn	대출 부대비용
-erly_rpay_fee	중도상환 수수료
-dly_rate	연체 이자율
-loan_lmt	대출한도
-dcls_strt_day	공시 시작일
-dcls_end_day	공시 종료일
-fin_co_subm_day	금융회사 제출일 [YYYYMMDDHH24MI]
-options	옵션목록
-options	옵션
-mrtg_type	담보유형 코드
-mrtg_type_nm	담보유형
-rpay_type	대출상환유형 코드
-rpay_type_nm	대출상환유형 **
-lend_rate_type	대출금리유형 코드
-lend_rate_type_nm	대출금리유형
-lend_rate_min	대출금리_최저 [소수점 2자리]
-lend_rate_max	대출금리_최고 [소수점 2자리]
-lend_rate_avg	전월 취급 평균금리 [소수점 2자리]
+## 메인페이지에 띄울 것
+- 로그인
+ - 네비게이션 바
+ - 회원 닉네임, 님 안녕하세요
+ - 목표자산 게이지
+ - 내가 가입한 금융상품 출력(목록, 차트) Top3
+ - 개인정보를 고려한 필터링 금융상품 추천(유저정보 기준) Top3
+- 로그아웃상태
+ - 어서오세요
+ - 금융상품별(예금, 적금, 연금, 대출) Top3
+ - 테마별 금융상품(결혼, 여가/여행, 노후, 학생, 자동차, 집) Top3
 
-# 전세자금대출 API
-http://finlife.fss.or.kr/finlifeapi/rentHouseLoanProductsSearch.json?auth={발급받은 인증키}&topFinGrpNo=050000&pageNo=1
+## 금융상품
+- 위쪽 탭 상품별(전체, 예금, 적금, 연금, 대출) (선택)여러개 선택가능하게 하기
+- 검색조건에 따른 상품을 비교
+- 검색조건: 기관별, 가입기간별
 
-# 전세자금대출 요청 변수
-요청변수 명	요청변수 ID	타입	필수여부	설명 및 예시
-서비스명	-	text	필수	* 각 API의 구분자로 사용
-Ex) rentHouseLoanProductsSearch
-응답방식	-	text	필수	* API호출 후 받을 결과 값 형태 선택.
-Ex) xml, json
-인증키	auth	text	필수	* 인증키 신청 후 발급받은 인증키(32자리)
-Ex)123XXXXXXX45XXXXXXXXX67XXXXXXXC89
-권역코드	topFinGrpNo	text	필수	* 금융회사가 속한 권역 코드
-Ex) 020000(은행), 030200(여신전문), 030300(저축은행), 050000(보험), 060000(금융투자)
-페이지 번호	pageNo	text	필수	* 조회하고자 하는 페이지 번호
-Ex) 1, 2, 3
-금융회사 코드 또는 명	financeCd	text	선택	* 금융회사 코드 또는 명
-Ex) 0010587, 0010588, 0010722, 국민, 상호, 하나
+## 상품추천
+- 자기 포트폴리오 띄우기(수정 -> 프로필/내 포트폴리오 수정)
+- 금융상품별 추천(사용량)
+- 테마별 금융상품 추천(사용량)
+- 개인정보를 고려한(필터링) 금융상품 추천 - 디폴트값이 내 정보, 수정가능
+- 목표자산 맞추는 추천
 
-# 전세자금대출 API 결과 변수
-result	설명
-err_cd		응답코드
-err_msg		응답메시지
-total_count		총 상품건수
-max_page_no		총 페이지 건수 (총 페이지 건수 = 총 상품건수/1회 조회 개수*)
-now_page_no		현재 조회 페이지 번호
-products	상품목록
-product	상품
-baseinfo	기본정보
-dcls_month ***	공시 제출월 [YYYYMM]
-fin_co_no ***	금융회사 코드
-kor_co_nm	금융회사 명
-fin_prdt_cd***	금융상품 코드
-fin_prdt_nm	금융 상품명
-join_way	가입 방법
-loan_inci_expn	대출 부대비용
-erly_rpay_fee	중도상환 수수료
-dly_rate	연체 이자율
-loan_lmt	대출한도
-dcls_strt_day	공시 시작일
-dcls_end_day	공시 종료일
-fin_co_subm_day	금융회사 제출일 [YYYYMMDDHH24MI]
-options	옵션목록
-options	옵션
-rpay_type	대출상환유형 코드
-rpay_type_nm	대출상환유형 **
-lend_rate_type	대출금리유형 코드
-lend_rate_type_nm	대출금리유형
-lend_rate_min	대출금리_최저 [소수점 2자리]
-lend_rate_max	대출금리_최고 [소수점 2자리]
-lend_rate_avg	전월 취급 평균금리 [소수점 2자리]
+## 환율계산기
+- 화면
 
+## 기관위치찾기
+- 검색조건: 시, 구, 기관명
+- 지도에 띄우기
+- 왼쪽탭: 지도검색, 즐겨찾기
 
-# 개인신용대출 API
-http://finlife.fss.or.kr/finlifeapi/creditLoanProductsSearch.json?auth={발급받은 인증키}&topFinGrpNo=050000&pageNo=1
+## 소통방
+- 자유게시판
+- 문의하기
 
-# 개인신용대출 요청 변수
-요청변수 명	요청변수 ID	타입	필수여부	설명 및 예시
-서비스명	-	text	필수	* 각 API의 구분자로 사용
-Ex) creditLoanProductsSearch
-응답방식	-	text	필수	* API호출 후 받을 결과 값 형태 선택.
-Ex) xml, json
-인증키	auth	text	필수	* 인증키 신청 후 발급받은 인증키(32자리)
-Ex)123XXXXXXX45XXXXXXXXX67XXXXXXXC89
-권역코드	topFinGrpNo	text	필수	* 금융회사가 속한 권역 코드
-Ex) 020000(은행), 030200(여신전문), 030300(저축은행), 050000(보험), 060000(금융투자)
-페이지 번호	pageNo	text	필수	* 조회하고자 하는 페이지 번호
-Ex) 1, 2, 3
-금융회사 코드 또는 명	financeCd	text	선택	* 금융회사 코드 또는 명
-Ex) 0010587, 0010588, 0010722, 국민, 상호, 하나
-
-# 개인신용대출 API 결과 변수
-result	설명
-err_cd		응답코드
-err_msg		응답메시지
-total_count		총 상품건수
-max_page_no		총 페이지 건수 (총 페이지 건수 = 총 상품건수/1회 조회 개수*)
-now_page_no		현재 조회 페이지 번호
-products	상품목록
-product	상품
-baseinfo	기본정보
-dcls_month **	공시 제출월 [YYYYMM]
-fin_co_no **	금융회사 코드
-kor_co_nm	금융회사 명
-fin_prdt_cd**	금융상품 코드
-fin_prdt_nm	금융 상품명
-join_way	가입 방법
-crdt_prdt_type	대출종류 코드
-crdt_prdt_type_nm	대출종류명
-cb_name	CB 회사명
-dcls_strt_day	공시 시작일
-dcls_end_day	공시 종료일
-fin_co_subm_day	금융회사 제출일 [YYYYMMDDHH24MI]
-options	옵션목록
-options	옵션
-crdt_lend_rate_type	금리구분 코드
-crdt_lend_rate_type_nm	금리구분
-crdt_grad_1	900점 초과 [소수점 2자리]
-crdt_grad_4	801~900점 [소수점 2자리]
-crdt_grad_5	701~800점 [소수점 2자리]
-crdt_grad_6	601~700점 [소수점 2자리]
-crdt_grad_10	501~600점 [소수점 2자리]
-crdt_grad_11	401~500점 [소수점 2자리]
-crdt_grad_12	301~400점 [소수점 2자리]
-crdt_grad_13	300점 이하 [소수점 2자리]
-crdt_grad_avg	평균 금리 [소수점 2자리]
+## 프로필
+- 내 정보
+- 내 정보 수정
+- 내 포트폴리오 수정
+- 내가 가입한 금융상품 전체(목록, 차트)
+- 나에게 맞는 금융상품 추천 전체
 

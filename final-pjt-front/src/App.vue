@@ -4,6 +4,8 @@
     <nav>
       <!-- 메인페이지로 이동 -->
       <RouterLink :to="{name:'main'}">Home</RouterLink> |
+      <!-- 금융상품 비교 페이지로 이동 -->
+      <RouterLink :to="{name:'compare'}">Compare | </RouterLink>
       <!-- 회원가입 페이지로 이동 -->
       <RouterLink :to="{name:'signup'}" v-if="!userStore.isLogin">Signup | </RouterLink>
       <!-- 로그인 페이지로 이동 -->

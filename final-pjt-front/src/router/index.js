@@ -8,6 +8,8 @@ import BoardArticleCreateView from '@/views/BoardArticleCreateView.vue'
 import BoardArticleDetailView from '@/views/BoardArticleDetailView.vue'
 import MapView from '@/views/MapView.vue'
 import ExchangeView from '@/views/ExchangeView.vue'
+import FinanceComparsionView from '@/views/FinanceComparsionView.vue'
+import ProductDetailView from '@/views/ProductDetailView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,40 +20,50 @@ const router = createRouter({
       component: MainView
     },
     {
-			path: '/signup',
-			name: 'signup',
-			component: SignUpView
-		},
+      path: '/compare',
+      name: 'compare',
+      component: FinanceComparsionView
+    },
     {
-			path: '/login',
-			name: 'login',
-			component: LogInView
-		},
+      path: '/product-detail/:fin_prdt_cd',
+      name: 'product_detail',
+      component: ProductDetailView
+    },
     {
-			path: '/board',
-			name: 'board',
-			component: BoardArticleView
-		},
+		path: '/signup',
+		name: 'signup',
+		component: SignUpView
+	},
     {
-			path: '/board-create',
-			name: 'board_create',
-			component: BoardArticleCreateView
-		},
+		path: '/login',
+		name: 'login',
+		component: LogInView
+	},
     {
-			path: '/board-detail/:id',
-			name: 'board_detail',
-			component: BoardArticleDetailView
-		},
+		path: '/board',
+		name: 'board',
+		component: BoardArticleView
+	},
     {
-			path: '/map',
-			name: 'map',
-			component: MapView
-		},
+		path: '/board-create',
+		name: 'board_create',
+		component: BoardArticleCreateView
+	},
     {
-			path: '/exchange',
-			name: 'exchange',
-			component: ExchangeView
-		},
+		path: '/board-detail/:id',
+		name: 'board_detail',
+		component: BoardArticleDetailView
+	},
+    {
+		path: '/map',
+		name: 'map',
+		component: MapView
+	},
+    {
+		path: '/exchange',
+		name: 'exchange',
+		component: ExchangeView
+	},
   ]
 })
 
