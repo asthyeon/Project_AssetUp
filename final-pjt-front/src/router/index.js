@@ -3,9 +3,10 @@ import { useUserStore } from '@/stores/user'
 import MainView from '@/views/MainView.vue'
 import SignUpView from '@/views/SignUpView.vue'
 import LogInView from '@/views/LogInView.vue'
-import BoardArticleView from '@/views/BoardArticleView.vue'
-import BoardArticleCreateView from '@/views/BoardArticleCreateView.vue'
-import BoardArticleDetailView from '@/views/BoardArticleDetailView.vue'
+import ArticleView from '@/views/ArticleView.vue'
+import ArticleCreateView from '@/views/ArticleCreateView.vue'
+import ArticleDetailView from '@/views/ArticleDetailView.vue'
+import ArticleUpdateView from '@/views/ArticleUpdateView.vue'
 import MapView from '@/views/MapView.vue'
 import ExchangeView from '@/views/ExchangeView.vue'
 import FinanceComparsionView from '@/views/FinanceComparsionView.vue'
@@ -33,27 +34,32 @@ const router = createRouter({
 		path: '/signup',
 		name: 'signup',
 		component: SignUpView
-	},
+		},
     {
 		path: '/login',
 		name: 'login',
 		component: LogInView
-	},
+		},
+		{
+			path: '/articles',
+			name: 'articles',
+			component: ArticleView
+		},
     {
-		path: '/board',
-		name: 'board',
-		component: BoardArticleView
-	},
+			path: '/article-create',
+			name: 'article_create',
+			component: ArticleCreateView
+		},
     {
-		path: '/board-create',
-		name: 'board_create',
-		component: BoardArticleCreateView
-	},
-    {
-		path: '/board-detail/:id',
-		name: 'board_detail',
-		component: BoardArticleDetailView
-	},
+			path: '/article-detail/:article_id',
+			name: 'article_detail',
+			component: ArticleDetailView
+		},
+		{
+			path: '/article-update/:article_id',
+			name: 'article_update',
+			component: ArticleUpdateView
+		},
     {
 		path: '/map',
 		name: 'map',

@@ -7,6 +7,8 @@ export const useUserStore = defineStore('user', () => {
   const API_URL = 'http://127.0.0.1:8000'
   const token = ref(null)
   const router = useRouter()
+  const name = ref(null)
+  const user = ref({})
 
   // 회원가입 기능
   const signUp = function (payload) {
@@ -42,8 +44,21 @@ export const useUserStore = defineStore('user', () => {
     })
       .then(res => {
         token.value = res.data.key
-        // 로그인 후 메인페이지로 이동
-        router.push({ name: 'main' })
+        name.value = username
+        // 유저 정보를 받아오기
+        axios({
+          method: 'get',
+          url: `${API_URL}/accounts/user/`,
+          headers: {
+            Authorization: `Token ${token.value}`
+          }
+        })
+        .then(res => {
+          user.value = res.data
+          console.log(res.data);
+          // 로그인 후 메인페이지로 이동
+          router.push({name: 'main'})
+        })
       })
       .catch(err => console.log(err))
   }
@@ -60,8 +75,9 @@ export const useUserStore = defineStore('user', () => {
       .then(() => {
         // 로그아웃 성공 시 로컬 상태 초기화
         token.value = null
+        router.push({ name: 'login'})
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log(err.response.data))
   }
 
   // 로그인 여부
@@ -73,5 +89,5 @@ export const useUserStore = defineStore('user', () => {
     }
   })
 
-  return { signUp, logIn, logOut, isLogin, token }
+  return { signUp, logIn, logOut, isLogin, token, name, user }
 }, { persist: true })
