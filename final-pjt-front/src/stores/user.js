@@ -128,15 +128,35 @@ export const useUserStore = defineStore('user', () => {
   }
 
   // 상품 구독
+  const unsubscribe = function (finPrdtCd) {
+    // 기존 상품 구독 문자열
+    const existingProducts = user.value.financial_products || ''
+
+    // 이미 구독한 상품인 경우 해당 상품 제거
+    if (existingProducts.includes(finPrdtCd)) {
+      const updatedProducts = existingProducts.split(',').filter(productCode => productCode !== finPrdtCd).join(',')
+      console.log('구독을 해제합니다.')
+
+      axios({
+        method: 'put',
+        url: `${API_URL}/accounts/update-user/`,
+        headers: {
+          Authorization: `Token ${token.value}`,
+        },
+        data: { financial_products: updatedProducts },
+      })
+        .then((res) => {
+          user.value = res.data
+          console.log(res.data)
+        })
+        .catch((err) => console.log(err))
+    }}
   const subscribe = function (finPrdtCd) {
-    let newFinPrdtCd;
-    console.log(user.value.financial_products)
-    if (user.value.financial_products) {
-      newFinPrdtCd = `${user.value.financial_products},${finPrdtCd}`
-    } else {
-      newFinPrdtCd = finPrdtCd
-    }
-  
+    const existingProducts = user.value.financial_products || ''
+
+    // 없는 상품인 경우 새로 구독하기
+    const newFinPrdtCd = existingProducts ? `${existingProducts},${finPrdtCd}` : finPrdtCd
+
     axios({
       method: 'put',
       url: `${API_URL}/accounts/update-user/`,
@@ -146,12 +166,12 @@ export const useUserStore = defineStore('user', () => {
       data: { financial_products: newFinPrdtCd },
     })
       .then((res) => {
-        user.value = res.data
-        console.log(res.data)
-        console.log('상품 구독 완료')
+        user.value = res.data;
+        console.log(res.data);
+        console.log('상품 구독 완료');
       })
-      .catch((err) => console.log(err))
+      .catch((err) => console.log(err));
   }
 
-  return { signUp, logIn, logOut, userUpdate, subscribe, isLogin, token, name, user }
+  return { signUp, logIn, logOut, userUpdate, subscribe, unsubscribe, isLogin, token, name, user }
 }, { persist: true })

@@ -43,7 +43,12 @@
           <strong>가입 상품 목록</strong>
           <ul v-if="user.financial_products && user.financial_products.length > 0">
             <li v-for="product in user_products" :key="product.id">
-              {{ product.product_name }} - {{ product.product_code }}
+              {{ product.product.fin_prdt_cd }} - {{ product.product.fin_prdt_nm }}
+              <!-- 여기에 1년 간격으로 금액이 커지는 차트 보여주기 -->
+              <div>
+                <bar-chart :chart-data="chartData" :options="chartOptions"></bar-chart>
+              </div>
+
             </li>
           </ul>
         </div>
@@ -57,6 +62,39 @@ import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 import { useFinanceStore } from '@/stores/finance'
+// import { Bar } from 'vue-chartjs';
+// import * as mixins from 'vue-chartjs';
+// import { Bar } from 'vue-chartjs';
+// import { Chart as ChartJS, Title, Legend, BarElement, CategoryScale, LinearScale, Tooltip } from 'chart.js';
+
+// ChartJS.register(Title, Legend, BarElement, CategoryScale, LinearScale, Tooltip);
+
+// const chartData = ref({
+//   labels: ['January', 'February', 'March'],
+//   datasets: [
+//     {
+//       label: '일별',
+//       backgroundColor: '#8cc4ff',
+//       data: [40, 20, 12],
+//     },
+//   ],
+// });
+
+// const chartOptions = ref({
+//   responsive: true,
+// });
+
+// onMounted(() => {
+//   new Bar(
+//     document.getElementById('your-chart-element-id'), // 실제로 차트가 그려질 HTML 엘리먼트의 ID를 지정
+//     {
+//       data: chartData.value,
+//       options: chartOptions.value,
+//     }
+//   );
+// });
+
+
 
 const userStore = useUserStore()
 const financeStore = useFinanceStore()
@@ -71,32 +109,36 @@ onMounted(async () => {
   allProducts.value = [
       ...financeStore.depositProductList,
       ...financeStore.savingProductList
-    ]
+  ]
 
-  console.log(allProducts.value);
-
-  user_products.value = userStore.user.financial_products
+  const userProductArray = userStore.user.financial_products
     .split(',')
+
+  console.log(userProductArray.map(finPrdtCd => findProductByCode(finPrdtCd)));
+  user_products.value = userProductArray
     .map(finPrdtCd => findProductByCode(finPrdtCd))
     .filter(product => product !== null)
-
+    
   console.log(user_products.value)
 })
+  
+  const user = ref('')
+  
+  user.value = userStore.user
+  
+  const router = useRouter()
+  
+  const goUpdate = function () {
+    router.push({name:'update'})
+  }
+  
+  const findProductByCode = function (finPrdtCd) {
+    return allProducts.value.find(product => product.product.fin_prdt_cd === finPrdtCd) || null
+  }
+  
+// --------------------------------------------------
+// 차트 데이터 및 옵션 설정
 
-const user = ref('')
-
-user.value = userStore.user
-
-const router = useRouter()
-
-const goUpdate = function () {
-  router.push({name:'update'})
-}
-
-
-const findProductByCode = function (finPrdtCd) {
-  return allProducts.value.find(product => product.fin_prdt_cd === finPrdtCd) || null
-}
 
 </script>
 
