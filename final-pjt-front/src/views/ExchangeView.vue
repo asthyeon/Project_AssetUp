@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>환율 계산기</h1>
+    <hr>
     <select id="currency" v-model="selected">
       <option disabled value="">화폐를 선택하세요</option>
       <option 
@@ -8,7 +9,7 @@
         :key="info.cur_unit"
         :value="info.cur_unit"
       >
-      {{ info.cur_nm }}({{ getExchangeInfo(selected)?.cur_unit }})
+      {{ info.cur_nm }}({{ info.cur_unit }})
       </option>
     </select>
     <div v-if="selected">
@@ -21,16 +22,23 @@
       <input type="number" id="number" v-model="won">
       <p>결과 : {{ multiply() }}</p>
     </div>
+    <div v-for="info in store.exchange_infos">
+      <p>{{ info }}</p> 
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useExchangeStore } from '@/stores/exchange';
 
 const store = useExchangeStore()
 const selected = ref(null)
 const won = ref(null)
+
+onMounted(() => {
+  store.getExchangeRate()
+})
 
 const getExchangeInfo = function (cur_unit) {
   console.log(store.exchange_infos.find((info) => info.cur_unit === cur_unit));
