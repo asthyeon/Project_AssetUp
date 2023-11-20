@@ -253,7 +253,7 @@ def get_deposit_products(request):
         serializer1 = DepositOptionSerializer(option_list, many=True)
         serializer2 = DepositProductSerializer(product)
         serializer = {
-            'deposit_product':serializer2.data,
+            'product':serializer2.data,
             'options':serializer1.data
         }
         products_contain_options.append(serializer)
@@ -271,7 +271,7 @@ def get_saving_products(request):
         serializer1 = SavingOptionSerializer(option_list, many=True)
         serializer2 = SavingProductSerializer(product)
         serializer = {
-            'saving_product':serializer2.data,
+            'product':serializer2.data,
             'options':serializer1.data
         }
         products_contain_options.append(serializer)
@@ -286,11 +286,26 @@ def get_deposit_options(request):
     seralizer = DepositOptionSerializer(options, many=True)
     return Response(seralizer.data)
 
+# 모든 적금 옵션 조회
+@api_view(['GET'])
+def get_saving_options(request):
+    # 예금 목록 불러오기
+    options = SavingOption.objects.all()
+    seralizer = SavingOptionSerializer(options, many=True)
+    return Response(seralizer.data)
+
 # 단일 예금 상품 조회
 @api_view(['GET'])
 def get_deposit_product_detail(request, fin_prdt_cd):
     product = DepositProduct.objects.get(fin_prdt_cd=fin_prdt_cd)
     seralizer = DepositProductSerializer(product)
+    return Response(seralizer.data)
+
+# 단일 적금 상품 조회
+@api_view(['GET'])
+def get_saving_product_detail(request, fin_prdt_cd):
+    product = SavingProduct.objects.get(fin_prdt_cd=fin_prdt_cd)
+    seralizer = SavingProductSerializer(product)
     return Response(seralizer.data)
 
 # 단일 예금 상품의 옵션 조회
@@ -300,17 +315,9 @@ def get_deposit_product_options(request, fin_prdt_cd):
     serializer = DepositOptionSerializer(optionlist, many=True)
     return Response(serializer.data)
 
-# 적금 상품 목록 조회
-@api_view(['GET'])
-def saving_products(request):
-    # 적금 목록 불러오기
-    products = SavingProduct.objects.all()
-    seralizer = SavingProductSerializer(products, many=True)
-    return Response(seralizer.data)
-
 # 단일 적금 상품 옵션 조회
 @api_view(['GET'])
-def saving_product_options(request, fin_prdt_cd):
+def get_saving_product_options(request, fin_prdt_cd):
     optionlist = SavingOption.objects.filter(fin_prdt_cd=fin_prdt_cd)
     serializer = SavingOptionSerializer(optionlist, many=True)
     return Response(serializer.data)
@@ -337,7 +344,35 @@ def search_deposit_products(request, fin_co_no, save_trm):
         serializer1 = DepositOptionSerializer(option_list, many=True)
         serializer2 = DepositProductSerializer(product)
         serializer = {
-            'deposit_product':serializer2.data,
+            'product':serializer2.data,
+            'options':serializer1.data
+        }
+        filtered_products.append(serializer)
+
+    return Response(filtered_products)
+
+# 적금 상품 검색
+@api_view(['GET'])
+def search_saving_products(request, fin_co_no, save_trm):
+    
+    # 예금 목록 불러오기
+    if fin_co_no != '전체':
+        products = SavingProduct.objects.filter(fin_co_no=fin_co_no)
+    else:
+        products = SavingProduct.objects.all()
+        
+    filtered_products = []
+    
+    for product in products:
+        # 옵션 목록 불러오기
+        if save_trm:
+            option_list = SavingOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd, save_trm=save_trm)
+        else:
+            option_list = SavingOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
+        serializer1 = SavingOptionSerializer(option_list, many=True)
+        serializer2 = SavingProductSerializer(product)
+        serializer = {
+            'product':serializer2.data,
             'options':serializer1.data
         }
         filtered_products.append(serializer)

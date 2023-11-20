@@ -15,18 +15,24 @@ export const useUserStore = defineStore('user', () => {
     const username = payload.username
     const password1 = payload.password1
     const password2 = payload.password2
+    const nickname = payload.nickname
+    // const email = payload.email
+    const age = payload.age
+    const salary = payload.salary
+    const money = payload.money
 
     axios({
       method: 'post',
       url: `${API_URL}/accounts/signup/`,
       data: {
-        username, password1, password2
+        username, password1, password2, nickname, age, salary, money
       }
     })
       .then(res => {
         console.log(res.data);
         const password = password1
         // 회원가입 하면 로그인 상태 유지하기
+        console.log(username, password)
         logIn({ username, password })
       })
       .catch(err => console.log(err))
@@ -34,6 +40,7 @@ export const useUserStore = defineStore('user', () => {
 
   // 로그인 기능
   const logIn = function (payload) {
+    console.log(payload)
     const username = payload.username
     const password = payload.password
     axios({
@@ -90,5 +97,61 @@ export const useUserStore = defineStore('user', () => {
     }
   })
 
-  return { signUp, logIn, logOut, isLogin, token, name, user }
+  // 회원 정보 수정
+  const userUpdate = function (payload) {
+    const newData = {
+      username: payload.username,
+      email: payload.email,
+      nickname: payload.nickname,
+      age: payload.age,
+      salary: payload.salary,
+      money: payload.money
+    }
+  
+    axios({
+      method: 'put',
+      url: `${API_URL}/accounts/update-user/`,
+      headers: {
+        Authorization: `Token ${token.value}`,
+      },
+      data: newData,
+    })
+      .then((res) => {
+        user.value = res.data
+        console.log(res.data)
+        console.log('회원정보 수정 완료!!');
+      })
+      .then(() => {
+        router.push({name:'profile'})
+      })
+      .catch((err) => console.log(err));
+  }
+
+  // 상품 구독
+  const subscribe = function (finPrdtCd) {
+    let newFinPrdtCd;
+    console.log(user.value.financial_products)
+    if (user.value.financial_products) {
+      newFinPrdtCd = `${user.value.financial_products},${finPrdtCd}`
+    } else {
+      newFinPrdtCd = finPrdtCd
+    }
+  
+    axios({
+      method: 'put',
+      url: `${API_URL}/accounts/update-user/`,
+      headers: {
+        Authorization: `Token ${token.value}`,
+      },
+      data: { financial_products: newFinPrdtCd },
+    })
+      .then((res) => {
+        user.value = res.data
+        console.log(res.data)
+        console.log('상품 구독 완료')
+      })
+      .catch((err) => console.log(err))
+  }
+
+  return { signUp, logIn, logOut, userUpdate, subscribe, isLogin, token, name, user }
 }, { persist: true })

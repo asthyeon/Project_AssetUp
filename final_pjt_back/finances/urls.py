@@ -25,21 +25,26 @@ urlpatterns = [
     # 예금 옵션 조회
     path('get-deposit-options/', views.get_deposit_options, name='get_deposit_options'),
     
-    # 적금 상품 조회
-    path('get_saving_products/', views.get_saving_products, name='get_saving_products'),
-    
-    # 상품 검색
+    # 예금 상품 검색
     path('search-deposit-products/<str:fin_co_no>/<int:save_trm>/', views.search_deposit_products, name='search_deposit_products'),
+    # 적금 상품 검색
+    path('search-saving-products/<str:fin_co_no>/<int:save_trm>/', views.search_saving_products, name='search_saving_products'),
+
     # 단일 예금 상품 조회
     path('get-deposit-product-detail/<str:fin_prdt_cd>/', views.get_deposit_product_detail, name='get_deposit_product_detail'),
     # 특정 예금 상품 옵션 조회
     path('get-deposit-product-options/<str:fin_prdt_cd>/', views.get_deposit_product_options, name='get_deposit_product_options'),
     
     # 적금 상품 조회
-    path('saving-products/', views.saving_products, name='saving_products'),
-    # 특정 적금 옵션 조회
-    path('saving-product-options/<str:fin_prdt_cd>/', views.saving_product_options, name='saving_product_options'),
+    path('get-saving-products/', views.get_saving_products, name='get_saving_products'),
+    # 적금 옵션 조회
+    path('get-saving-options/<str:fin_prdt_cd>/', views.get_saving_options, name='get_saving_options'),
         
+    # 단일 적금 상품 조회
+    path('get-saving-product-detail/<str:fin_prdt_cd>/', views.get_saving_product_detail, name='get_saving_product_detail'),
+    # 특정 적금 상품 옵션 조회
+    path('get-saving-product-options/<str:fin_prdt_cd>/', views.get_saving_product_options, name='get_saving_product_options'),
+    
     # 연금 상품 조회
     # 특정 연금 옵션 조회
     # 대출 상품 조회

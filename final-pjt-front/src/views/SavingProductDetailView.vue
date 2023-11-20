@@ -2,7 +2,7 @@
     <div>
         <div>
             <h1>금융상품 상세 정보</h1>
-            <button>가입하기</button>
+            <button @click="updateUser">가입하기</button>
         </div>
         <p>상품 정보</p>
         <div>
@@ -21,22 +21,22 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useFinanceStore } from '@/stores/finance'
+import { useUserStore } from '@/stores/user'
 import { useRoute, useRouter } from 'vue-router'
 
-onMounted(() => {
-  console.log('mounted')
-  financeStore.getDepositProductDetail(finPrdtCd.value)
-  financeStore.getDepositProductOptions(finPrdtCd.value)
-})
+const financeStore = useFinanceStore()
+const userStore = useUserStore()
 
 const route = useRoute()
 const finPrdtCd = ref('')
 const product = ref({})
 
 finPrdtCd.value = route.params.fin_prdt_cd
-const financeStore = useFinanceStore()
 
-product.value = financeStore.depositProduct
+financeStore.getSavingProductDetail(finPrdtCd.value)
+financeStore.getSavingProductOptions(finPrdtCd.value)
+
+product.value = financeStore.savingProduct
 
 const JOIN_DENY_CHOICES = {
     1: '제한 없음',
@@ -47,9 +47,14 @@ const JOIN_DENY_CHOICES = {
 const formatSpecialConditions = (spclCnd) => {
   // \n를 기준으로 줄바꿈을 추가
   const formattedConditions = spclCnd.replace('\n', '<br>')
+  console.log(formattedConditions)
   return formattedConditions
-};
+}
 
+const updateUser = () => {
+    console.log('가입하기')
+  userStore.subscribe(product.value.fin_prdt_cd)
+}
 </script>
 
 <style scoped>

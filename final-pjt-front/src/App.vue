@@ -20,7 +20,8 @@
       <span v-if="!userStore.isLogin">
         <RouterLink :to="{name: 'login' }">Login</RouterLink>
       </span>
-      | <span @click="userStore.logOut">Logout</span>
+      | <span @click="userStore.logOut">Logout</span> |
+      <RouterLink :to="{name: 'profile'}">Profile</RouterLink>
     </nav>
   </header>
   <RouterView />
