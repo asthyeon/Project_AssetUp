@@ -25,7 +25,7 @@
         <!-- 검색하기 옵션 설정 -->
         <div>
             <h3>검색하기</h3>
-            <h4>검색조건을 입려하세요</h4>
+            <h4>검색조건을 입력하세요</h4>
             <label for="bank">은행 선택:</label>
             <select v-model="selectCompany">
                 <option value="">전체</option>

@@ -4,6 +4,8 @@
     <nav>
       <!-- 메인페이지로 이동 -->
       <RouterLink :to="{name: 'main' }">Home</RouterLink> |
+      <!-- 금융상품 비교 페이지로 이동 -->
+      <RouterLink :to="{name: 'compare'}">Compare</RouterLink> |
       <!-- 게시판으로 이동 -->
       <RouterLink :to="{name: 'articles' }">Board</RouterLink> |
       <!-- 카카오맵 보기 -->
