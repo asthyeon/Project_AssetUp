@@ -29,6 +29,7 @@ export const useUserStore = defineStore('user', () => {
       }
     })
       .then(res => {
+        console.log(res.data);
         const password = password1
         // 회원가입 하면 로그인 상태 유지하기
         console.log(username, password)
