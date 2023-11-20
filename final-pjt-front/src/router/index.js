@@ -10,7 +10,10 @@ import ArticleUpdateView from '@/views/ArticleUpdateView.vue'
 import MapView from '@/views/MapView.vue'
 import ExchangeView from '@/views/ExchangeView.vue'
 import FinanceComparsionView from '@/views/FinanceComparsionView.vue'
-import ProductDetailView from '@/views/ProductDetailView.vue'
+import DepositProductDetailView from '@/views/DepositProductDetailView.vue'
+import SavingProductDetailView from '@/views/SavingProductDetailView.vue'
+import ProfileView from '@/views/ProfileView.vue'
+import UserUpdateView from '@/views/UserUpdateView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,9 +29,14 @@ const router = createRouter({
       component: FinanceComparsionView
     },
     {
-      path: '/product-detail/:fin_prdt_cd',
-      name: 'product_detail',
-      component: ProductDetailView
+      path: '/deposit_product-detail/:fin_prdt_cd',
+      name: 'deposit_product_detail',
+      component: DepositProductDetailView
+    },
+    {
+      path: '/saving_product-detail/:fin_prdt_cd',
+      name: 'saving_product_detail',
+      component: SavingProductDetailView
     },
     {
 		path: '/signup',
@@ -39,6 +47,16 @@ const router = createRouter({
 		path: '/login',
 		name: 'login',
 		component: LogInView
+		},
+    {
+		path: '/profile',
+		name: 'profile',
+		component: ProfileView
+		},
+    {
+		path: '/update',
+		name: 'update',
+		component: UserUpdateView
 		},
 		{
 			path: '/articles',

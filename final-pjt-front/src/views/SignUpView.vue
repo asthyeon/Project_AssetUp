@@ -9,6 +9,17 @@
       <input type="password" id="password1" v-model.trim="password1"><br>
       <label for="password2">  password confirmation </label>
       <input type="password" id="password2" v-model.trim="password2"><br>
+      
+      <!-- <label for="email"> email </label>
+      <input type="email" id="email" v-model.trim="email"><br> -->
+      <label for="nickname"> nickname </label>
+      <input type="nickname" id="nickname" v-model.trim="nickname"><br>
+      <label for="age"> age </label>
+      <input type="age" id="age" v-model.trim="age"><br>
+      <label for="salary"> salary </label>
+      <input type="salary" id="salary" v-model.trim="salary"><br>
+      <label for="money"> money </label>
+      <input type="money" id="money" v-model.trim="money"><br>
 
       <input type="submit" value="회원가입">
     </form>
@@ -22,6 +33,11 @@ import { useUserStore } from '@/stores/user'
 const username = ref(null)
 const password1 = ref(null)
 const password2 = ref(null)
+// const email = ref(null)
+const nickname = ref(null)
+const age = ref(null)
+const salary = ref(null)
+const money = ref(null)
 
 const userStore = useUserStore()
 
@@ -30,7 +46,12 @@ const signUp = function () {
   const payload = {
     username: username.value,
     password1: password1.value,
-    password2: password2.value
+    password2: password2.value,
+    nickname: nickname.value,
+    // email: email.value,
+    age: age.value,
+    salary: salary.value,
+    money: money.value,
   }
   userStore.signUp(payload)
 }

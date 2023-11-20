@@ -18,8 +18,8 @@
 
         <!-- 상품 유형 선택 버튼 -->
         <div>
-        <button @click="">정기예금</button>
-        <button @click="">적금</button>
+        <button @click="changeToDeposit">정기예금</button>
+        <button @click="changeToSaving">적금</button>
         </div>
 
         <!-- 검색하기 옵션 설정 -->
@@ -59,12 +59,12 @@
                 </thead>
                 <tbody>
                     <!-- 상품 나열, 클릭 시 상품 상세 페이지로 이동 -->
-                    <tr v-for="product in paginatedProducts" :key="product.deposit_product.id"
-                    @click="goDetail(product.deposit_product.fin_prdt_cd)"
+                    <tr v-for="product in paginatedProducts" :key="product.product.id"
+                    @click="goDetail(product.product.fin_prdt_cd)"
                     >
-                        <td>{{ product.deposit_product.dcls_month }}</td>
-                        <td>{{ product.deposit_product.kor_co_nm }}</td>
-                        <td>{{ product.deposit_product.fin_prdt_nm }}</td>
+                        <td>{{ product.product.dcls_month }}</td>
+                        <td>{{ product.product.kor_co_nm }}</td>
+                        <td>{{ product.product.fin_prdt_nm }}</td>
                         <!-- 금리는 상품의 옵션에서 가져오기 -->
                         <td v-for="term in selectedTerms" :key="term">
                             {{ getInterestRate(product.options, term) }}%
@@ -95,10 +95,12 @@ onMounted(() => {
     console.log('mounted')
     // 회사 목록 조회
     financeStore.getCompanys()
+    // 적금 상품 목록 조회
+    financeStore.getSavingProducts()
     // 예금 상품 목록 조회
     financeStore.getDepositProducts()
     // 검색 상품 목록 조회
-    financeStore.searchProducts()
+    financeStore.searchDepositProducts()
 })
 
 // 회사 옵션
@@ -108,9 +110,26 @@ const terms = [6, 12, 24, 36]
 
 const router = useRouter()
 
+const productType = ref('deposit')
+
+const changeToDeposit = function () {
+  productType.value = 'deposit'
+  financeStore.searchDepositProducts()
+}
+
+const changeToSaving = function () {
+  productType.value = 'saving'
+  financeStore.searchSavingProducts()
+}
+
 // 상품 상세페이지로 이동
 const goDetail = function (finPrdtCd) {
-  router.push({name:'product_detail', params:{fin_prdt_cd: finPrdtCd}})
+  // console.log(financeStore.product)
+  if (productType.value === 'deposit') {
+    router.push({name:'deposit_product_detail', params:{fin_prdt_cd: finPrdtCd}})
+  } else {
+    router.push({name:'saving_product_detail', params:{fin_prdt_cd: finPrdtCd}})
+  }
 }
 
 // 금리 가져오기
@@ -131,10 +150,14 @@ watch(() => filteredProducts.value, () => {
 });
 
 // 검색하기 옵션 적용
-const applyOptions = function () {
+const applyOptions = function (type) {
     const fin_co_no = selectCompany.value || '전체'
     const save_trm = selectedTerm.value ? Number(selectedTerm.value) : 0
-    financeStore.searchProducts(fin_co_no, save_trm)
+    if (type == 'deposit') {
+      financeStore.searchDepositProducts(fin_co_no, save_trm)
+    } else {
+      financeStore.searchSavingProducts(fin_co_no, save_trm)
+    }
 }
 
 // 페이지 구현
@@ -158,6 +181,7 @@ const paginatedProducts = computed(() => {
   const end = start + itemsPerPage
   return filteredProducts.value.slice(start, end)
 })
+console.log(paginatedProducts.value);
 
 // 페이지 갱신
 const changePage = function (page) {
