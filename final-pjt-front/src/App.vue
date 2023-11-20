@@ -3,18 +3,22 @@
   <header>
     <nav>
       <!-- 메인페이지로 이동 -->
-      <RouterLink :to="{name:'main'}">Home</RouterLink> |
-      <!-- 회원가입 페이지로 이동 -->
-      <RouterLink :to="{name:'signup'}" v-if="!userStore.isLogin">Signup | </RouterLink>
-      <!-- 로그인 페이지로 이동 -->
-      <RouterLink :to="{name:'login'}" v-if="!userStore.isLogin">Login | </RouterLink>
+      <RouterLink :to="{name: 'main' }">Home</RouterLink> |
       <!-- 게시판으로 이동 -->
-      <RouterLink :to="{name:'board'}">Board | </RouterLink>
+      <RouterLink :to="{name: 'articles' }">Board</RouterLink> |
       <!-- 카카오맵 보기 -->
-      <RouterLink :to="{name:'map'}">Map | </RouterLink>
+      <RouterLink :to="{name: 'map' }">Map</RouterLink> |
       <!-- 환율계산기 -->
-      <RouterLink :to="{name:'exchange'}">Exchange | </RouterLink>
-      <span @click="userStore.logOut">Logout | </span>
+      <RouterLink :to="{name: 'exchange' }">Exchange</RouterLink>
+      <!-- 회원가입 페이지로 이동 -->
+      <span v-if="!userStore.isLogin">
+        | <RouterLink :to="{name: 'signup' }">Signup</RouterLink> |
+      </span>
+      <!-- 로그인 페이지로 이동 -->
+      <span v-if="!userStore.isLogin">
+        <RouterLink :to="{name: 'login' }">Login</RouterLink>
+      </span>
+      | <span @click="userStore.logOut">Logout</span>
     </nav>
   </header>
   <RouterView />

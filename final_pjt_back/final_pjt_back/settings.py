@@ -30,9 +30,9 @@ environ.Env.read_env(
 )
 
 # 환경변수 읽어오기
-EXCHANGE_KEY = env('EXCHANGE_KEY')
-FINANCE_KEY = env('FINANCE_KEY')
-KAKAO_KEY = env('KAKAO_KEY')
+EXCHANGE_API_KEY = env('EXCHANGE_API_KEY')
+FINANCE_API_KEY = env('FINANCE_API_KEY')
+KAKAO_API_KEY = env('KAKAO_API_KEY')
 
 
 # Quick-start development settings - unsuitable for production

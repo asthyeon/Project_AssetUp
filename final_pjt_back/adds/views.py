@@ -9,7 +9,7 @@ import requests
 @api_view(['GET'])
 def exchange_rate(request):
 
-    url = f'https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey={settings.EXCHANGE_KEY}&searchdate=20180102&data=AP01'
+    url = f'https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey={settings.EXCHANGE_API_KEY}&searchdate=20180102&data=AP01'
     response = requests.get(url)
     data = response.json()
 

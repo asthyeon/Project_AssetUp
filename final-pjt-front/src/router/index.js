@@ -3,9 +3,10 @@ import { useUserStore } from '@/stores/user'
 import MainView from '@/views/MainView.vue'
 import SignUpView from '@/views/SignUpView.vue'
 import LogInView from '@/views/LogInView.vue'
-import BoardArticleView from '@/views/BoardArticleView.vue'
-import BoardArticleCreateView from '@/views/BoardArticleCreateView.vue'
-import BoardArticleDetailView from '@/views/BoardArticleDetailView.vue'
+import ArticleView from '@/views/ArticleView.vue'
+import ArticleCreateView from '@/views/ArticleCreateView.vue'
+import ArticleDetailView from '@/views/ArticleDetailView.vue'
+import ArticleUpdateView from '@/views/ArticleUpdateView.vue'
 import MapView from '@/views/MapView.vue'
 import ExchangeView from '@/views/ExchangeView.vue'
 
@@ -28,19 +29,24 @@ const router = createRouter({
 			component: LogInView
 		},
     {
-			path: '/board',
-			name: 'board',
-			component: BoardArticleView
+			path: '/articles',
+			name: 'articles',
+			component: ArticleView
 		},
     {
-			path: '/board-create',
-			name: 'board_create',
-			component: BoardArticleCreateView
+			path: '/article-create',
+			name: 'article_create',
+			component: ArticleCreateView
 		},
     {
-			path: '/board-detail/:id',
-			name: 'board_detail',
-			component: BoardArticleDetailView
+			path: '/article-detail/:article_id',
+			name: 'article_detail',
+			component: ArticleDetailView
+		},
+		{
+			path: '/article-update/:article_id',
+			name: 'article_update',
+			component: ArticleUpdateView
 		},
     {
 			path: '/map',

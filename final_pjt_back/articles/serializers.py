@@ -1,21 +1,36 @@
 from rest_framework import serializers
-from .models import BoardArticle
+from .models import Article, Comment
 
 
 # 게시판 글 리스트
-class BoardArticleListSerializer(serializers.ModelSerializer):
-    user_name = serializers.ReadOnlyField(source='user.username')
+class ArticleListSerializer(serializers.ModelSerializer):
+    username = serializers.ReadOnlyField(source='author.username')
 
     class Meta:
-        model = BoardArticle
-        fields = ('id', 'user_name', 'title', 'content')
+        model = Article
+        fields = ('id', 'username', 'title', 'content')
+
+
+# 게시판 댓글 조회 
+class CommentSerializer(serializers.ModelSerializer):
+    # override
+    article = ArticleListSerializer(read_only=True)
+    username = serializers.ReadOnlyField(source='author.username') 
+
+
+    class Meta:
+        model = Comment
+        fields = '__all__'
+        read_only_fields = ('author',)
 
 
 # 게시판 글 단일
-class BoardArticleSerializer(serializers.ModelSerializer):
-    user_name = serializers.ReadOnlyField(source='user.username')
+class ArticleSerializer(serializers.ModelSerializer):
+    comment_set = CommentSerializer(many=True, read_only=True)
+    comment_count = serializers.IntegerField(source='comment_set.count', read_only=True)
+    username = serializers.ReadOnlyField(source='author.username')
 
     class Meta:
-        model = BoardArticle
+        model = Article
         fields = '__all__'
-        read_only_fields = ('user',)
+        read_only_fields = ('author', 'like_authors')
