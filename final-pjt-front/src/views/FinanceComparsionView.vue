@@ -89,6 +89,7 @@ import { ref, onMounted, computed, watch } from 'vue'
 import { useFinanceStore } from '@/stores/finance'
 import { useRouter, RouterLink } from 'vue-router'
 
+
 const financeStore = useFinanceStore()
 
 onMounted(() => {
