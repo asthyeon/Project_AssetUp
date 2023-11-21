@@ -23,9 +23,7 @@ export const useAddressStore = defineStore('address', () => {
         url: `https://sgisapi.kostat.go.kr/OpenAPI3/addr/stage.json?accessToken=${token.value}`
       })
       .then((res) => {
-        console.log(res.data);
         infos.value = res.data
-        console.log(infos.value.result);
       })
       .catch((err) => {
         console.log(err);
