@@ -18,16 +18,18 @@ export const useUserStore = defineStore('user', () => {
     const password1 = payload.password1
     const password2 = payload.password2
     const nickname = payload.nickname
+    const gender = payload.gender
     const age = payload.age
     const address = payload.address
     const salary = payload.salary
     const money = payload.money
+    const mbti = payload.mbti
 
     axios({
       method: 'post',
       url: `${API_URL}/accounts/signup/`,
       data: {
-        username, password1, password2, nickname, age, address, salary, money
+        username, password1, password2, nickname, gender, age, address, salary, money, mbti
       }
     })
       .then(res => {
@@ -112,6 +114,7 @@ export const useUserStore = defineStore('user', () => {
       salary: payload.salary,
       money: payload.money,
       target_asset: payload.target_asset,
+      mbti: payload.mbti,
     }
     axios({
       method: 'put',

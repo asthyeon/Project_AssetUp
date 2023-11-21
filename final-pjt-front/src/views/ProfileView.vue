@@ -38,6 +38,10 @@
           <button @click="goUpdate">수정하기</button>
         </p>
         <p>
+          <strong>MBTI</strong> : {{ user.mbti }}
+          <button @click="goUpdate">수정하기</button>
+        </p>
+        <p>
           <strong>주소</strong> : {{ user.address }}
           <button @click="goUpdate">수정하기</button>
         </p>

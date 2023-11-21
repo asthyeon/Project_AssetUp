@@ -4,8 +4,19 @@ from allauth.account.adapter import DefaultAccountAdapter
 from allauth.account.utils import user_email, user_field, user_username
 
 class User(AbstractUser):
+    GENDER_CHOICES = (
+        ('M', '남자'),
+        ('F', '여자'),
+    )
+    SAVING_TYPE_CHOICES = [
+        ('thrifty', '알뜰형'),
+        ('challenging', '도전형'),
+        ('diligent', '성실형'),
+    ]
+
     username = models.CharField(max_length=30, unique=True)
     nickname = models.CharField(max_length=255, blank=True, null=True)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     age = models.IntegerField(blank=True, null=True)
     address = models.TextField(help_text="예: '서울특별시 마포구 연남동 사파리월드 12-3'", blank=True)
 
@@ -16,14 +27,11 @@ class User(AbstractUser):
     financial_products = models.TextField(default='', blank=True, null=True)
 
     # 포트폴리오
-    SAVING_TYPE_CHOICES = [
-        ('thrifty', '알뜰형'),
-        ('challenging', '도전형'),
-        ('diligent', '성실형'),
-    ]
     saving_type = models.CharField(max_length=20, choices=SAVING_TYPE_CHOICES, blank=True, null=True)
     favorite_company = models.CharField(max_length=255, blank=True, null=True)
     
+    mbti = models.CharField(max_length=4, blank=True, null=True)  # MBTI 필드 추가
+
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
@@ -37,9 +45,9 @@ class CustomAccountAdapter(DefaultAccountAdapter):
 
         first_name = data.get("first_name")
         last_name = data.get("last_name")
-        # email = data.get("email")
         username = data.get("username")
         nickname = data.get("nickname")
+        gender = data.get("gender")
         age = data.get("age")
         address = data.get("address")
         money = data.get("money")
@@ -47,6 +55,7 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         target_asset = data.get("target_asset")
         saving_type = data.get("saving_type")
         favorite_company= data.get("favorite_company")
+        mbti = data.get("mbti")
 
         financial_product = data.get("financial_products")
 
@@ -58,6 +67,8 @@ class CustomAccountAdapter(DefaultAccountAdapter):
             user_field(user, "last_name", last_name)
         if nickname:
             user_field(user, "nickname", nickname)
+        if gender:
+            user.gender = gender
         if age:
             user.age = age
         if address:
@@ -72,6 +83,8 @@ class CustomAccountAdapter(DefaultAccountAdapter):
             user.saving_type = saving_type
         if favorite_company:
             user.favorite_company = favorite_company
+        if mbti:
+            user.mbti = mbti
         if financial_product:
             financial_products = user.financial_products.split(',')
             financial_products.append(financial_product)

@@ -20,7 +20,7 @@ export const useFinanceStore = defineStore('finance', () => {
   const savingProductOptionList = ref([])
   const savingOptionList = ref([])
   const productType = ref('')
-
+  // 전체 회사 조회
   const getCompanys = function () {
     axios({
         method: 'get',
@@ -161,7 +161,7 @@ export const useFinanceStore = defineStore('finance', () => {
     const option = options.find(opt => opt.save_trm === term)
     return option ? option.intr_rate : '--'
   }
-
+  // 열 정렬 상태
   const columnSortStates = {
     dcls_month: false,
     kor_co_nm: false,
@@ -171,9 +171,9 @@ export const useFinanceStore = defineStore('finance', () => {
     24: false,
     36: false
   }
-
   // 상품 정렬
   const sortProducts = function (key) {
+    console.log(key)
     console.log('정렬되었습니다.')
     const isSorted = columnSortStates[key]
 
@@ -185,8 +185,8 @@ export const useFinanceStore = defineStore('finance', () => {
 
     if (key === 'dcls_month' || key === 'fin_prdt_nm' || key === 'kor_co_nm') {
         filteredProducts.value.sort((a, b) => {
-            const valueA = a.deposit_product[key]
-            const valueB = b.deposit_product[key]
+            const valueA = a.product[key]
+            const valueB = b.product[key]
 
             return isSorted ? valueB.localeCompare(valueA) : valueA.localeCompare(valueB);
         });
