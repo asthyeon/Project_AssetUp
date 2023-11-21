@@ -2,6 +2,7 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+import { useAddressStore } from '@/stores/address'
 
 export const useUserStore = defineStore('user', () => {
   const API_URL = 'http://127.0.0.1:8000'
@@ -9,6 +10,7 @@ export const useUserStore = defineStore('user', () => {
   const router = useRouter()
   const name = ref(null)
   const user = ref({})
+  const addressStore = useAddressStore()
 
   // 회원가입 기능
   const signUp = function (payload) {
@@ -67,6 +69,8 @@ export const useUserStore = defineStore('user', () => {
           // 로그인 후 메인페이지로 이동
           router.push({name: 'main'})
         })
+        // accessToken 받아오기
+        addressStore.getToken() 
       })
       .catch(err => console.log(err))
   }
