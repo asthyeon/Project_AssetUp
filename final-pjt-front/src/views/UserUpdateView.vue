@@ -18,6 +18,8 @@
       <input type="money" id="money" v-model.trim="user.money"><br>
       <label for="target_asset"> target_asset : </label>
       <input type="target_asset" id="target_asset" v-model.trim="user.target_asset"><br>
+      <label for="mbti"> mbti : </label>
+      <input type="mbti" id="mbti" v-model.trim="user.mbti"><br>
 
       <input type="submit" value="수정하기">
     </form>
@@ -41,7 +43,8 @@ const updateUser = () => {
     address: user.value.address,
     salary: user.value.salary,
     money: user.value.money,
-    target_asset: user.value.target_asset
+    target_asset: user.value.target_asset,
+    mbti: user.value.mbti
   })
 }
 

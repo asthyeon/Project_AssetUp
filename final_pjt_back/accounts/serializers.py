@@ -22,15 +22,15 @@ class CustomRegistorSerializer(RegisterSerializer):
         allow_blank=True,
         max_length=255
     )
-    # email = serializers.EmailField(required=False)
+    gender = serializers.CharField(max_length=1, required=True)
     age = serializers.IntegerField(required=False)
     address = serializers.CharField(max_length=255, required=True)
     money = serializers.IntegerField(required=False)
     salary = serializers.IntegerField(required=False)
     target_asset = serializers.IntegerField(required=False)
     saving_type = serializers.CharField(max_length=255, required=False)
-
     favorite_company = serializers.CharField(max_length=255, required=False)
+    mbti = serializers.CharField(max_length=4, required=False)
 
     financial_products = serializers.ListField(child=serializers.IntegerField(), required=False)
 
@@ -39,7 +39,7 @@ class CustomRegistorSerializer(RegisterSerializer):
         'username': self.validated_data.get('username', ''),
         'password1': self.validated_data.get('password1', ''),
         'nickname': self.validated_data.get('nickname', ''),
-        # 'email': self.validated_data.get('email', ''),
+        'gender': self.validated_data.get('gender', ''),
         'age': self.validated_data.get('age', ''),
         'address': self.validated_data.get('address', ''),
         'money': self.validated_data.get('money', ''),
@@ -48,6 +48,7 @@ class CustomRegistorSerializer(RegisterSerializer):
         'financial_products': self.validated_data.get('financial_products', ''),
         'saving_type': self.validated_data.get('saving_type', ''),
         'favorite_company': self.validated_data.get('favorite_company', ''),
+        'mbti':self.validated_data.get('mbti', ''),
         }
     
     def save(self, request):
