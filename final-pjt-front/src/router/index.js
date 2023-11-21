@@ -14,6 +14,7 @@ import DepositProductDetailView from '@/views/DepositProductDetailView.vue'
 import SavingProductDetailView from '@/views/SavingProductDetailView.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import UserUpdateView from '@/views/UserUpdateView.vue'
+import PortfolioView from '@/views/PortfolioView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -52,6 +53,11 @@ const router = createRouter({
 		path: '/profile',
 		name: 'profile',
 		component: ProfileView
+		},
+    {
+		path: '/protfolio',
+		name: 'protfolio',
+		component: PortfolioView
 		},
     {
 		path: '/update',

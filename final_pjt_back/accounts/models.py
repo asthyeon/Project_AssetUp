@@ -1,19 +1,28 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from allauth.account.adapter import DefaultAccountAdapter
-
+from allauth.account.utils import user_email, user_field, user_username
 
 class User(AbstractUser):
     username = models.CharField(max_length=30, unique=True)
     nickname = models.CharField(max_length=255, blank=True, null=True)
-    # email = models.EmailField(max_length=254, blank=True, null=True) 
     age = models.IntegerField(blank=True, null=True)
+    address = models.TextField(help_text="예: '서울특별시 마포구 연남동 사파리월드 12-3'", blank=True)
+
+    # 월급, 자산, 목표 자산, 가입한 금융 상품
     salary = models.IntegerField(blank=True, null=True)
     money = models.IntegerField(blank=True, null=True)
-    asset = models.IntegerField(blank=True, null=True)
-    # target_asset = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
+    target_asset = models.IntegerField(blank=True, null=True)
+    financial_products = models.TextField(default='', blank=True, null=True)
 
-    financial_products = models.TextField(blank=True, null=True)
+    # 포트폴리오
+    SAVING_TYPE_CHOICES = [
+        ('thrifty', '알뜰형'),
+        ('challenging', '도전형'),
+        ('diligent', '성실형'),
+    ]
+    saving_type = models.CharField(max_length=20, choices=SAVING_TYPE_CHOICES, blank=True, null=True)
+    favorite_company = models.CharField(max_length=255, blank=True, null=True)
     
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -24,22 +33,21 @@ class User(AbstractUser):
 
 class CustomAccountAdapter(DefaultAccountAdapter):
     def save_user(self, request, user, form, commit=True):
-        """
-        Saves a new `User` instance using information provided in the
-        signup form.
-        """
-        from allauth.account.utils import user_email, user_field, user_username
-        # 기존 코드를 참고하여 새로운 필드들을 작성해줍니다.
         data = form.cleaned_data
+
         first_name = data.get("first_name")
         last_name = data.get("last_name")
         # email = data.get("email")
         username = data.get("username")
         nickname = data.get("nickname")
         age = data.get("age")
+        address = data.get("address")
         money = data.get("money")
         salary = data.get("salary")
-        # asset = data.get("asset")
+        target_asset = data.get("target_asset")
+        saving_type = data.get("saving_type")
+        favorite_company= data.get("favorite_company")
+
         financial_product = data.get("financial_products")
 
         # user_email(user, email)
@@ -52,12 +60,18 @@ class CustomAccountAdapter(DefaultAccountAdapter):
             user_field(user, "nickname", nickname)
         if age:
             user.age = age
+        if address:
+            user.address = address
         if money:
             user.money = money
         if salary:
             user.salary = salary
-        # if asset:
-        #     user.asset = asset
+        if target_asset:
+            user.target_asset = target_asset
+        if saving_type in dict(User.SAVING_TYPE_CHOICES):
+            user.saving_type = saving_type
+        if favorite_company:
+            user.favorite_company = favorite_company
         if financial_product:
             financial_products = user.financial_products.split(',')
             financial_products.append(financial_product)

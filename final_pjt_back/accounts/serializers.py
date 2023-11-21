@@ -24,9 +24,14 @@ class CustomRegistorSerializer(RegisterSerializer):
     )
     # email = serializers.EmailField(required=False)
     age = serializers.IntegerField(required=False)
+    address = serializers.CharField(max_length=255, required=True)
     money = serializers.IntegerField(required=False)
     salary = serializers.IntegerField(required=False)
-    # asset = serializers.IntegerField(required=False)
+    target_asset = serializers.IntegerField(required=False)
+    saving_type = serializers.CharField(max_length=255, required=False)
+
+    favorite_company = serializers.CharField(max_length=255, required=False)
+
     financial_products = serializers.ListField(child=serializers.IntegerField(), required=False)
 
     def get_cleaned_data(self):
@@ -36,10 +41,13 @@ class CustomRegistorSerializer(RegisterSerializer):
         'nickname': self.validated_data.get('nickname', ''),
         # 'email': self.validated_data.get('email', ''),
         'age': self.validated_data.get('age', ''),
+        'address': self.validated_data.get('address', ''),
         'money': self.validated_data.get('money', ''),
         'salary': self.validated_data.get('salary', ''),
-        # 'asset': self.validated_data.get('asset', ''),
+        'target_asset': self.validated_data.get('target_asset', ''),
         'financial_products': self.validated_data.get('financial_products', ''),
+        'saving_type': self.validated_data.get('saving_type', ''),
+        'favorite_company': self.validated_data.get('favorite_company', ''),
         }
     
     def save(self, request):

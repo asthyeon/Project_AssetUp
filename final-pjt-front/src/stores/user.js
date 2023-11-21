@@ -16,8 +16,8 @@ export const useUserStore = defineStore('user', () => {
     const password1 = payload.password1
     const password2 = payload.password2
     const nickname = payload.nickname
-    // const email = payload.email
     const age = payload.age
+    const address = payload.address
     const salary = payload.salary
     const money = payload.money
 
@@ -25,7 +25,7 @@ export const useUserStore = defineStore('user', () => {
       method: 'post',
       url: `${API_URL}/accounts/signup/`,
       data: {
-        username, password1, password2, nickname, age, salary, money
+        username, password1, password2, nickname, age, address, salary, money
       }
     })
       .then(res => {
@@ -104,10 +104,11 @@ export const useUserStore = defineStore('user', () => {
       email: payload.email,
       nickname: payload.nickname,
       age: payload.age,
+      address: payload.address,
       salary: payload.salary,
-      money: payload.money
+      money: payload.money,
+      target_asset: payload.target_asset,
     }
-  
     axios({
       method: 'put',
       url: `${API_URL}/accounts/update-user/`,
@@ -151,6 +152,8 @@ export const useUserStore = defineStore('user', () => {
         })
         .catch((err) => console.log(err))
     }}
+
+  // 구독 해제
   const subscribe = function (finPrdtCd) {
     const existingProducts = user.value.financial_products || ''
 
@@ -173,5 +176,29 @@ export const useUserStore = defineStore('user', () => {
       .catch((err) => console.log(err));
   }
 
-  return { signUp, logIn, logOut, userUpdate, subscribe, unsubscribe, isLogin, token, name, user }
+  // 저축 성향 저장 및 수정
+  const updateUserPortfolio  = function (savingsType, favoriteCompany) {
+    axios({
+      method: 'post',
+      url: `${API_URL}/accounts/update-user/`,
+      headers: {
+        Authorization: `Token ${token.value}`,
+      },
+      data: {
+        saving_type: savingsType,
+        favorite_company: favoriteCompany,
+      },
+    })
+    .then((res) => {
+      user.value = res.data
+      console.log(res.data)
+      console.log('포트폴리오 수정 완료!!');
+    })
+    .then(() => {
+      router.push({name:'portfolio'})
+    })
+    .catch((err) => console.log(err));
+  }
+
+  return { signUp, logIn, logOut, userUpdate, subscribe, unsubscribe, updateUserPortfolio, isLogin, token, name, user }
 }, { persist: true })

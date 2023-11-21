@@ -16,6 +16,8 @@
       <input type="nickname" id="nickname" v-model.trim="nickname"><br>
       <label for="age"> age </label>
       <input type="age" id="age" v-model.trim="age"><br>
+      <label for="address"> address </label>
+      <input type="address" id="address" v-model.trim="address"><br>
       <label for="salary"> salary </label>
       <input type="salary" id="salary" v-model.trim="salary"><br>
       <label for="money"> money </label>
@@ -36,6 +38,7 @@ const password2 = ref(null)
 // const email = ref(null)
 const nickname = ref(null)
 const age = ref(null)
+const address = ref(null)
 const salary = ref(null)
 const money = ref(null)
 
@@ -50,6 +53,7 @@ const signUp = function () {
     nickname: nickname.value,
     // email: email.value,
     age: age.value,
+    address: address.value,
     salary: salary.value,
     money: money.value,
   }
