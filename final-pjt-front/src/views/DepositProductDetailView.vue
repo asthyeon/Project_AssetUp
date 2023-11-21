@@ -1,28 +1,28 @@
 <template>
-    <div>
-        <div>
-            <h1>금융상품 상세 정보</h1>
-            <div v-if="userProductsArray.includes(product.fin_prdt_cd)" >
-                <p>이미 구독 중인 상품입니다.</p>
-                <button @click="updateUser(false)">해제하기</button>
-            </div>
-            <div v-else>
-                <p>가입 대상입니다.</p>
-                <button @click="updateUser(true)">가입하기</button>
-            </div>
-        </div>
-        <p>상품 정보</p>
-        <div>
-            <p>공시제출월 : {{ product.dcls_month }}</p>
-            <p>금융회사명 : {{ product.kor_co_nm }}</p>
-            <p>상품명 : {{ product.fin_prdt_nm }}</p>
-            <p>가입제한 : {{ JOIN_DENY_CHOICES[product.join_deny] }}</p>
-            <p>가입방법 : {{ product.join_way }}</p>
-            <p>우대조건 :</p>
-            <p>{{ product.spcl_cnd }}</p>
-            <p v-html="formatSpecialConditions(product.spcl_cnd)"></p>
-        </div>
-    </div>
+  <div>
+      <div>
+          <h1>금융상품 상세 정보</h1>
+          <div v-if="userProductsArray.includes(product.fin_prdt_cd)" >
+              <p>이미 구독 중인 상품입니다.</p>
+              <button @click="updateUser(false)">해제하기</button>
+          </div>
+          <div v-else>
+              <p>가입 대상입니다.</p>
+              <button @click="updateUser(true)">가입하기</button>
+          </div>
+      </div>
+      <p>상품 정보</p>
+      <div>
+          <p>공시제출월 : {{ product.dcls_month }}</p>
+          <p>금융회사명 : {{ product.kor_co_nm }}</p>
+          <p>상품명 : {{ product.fin_prdt_nm }}</p>
+          <p>가입제한 : {{ JOIN_DENY_CHOICES[product.join_deny] }}</p>
+          <p>가입방법 : {{ product.join_way }}</p>
+          <p>우대조건 :</p>
+          <p>{{ product.spcl_cnd }}</p>
+          <p v-html="formatSpecialConditions(product.spcl_cnd)"></p>
+      </div>
+  </div>
 </template>
 
 <script setup>
@@ -48,33 +48,27 @@ financeStore.getDepositProductOptions(finPrdtCd.value)
 product.value = financeStore.depositProduct
 // 가입제한 정보
 const JOIN_DENY_CHOICES = {
-    1: '제한 없음',
-    2: '서민전용',
-    3: '일부제한',
+  1: '제한 없음',
+  2: '서민전용',
+  3: '일부제한',
 }
 // 우대조건 줄바꿈 함수
 const formatSpecialConditions = (spclCnd) => {
-  const formattedConditions = spclCnd.replace('\n', '<br>')
-  return formattedConditions
+const formattedConditions = spclCnd.replace('\n', '<br>')
+return formattedConditions
 }
-
-// // 상품 구독하기
-// const updateUser = () => {
-//   console.log('가입하기')
-//   userStore.subscribe(product.value.fin_prdt_cd)
-// }
 
 // 상품 구독하기
 const updateUser = (isSubscribe) => {
-  if (isSubscribe) {
-    // 가입하기
-    userStore.subscribe(product.value.fin_prdt_cd);
-  } else {
-    // 해제하기
-    userStore.unsubscribe(product.value.fin_prdt_cd);
-  }
-  // 유저의 구독 상품 목록 갱신
-  userProductsArray.value = userStore.user.financial_products.split(',');
+if (isSubscribe) {
+  // 가입하기
+  userStore.subscribe(product.value.fin_prdt_cd);
+} else {
+  // 해제하기
+  userStore.unsubscribe(product.value.fin_prdt_cd);
+}
+// 유저의 구독 상품 목록 갱신
+userProductsArray.value = userStore.user.financial_products.split(',');
 }
 
 // 유저의 구독 상품 목록
