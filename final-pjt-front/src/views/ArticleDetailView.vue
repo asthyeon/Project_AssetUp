@@ -10,14 +10,14 @@
       <p>작성일 : {{ store.articleDetail.created_at }}</p>
       <p>수정일 : {{ store.articleDetail.updated_at }}</p>
       <div>
-        <p>좋아요 : {{ (store.articleDetail.like_authors || []).length }}</p>
+        <p>좋아요 : {{ likeCnt }}</p>
       </div>
-      <div v-if="store.articleDetail.username != store.name">
+      <div v-if="userStore.isLogin && (store.articleDetail.username != userStore.name)">
         <button @click="toggleLike">
           {{ likeButtonText }}
         </button>
       </div>
-      <div v-if="store.articleDetail.username === store.name">
+      <div v-if="store.articleDetail.username === userStore.name">
         <button @click="goUpdate">수정</button>
         <button @click="articleDelete">삭제</button>
       </div>
@@ -34,21 +34,23 @@
         />
       </div>
       <hr>
-      <h4>댓글 작성</h4>
-      <hr>
-      <form @submit.prevent="commentCreate">
-        <label for="content">댓글 : </label>
-        <input type="text" v-model.trim="newComment" id="content">
-        <input type="submit" value="작성">
-      </form>
-      <hr>
+      <div v-if="userStore.isLogin">
+        <h4>댓글 작성</h4>
+        <hr>
+        <form @submit.prevent="commentCreate">
+          <label for="content">댓글 : </label>
+          <input type="text" v-model.trim="newComment" id="content">
+          <input type="submit" value="작성">
+        </form>
+        <hr>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import axios from 'axios'
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, watch } from 'vue'
 import { useArticleStore } from '@/stores/article'
 import { useCommentStore } from '@/stores/comment'
 import { useUserStore } from '@/stores/user'
@@ -62,13 +64,9 @@ const route = useRoute()
 const router = useRouter()
 const newComment = ref('')
 const cnt = ref(0)
-const length = ref(0)
 
 onMounted(() => {
   store.getArticleDetail(route.params.article_id)
-  if (store.articleDetail.like_authors) {
-    length.value = store.articleDetail.like_authors.length;
-  }
 })
 
 // 게시글 업데이트 함수
@@ -76,22 +74,10 @@ const goUpdate = function () {
   router.push({ name: 'article_update', params: { article_id: route.params.article_id }})
 }
 
-
 // 게시글 삭제 함수
 const articleDelete = function () {
   store.articleDelete(route.params.article_id)
 }
-
-// 좋아요 버튼 텍스트를 계산하는 computed 속성 추가
-const likeButtonText = computed(() => {
-  if (!store.articleDetail.like_authors) {
-    return '좋아요'
-  } else if (userStore.user.pk in store.articleDetail.like_authors) {
-    return '좋아요 취소'
-  } else {
-    return '좋아요'
-  }
-});
 
 // 좋아요 함수
 const toggleLike = function () {
@@ -99,27 +85,27 @@ const toggleLike = function () {
     method: 'post',
     url: `${store.API_URL}/api/v1/articles/${route.params.article_id}/like/`,
     data: {
-      is_liked: !store.articleDetail.like_authors.includes(store.name),
+      is_liked: !store.articleDetail.like_authors?.includes(userStore.name),
     },
     headers: {
-      Authorization: `Token ${store.token}`,
+      Authorization: `Token ${userStore.token}`,
     },
   })
     .then((res) => {
       console.log(res.data);
 
-      // 서버 응답에서 is_liked와 like_users 값을 반영
-      store.articleDetail.like_authors = res.data.like_authors;
-
-      // 좋아요 상태를 localStorage에 저장
-      localStorage.setItem(`article_${route.params.article_id}_liked`, JSON.stringify(res.data.like_authors));
-
-      // 반응형 변수인 length 업데이트
-      length.value = res.data.like_authors.length;
-
+      // 서버 응답에서 is_liked와 like_users 값을 반영      
+      if (res.data.is_liked){
+        store.articleDetail.like_authors.push(userStore.user.id)
+      } else {
+        const indexToRemove = store.articleDetail.like_authors.indexOf(userStore.user.id)
+        if (indexToRemove !== -1) {
+          store.articleDetail.like_authors.splice(indexToRemove, 1);
+        }
+      }
     })
     .catch((err) => {
-      console.log(err);
+      console.log(err)
     });
 }
 
@@ -135,6 +121,18 @@ const goBack = function () {
   router.back()
 }
 
+const likeCnt = computed(() => {
+  return (store.articleDetail.like_authors || []).length
+})
+
+// 좋아요 버튼 텍스트를 계산하는 computed 속성 추가
+const likeButtonText = computed(() => {
+  if (store.articleDetail.like_authors && store.articleDetail.like_authors.includes(userStore.user.id)) {
+    return '좋아요 취소'
+  } else {
+    return '좋아요'
+  }
+});
 
 </script>
 

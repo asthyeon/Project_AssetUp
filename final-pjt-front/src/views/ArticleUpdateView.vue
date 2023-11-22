@@ -22,9 +22,11 @@
 import axios from 'axios'
 import { ref, onMounted, watch } from 'vue'
 import { useArticleStore } from '@/stores/article'
+import { useUserStore } from '@/stores/user'
 import { useRouter, useRoute } from 'vue-router'
 
 const store = useArticleStore()
+const userStore = useUserStore()
 const route = useRoute()
 const router = useRouter()
 const updatedArticle = ref({ title: '', content: '' })
@@ -46,7 +48,7 @@ const updateArticle = function () {
     url: `${store.API_URL}/api/v1/articles/${route.params.article_id}/`,
     data: updatedArticle.value,
     headers: {
-      Authorization: `Token ${store.token}`
+      Authorization: `Token ${userStore.token}`
     }
   })
     .then((res) => {

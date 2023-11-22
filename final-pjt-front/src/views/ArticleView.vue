@@ -2,7 +2,7 @@
   <div>
     <h1>게시판</h1>
     <hr>
-    <RouterLink :to="{ name: 'article_create' }">
+    <RouterLink v-if="userStore.isLogin" :to="{ name: 'article_create' }">
       [CREATE]
     </RouterLink>
     
@@ -16,10 +16,12 @@
 <script setup>
 import { onMounted } from 'vue'
 import { useArticleStore } from '@/stores/article'
+import { useUserStore } from '@/stores/user'
 import { RouterLink } from 'vue-router'
 import ArticleList from '@/components/ArticleList.vue'
 
 const store = useArticleStore()
+const userStore = useUserStore()
 
 onMounted(() => {
   console.log(store.articles);

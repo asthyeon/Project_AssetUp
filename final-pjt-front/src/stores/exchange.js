@@ -7,14 +7,13 @@ import axios from 'axios'
 export const useExchangeStore = defineStore('exchange', () => {
   const userStore = useUserStore()
   console.log(userStore.token);
-  const token = userStore.token
   const exchange_infos = ref([])
   const API_URL = 'http://127.0.0.1:8000'
   const router = useRouter()
 
   // 로그인 여부
   const isLogin = computed(() => {
-    if (token.value === null) {
+    if (userStore.token === null) {
       return false
     } else {
       return true
@@ -27,7 +26,7 @@ export const useExchangeStore = defineStore('exchange', () => {
       method: 'get',
       url: `${API_URL}/adds/exchange-rate/`,
       headers: {
-        Authorization: `Token ${token}`
+        Authorization: `Token ${userStore.token}`
       }
     })
       .then((res) =>{
@@ -39,5 +38,5 @@ export const useExchangeStore = defineStore('exchange', () => {
       })
   }
 
-  return { isLogin, exchange_infos, getExchangeRate, API_URL, token }
+  return { isLogin, exchange_infos, getExchangeRate, API_URL }
 }, { persist: true })

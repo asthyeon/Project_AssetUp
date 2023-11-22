@@ -56,6 +56,7 @@ export const useUserStore = defineStore('user', () => {
     })
       .then(res => {
         token.value = res.data.key
+        console.log('유저토큰',token.value)
         name.value = username
         // 유저 정보를 받아오기
         axios({

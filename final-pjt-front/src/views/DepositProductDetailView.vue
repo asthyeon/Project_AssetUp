@@ -1,7 +1,7 @@
 <template>
   <div>
-      <div>
-          <h1>금융상품 상세 정보</h1>
+    <h1>금융상품 상세 정보</h1>
+      <div v-if="userStore.isLogin">
           <div v-if="userProductsArray.includes(product.fin_prdt_cd)" >
               <p>이미 구독 중인 상품입니다.</p>
               <button @click="updateUser(false)">해제하기</button>

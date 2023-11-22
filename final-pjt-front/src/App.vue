@@ -8,20 +8,24 @@
       <RouterLink :to="{name: 'compare'}">Compare</RouterLink> |
       <!-- 게시판으로 이동 -->
       <RouterLink :to="{name: 'articles' }">Board</RouterLink> |
-      <!-- 카카오맵 보기 -->
-      <RouterLink :to="{name: 'map' }">Map</RouterLink> |
       <!-- 환율계산기 -->
-      <RouterLink :to="{name: 'exchange' }">Exchange</RouterLink>
+      <span v-if="userStore.isLogin">
+        <RouterLink :to="{name: 'exchange' }">Exchange</RouterLink> |
+      </span>
+      <!-- 카카오맵 보기 -->
+      <span v-if="userStore.isLogin">
+        <RouterLink :to="{name: 'map' }">Map</RouterLink> |
+      </span>
       <!-- 회원가입 페이지로 이동 -->
       <span v-if="!userStore.isLogin">
-        | <RouterLink :to="{name: 'signup' }">Signup</RouterLink> |
+        <RouterLink :to="{name: 'signup' }">Signup</RouterLink> |
       </span>
       <!-- 로그인 페이지로 이동 -->
       <span v-if="!userStore.isLogin">
-        <RouterLink :to="{name: 'login' }">Login</RouterLink>
+        <RouterLink :to="{name: 'login' }">Login</RouterLink> |
       </span>
-      | <span @click="userStore.logOut">Logout</span> |
-      <RouterLink :to="{name: 'profile'}">Profile</RouterLink>
+      <span v-if="userStore.isLogin" @click="userStore.logOut">Logout | </span>
+      <RouterLink v-if="userStore.isLogin" :to="{name: 'profile'}">Profile</RouterLink>
     </nav>
   </header>
   <RouterView />

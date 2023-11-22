@@ -6,8 +6,6 @@ import router from '../router'
 
 export const useArticleStore = defineStore('article', () => {
   const userStore = useUserStore()
-  console.log(userStore.token);
-  const token = userStore.token
   const articles = ref([])
   const API_URL = 'http://127.0.0.1:8000'
   const name = userStore.name
@@ -18,7 +16,7 @@ export const useArticleStore = defineStore('article', () => {
       method: 'get',
       url: `${API_URL}/api/v1/articles/`,
       headers: {
-        Authorization: `Token ${token}`
+        Authorization: `Token ${userStore.token}`
       }
     })
       .then((res) =>{
@@ -37,7 +35,7 @@ export const useArticleStore = defineStore('article', () => {
       method: 'get',
       url: `${API_URL}/api/v1/articles/${article_pk}`,
       headers: {
-        Authorization: `Token ${token}`
+        Authorization: `Token ${userStore.token}`
       }
     })
     .then((res) => {
@@ -51,11 +49,12 @@ export const useArticleStore = defineStore('article', () => {
 
   // 게시글 단일 삭제
   const articleDelete = function (article_pk) {
+    token.value = userStore.token
     axios({
       method: 'delete',
       url: `${API_URL}/api/v1/articles/${article_pk}`,
       headers: {
-        Authorization: `Token ${token}`
+        Authorization: `Token ${userStore.token}`
       }
     })
     .then((res) => {
@@ -79,5 +78,5 @@ export const useArticleStore = defineStore('article', () => {
     })
   }
 
-  return { articles, articleDetail, getArticles, getArticleDetail, articleDelete, API_URL, token, name }
+  return { articles, articleDetail, getArticles, getArticleDetail, articleDelete, API_URL, name }
 }, { persist: true })
