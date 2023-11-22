@@ -23,9 +23,7 @@ const store = useArticleStore()
 
 onMounted(() => {
   console.log(store.articles);
-  if (store.articles.length > 0) {
-    store.getArticles()
-  }
+  store.getArticles()
 })
 
 </script>
