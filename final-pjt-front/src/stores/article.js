@@ -59,6 +59,22 @@ export const useArticleStore = defineStore('article', () => {
       }
     })
     .then((res) => {
+      // const storedData = localStorage.getItem('article');
+      // if (storedData) {
+      //   // 로컬 스토리지에서 데이터를 가져와서 파싱
+      //   const data = JSON.parse(storedData);
+  
+      //   // 삭제할 상품의 productCode를 사용하여 배열에서 해당 아이템 찾기
+      //   const indexToRemove = data.findIndex(item => item.id === article_pk);
+  
+      //   // 해당 아이템이 존재하면 배열에서 삭제
+      //   if (indexToRemove !== -1) {
+      //     data.splice(indexToRemove, 1);
+  
+      //     // 배열을 다시 로컬 스토리지에 저장
+      //     localStorage.setItem('article', JSON.stringify(data));
+      //   }
+      // }
       router.push({ name: 'articles' })
     })
   }

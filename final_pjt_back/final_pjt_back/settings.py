@@ -14,12 +14,10 @@ from pathlib import Path
 import os
 import environ
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# API_KEY 불러오기
-import os
-import environ
 
 # 환경변수를 불러올 수 있는 상태로 설정
 env = environ.Env(DEBUG=(bool, True))
@@ -193,3 +191,4 @@ REST_AUTH = {
 }
 
 ACCOUNT_ADAPTER = 'accounts.models.CustomAccountAdapter'
+

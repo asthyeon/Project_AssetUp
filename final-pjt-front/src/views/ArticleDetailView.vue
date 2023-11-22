@@ -10,7 +10,7 @@
       <p>작성일 : {{ store.articleDetail.created_at }}</p>
       <p>수정일 : {{ store.articleDetail.updated_at }}</p>
       <div>
-        <p>좋아요 : {{ length }}</p>
+        <p>좋아요 : {{ (store.articleDetail.like_authors || []).length }}</p>
       </div>
       <div v-if="store.articleDetail.username != store.name">
         <button @click="toggleLike">
@@ -119,7 +119,7 @@ const toggleLike = function () {
 
     })
     .catch((err) => {
-      console.log(err.response.data);
+      console.log(err);
     });
 }
 
@@ -134,6 +134,7 @@ const commentCreate = function () {
 const goBack = function () {
   router.back()
 }
+
 
 </script>
 

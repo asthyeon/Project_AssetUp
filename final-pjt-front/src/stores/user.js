@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 import { useAddressStore } from '@/stores/address'
-
+ 
 export const useUserStore = defineStore('user', () => {
   const API_URL = 'http://127.0.0.1:8000'
   const token = ref(null)
@@ -89,6 +89,7 @@ export const useUserStore = defineStore('user', () => {
       .then(() => {
         // 로그아웃 성공 시 로컬 상태 초기화
         token.value = null
+        localStorage.removeItem('user')
         router.push({ name: 'login'})
       })
       .catch(err => console.log(err.response.data))

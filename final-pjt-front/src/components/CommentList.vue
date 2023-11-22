@@ -27,9 +27,11 @@
 <script setup>
 import { ref } from 'vue';
 import { useCommentStore } from '@/stores/comment'
+import { useArticleStore } from '@/stores/article'
 import axios from 'axios';
 
 const store = useCommentStore()
+const articleStore = useArticleStore()
 const props = defineProps({
   comment: Object,
   cnt: Number
@@ -58,8 +60,9 @@ const saveEditedComment = function () {
   })
     .then((res) => {
       // 성공적으로 수정된 경우
-      console.log(res.data);
-      isEditing.value = false;
+      const commentId = props.comment.id
+      articleStore.articleDetail.comment_set[props.cnt-1] = res.data
+      isEditing.value = false
     })
     .catch((err) => {
       console.error(err);

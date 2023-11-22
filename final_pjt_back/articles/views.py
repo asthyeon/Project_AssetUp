@@ -16,7 +16,8 @@ from rest_framework.permissions import IsAuthenticated
 def article_list(request):
     # 게시판 글 전체 조회
     if request.method == 'GET':
-        articles = get_list_or_404(Article)
+        print('게시글 전체 조회')
+        articles = Article.objects.all()
         serializer = ArticleListSerializer(articles, many=True)
         return Response(serializer.data)
     
@@ -31,7 +32,7 @@ def article_list(request):
 # 게시판 단일 게시글 대상
 @api_view(['GET', 'DELETE', 'PUT'])
 def article_detail(request, article_pk):
-    article = get_object_or_404(Article, pk=article_pk)
+    article = Article.objects.get(pk=article_pk)
 
     # 게시판 단일 게시글 조회
     if request.method == 'GET':
@@ -55,7 +56,7 @@ def article_detail(request, article_pk):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def article_like(request, article_pk):
-    article = get_object_or_404(Article, pk=article_pk)
+    article = Article.objects.get(pk=article_pk)
     author = request.user
 
     if author in article.like_authors.all():
@@ -75,7 +76,7 @@ def article_like(request, article_pk):
 # 댓글 전체 대상
 @api_view(['GET', 'POST'])
 def comment_list(request, article_pk):
-    article = get_object_or_404(Article, pk=article_pk)
+    article = Article.objects.get(pk=article_pk)
     
     # 댓글 전체 조회
     if request.method == 'GET':
@@ -94,7 +95,7 @@ def comment_list(request, article_pk):
 # 댓글 단일
 @api_view(['GET', 'DELETE', 'PUT'])
 def comment_detail(request, comment_pk):
-    comment = get_object_or_404(Comment, pk=comment_pk)
+    comment = Comment.objects.get(pk=comment_pk)
 
     # 게시판 단일 댓글 조회
     if request.method == 'GET':
