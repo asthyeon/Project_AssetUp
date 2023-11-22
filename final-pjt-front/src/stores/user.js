@@ -75,7 +75,7 @@ export const useUserStore = defineStore('user', () => {
         // accessToken 받아오기
         addressStore.getToken() 
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log(err.response.data))
   }
 
   // 로그아웃 함수
