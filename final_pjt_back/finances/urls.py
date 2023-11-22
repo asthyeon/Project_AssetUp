@@ -97,4 +97,6 @@ urlpatterns = [
     
 
     path('filter-user/', views.filter_user, name='filter_user'),
+    
+    path('get-all-products/', views.get_all_products, name='get_all_products'),
 ]

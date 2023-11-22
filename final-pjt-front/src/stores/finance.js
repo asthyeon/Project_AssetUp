@@ -81,12 +81,24 @@ export const useFinanceStore = defineStore('finance', () => {
   
   // 적금 상품 목록 조회
   const getSavingProducts = function () {
+      axios({
+          method: 'get',
+          url: `${API_URL}/finances/get-saving-products/`
+        }).then(res => {
+            console.log('적금 상품 조회 완료')
+            savingProductList.value = res.data
+        }).catch(err => console.log(err))
+    }
+    
+    const annuitySavingProductList = ref([])
+  // 연금 상품 목록 조회
+  const getAnnuitySavingProducts = function () {
     axios({
         method: 'get',
-        url: `${API_URL}/finances/get-saving-products/`
+        url: `${API_URL}/finances/get-annuity-saving-products/`
     }).then(res => {
-        console.log('적금 상품 조회 완료')
-        savingProductList.value = res.data
+        console.log('연그 상품 조회 완료')
+        annuitySavingProductList.value = res.data
     }).catch(err => console.log(err))
   }
 
@@ -210,12 +222,24 @@ export const useFinanceStore = defineStore('finance', () => {
     columnSortStates[key] = !isSorted
   }
 
+
+  const allProductList = ref({})
+  const getAllProducts = () => {
+    axios({
+        method: 'get',
+        url: `${API_URL}/finances/get-all-products/`
+    }).then((res) => {
+        allProductList.value = res.data
+        console.log('모든 상품이 저장되었습니다.');
+    }).catch(err => console.log(err))
+  }
+
   return {
     companys,
     depositProductList, depositProduct, savingProduct, depostiOptionLIst, depositProductOptionList,
-    savingProductList, savingOptionList, productType, savingProductOptionList,
+    savingProductList, savingOptionList, productType, savingProductOptionList, allProductList, annuitySavingProductList,
     getCompanys, getDepositProducts, getDepositOptions, getDepositProductOptions, getDepositProductDetail,
     getSavingProducts, getSavingProductOptions,
     getSavingProductDetail,
-    filteredProducts, searchDepositProducts, searchSavingProducts, sortProducts }
+    filteredProducts, searchDepositProducts, searchSavingProducts, sortProducts, getAllProducts, getAnnuitySavingProducts }
 }, { persist: true })

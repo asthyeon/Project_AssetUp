@@ -1116,7 +1116,58 @@ def filter_user(request):
                 products.setdefault(product, 0)
                 products[product] += 1
 
-    print('상품', products)
+    # print('상품', products)
     sorted_products = dict(sorted(products.items(), key=lambda item: item[1], reverse=True))
-    print(sorted_products)
+    # print(sorted_products)
     return Response(sorted_products)
+
+
+
+# 전체 상품 조회
+@api_view(['GET'])
+def get_all_products(request):
+    all_products = {'deposit':{}, 'saving':{}, 'annuity':{}, 'mortgage':{}, 'rent_house':{}, 'credit':{}}
+    
+    # 예금 목록 불러오기
+    products = DepositProduct.objects.all()
+    deposit_products_contain_options = []
+    for product in products:
+        option_list = DepositOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
+        serializer1 = DepositOptionSerializer(option_list, many=True)
+        serializer2 = DepositProductSerializer(product)
+        serializer = {
+            'product':serializer2.data,
+            'options':serializer1.data
+        }
+        deposit_products_contain_options.append(serializer)
+    all_products['deposit'] = deposit_products_contain_options
+    
+    # 적금 목록 불러오기
+    products = SavingProduct.objects.all()
+    saving_products_contain_options = []
+    for product in products:
+        option_list = SavingOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
+        serializer1 = SavingOptionSerializer(option_list, many=True)
+        serializer2 = SavingProductSerializer(product)
+        serializer = {
+            'product':serializer2.data,
+            'options':serializer1.data
+        }
+        saving_products_contain_options.append(serializer)
+    all_products['saving'] = saving_products_contain_options
+    
+    # 연금 목록 불러오기
+    products = AnnuitySavingProduct.objects.all()
+    annuity_products_contain_options = []
+    for product in products:
+        option_list = AnnuitySavingOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
+        serializer1 = AnnuitySavingOptionSerializer(option_list, many=True)
+        serializer2 = AnnuitySavingProductSerializer(product)
+        serializer = {
+            'product':serializer2.data,
+            'options':serializer1.data
+        }
+        annuity_products_contain_options.append(serializer)
+    all_products['annuity'] = annuity_products_contain_options
+
+    return Response(all_products)
