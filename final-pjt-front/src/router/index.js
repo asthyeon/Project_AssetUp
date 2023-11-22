@@ -104,5 +104,9 @@ router.beforeEach((to, from) => {
     window.alert('이미 로그인이 되어있습니다.')
     return { name: 'main' }
   }
+  if ((to.name === 'exchange' || to.name === 'map') && (!userStore.isLogin)) {
+    window.alert('로그인이 필요합니다.')
+    return { name: 'main' }
+  }
 })
 export default router

@@ -4,6 +4,10 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import requests
+from accounts.models import User
+# from django.contrib.auth.models import User
+from accounts.serializers import UserSerializer
+
 from .models import Company, CompanyOption, DepositProduct, DepositOption, SavingProduct, SavingOption, AnnuitySavingProduct, AnnuitySavingOption, MortgageLoanProduct, MortgageLoanOption, RentHouseLoanProduct, RentHouseLoanOption, CreditLoanProduct, CreditLoanOption
 from .serializers import CompanySerializer, CompanyOptionSerializer, DepositProductSerializer, DepositOptionSerializer, SavingProductSerializer, SavingOptionSerializer, AnnuitySavingProductSerializer, AnnuitySavingOptionSerializer, MortgageLoanProductSerializer, MortgageLoanOptionSerializer, RentHouseLoanProductSerializer, RentHouseLoanOptionSerializer, CreditLoanProductSerializer, CreditLoanOptionSerializer
 
@@ -1031,3 +1035,67 @@ def search_credit_loan_products(request, fin_co_no, crdt_lend_rate_type):
 
     return Response(filtered_products)
 
+
+
+
+# 전체 상품 검색 [예금]
+@api_view(['POST'])
+def filter_user(request):  
+    print(request.POST)  
+    GENDER_CHOICES = (
+        ('M', '남자'),
+        ('F', '여자'),
+    )
+    SAVING_TYPE_CHOICES = [
+        ('thrifty', '알뜰형'),
+        ('challenging', '도전형'),
+        ('diligent', '성실형'),
+    ]
+
+    # 필터 인자
+    gender = request.POST.get('gender')
+    age = request.POST.get('age')
+    address = request.POST.get('address')
+    salary = request.POST.get('salary')
+    money = request.POST.get('money')
+    target_asset = request.POST.get('target_asset')
+    saving_type = request.POST.get('saving_type')
+    favorite_company = request.POST.get('favorite_company')
+    mbti = request.POST.get('mbti')
+    print(gender, age, address, salary, money, target_asset, saving_type, favorite_company, mbti)
+
+    # 필터링
+    filtered_users = User.objects.all()
+    if gender:
+        filtered_users = filtered_users.filter(gender=gender)
+    if age:
+        filtered_users = filtered_users.filter(age=int(age))
+    if address:
+        filtered_users = filtered_users.filter(address=address)
+    if salary:
+        filtered_users = filtered_users.filter(salary=int(salary))
+    if money:
+        filtered_users = filtered_users.filter(money=int(money))
+    if target_asset:
+        filtered_users = filtered_users.filter(target_asset=int(target_asset))
+    if saving_type:
+        filtered_users = filtered_users.filter(saving_type=saving_type)
+    if favorite_company:
+        filtered_users = filtered_users.filter(favorite_company=favorite_company)
+    if mbti:
+        filtered_users = filtered_users.filter(mbti=mbti)
+
+    # 필터링된 유저들이 가입한 상품
+    products = {}
+    
+    for user in filtered_users:
+        financial_products = user.financial_products.split(',')
+        for product in financial_products:
+            if product:
+                products.setdefault(product, 0)
+                products[product] += 1
+
+    print('상품', products)
+    sorted_products = dict(sorted(products.items(), key=lambda item: item[1], reverse=True))
+    print(sorted_products)
+    return Response(sorted_products)
