@@ -1,11 +1,20 @@
 <template>
   <div>
+    <label for="productType">상품 종류:</label>
+    <select v-model="selectedProductType" id="productType">
+      <option value="all">전체</option>
+      <option value="예금">예금</option>
+      <option value="적금">적금</option>
+    </select>
+  </div>
+
+  <div>
     <Bar :data="chartData" :options="chartOptions" />
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useFinanceStore } from '@/stores/finance'
 import { Bar } from 'vue-chartjs'
@@ -83,24 +92,45 @@ const calculateAverageMaxRate = (products) => {
 // 데이터 가공
 const manufactureData = function () {
   // 상품명 추가
-  chartData.value.labels.push('평균 금리')
-  chartData.value.labels.push(...userProducts.value.map((product) => product.product.fin_prdt_nm))
-  
+  chartData.value.labels = ['평균 금리']
+  chartData.value.datasets[0].data = []
+  chartData.value.datasets[1].data = []
+
+  const filteredProducts = filterProductsByType()
+  console.log(filteredProducts)
+
+  // 상품명 추가
+  chartData.value.labels.push(...filteredProducts.map((product) => product.product.fin_prdt_nm))
+
   // 평균 금리 계산
-  const averageRate = calculateAverageRate(userProducts.value)
-  console.log(averageRate);
-  const averageMaxRate = calculateAverageMaxRate(userProducts.value)
-  console.log(averageMaxRate);
-  chartData.value.datasets[0].data.push(averageRate)
-  chartData.value.datasets[1].data.push(averageMaxRate)
+  const averageRate = calculateAverageRate(filteredProducts);
+  const averageMaxRate = calculateAverageMaxRate(filteredProducts);
+  chartData.value.datasets[0].data.push(averageRate);
+  chartData.value.datasets[1].data.push(averageMaxRate);
 
   // 각 상품의 저축금리, 최고 우대금리 추가
-  userProducts.value.forEach((product) => {
-    chartData.value.datasets[0].data.push(product.options[0].intr_rate)
-    chartData.value.datasets[1].data.push(product.options[0].intr_rate2)
-  })
+  filteredProducts.forEach((product) => {
+    chartData.value.datasets[0].data.push(product.options[0].intr_rate);
+    chartData.value.datasets[1].data.push(product.options[0].intr_rate2);
+  });
+}
+const selectedProductType = ref('all')
+const selectedProductTypeB = computed(() => {
+  selectedProductType.value
+})
+
+const filterProductsByType = function () {
+  const filteredProducts = selectedProductType.value === 'all'
+    ? userProducts.value // 'all'이면 전체 상품
+    : userProducts.value.filter(product => product.product.fin_prdt_nm.includes(selectedProductType.value))
+  console.log(filteredProducts);
+  return filteredProducts
 }
 
+watch(() => selectedProductTypeB.value, () => {
+  console.log('옵션 변경');
+  manufactureData()
+})
 
 manufactureData()
 

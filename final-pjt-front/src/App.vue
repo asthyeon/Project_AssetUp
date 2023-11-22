@@ -9,11 +9,11 @@
       <!-- 게시판으로 이동 -->
       <RouterLink :to="{name: 'articles' }">Board</RouterLink> |
       <!-- 환율계산기 -->
-      <span v-if="userStore.isLogin">
+      <span>
         <RouterLink :to="{name: 'exchange' }">Exchange</RouterLink> |
       </span>
       <!-- 카카오맵 보기 -->
-      <span v-if="userStore.isLogin">
+      <span>
         <RouterLink :to="{name: 'map' }">Map</RouterLink> |
       </span>
       <!-- 회원가입 페이지로 이동 -->

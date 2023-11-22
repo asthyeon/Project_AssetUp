@@ -95,4 +95,6 @@ urlpatterns = [
     # 전체 상품 검색
     path('search-credit-loan-products/<str:fin_co_no>/<int:save_trm>/', views.search_credit_loan_products, name='search_credit_loan_products'),
     
+
+    path('filter-user/', views.filter_user, name='filter_user'),
 ]
