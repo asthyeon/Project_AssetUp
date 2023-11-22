@@ -7,7 +7,6 @@ import axios from 'axios'
 export const useCommentStore = defineStore('comment', () => {
   const userStore = useUserStore()
   const articleStore = useArticleStore()
-  const token = userStore.token
   const API_URL = 'http://127.0.0.1:8000'
   const name = userStore.name
 
@@ -20,7 +19,7 @@ export const useCommentStore = defineStore('comment', () => {
         content
       },
       headers: {
-        Authorization: `Token ${token}`
+        Authorization: `Token ${userStore.token}`
       }
     })
       .then((res) =>{
@@ -38,7 +37,7 @@ export const useCommentStore = defineStore('comment', () => {
       method: 'delete',
       url: `${API_URL}/api/v1/comments/${comment_pk}`,
       headers: {
-        Authorization: `Token ${token}`
+        Authorization: `Token ${userStore.token}`
       }
     })
     .then((res) => {
@@ -47,7 +46,5 @@ export const useCommentStore = defineStore('comment', () => {
       })
     })
   }
-
-
-  return { commentCreate, commentDelete, API_URL, token, name }
+  return { commentCreate, commentDelete, API_URL, name }
 }, { persist: true })

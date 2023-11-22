@@ -30,6 +30,22 @@ class ArticleSerializer(serializers.ModelSerializer):
     comment_count = serializers.IntegerField(source='comment_set.count', read_only=True)
     username = serializers.ReadOnlyField(source='author.username')
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        # 한글로 요일 및 날짜 표시
+        korean_created_at = instance.created_at.strftime("%Y년 %m월 %d일 (%A)")
+        korean_updated_at = instance.updated_at.strftime("%Y년 %m월 %d일 (%A)")
+
+        representation['created_at'] = korean_created_at.replace(
+            'Monday', '월요일').replace('Tuesday', '화요일').replace('Wednesday', '수요일').replace(
+            'Thursday', '목요일').replace('Friday', '금요일').replace('Saturday', '토요일').replace(
+            'Sunday', '일요일')
+        representation['updated_at'] = korean_updated_at.replace(
+            'Monday', '월요일').replace('Tuesday', '화요일').replace('Wednesday', '수요일').replace(
+            'Thursday', '목요일').replace('Friday', '금요일').replace('Saturday', '토요일').replace(
+            'Sunday', '일요일')
+        return representation
+
     class Meta:
         model = Article
         fields = '__all__'

@@ -20,15 +20,18 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { useArticleStore } from '@/stores/article'
+import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 
 const title = ref(null)
 const content = ref(null)
 const store = useArticleStore()
+const userStore = useUserStore()
 const router = useRouter()
 
 // 게시글 작성 함수
 const createArticle = function () {
+  console.log(store.token);
   axios({
     method: 'post',
     url: `${store.API_URL}/api/v1/articles/`,
@@ -37,7 +40,7 @@ const createArticle = function () {
       content: content.value
     },
     headers: {
-      Authorization: `Token ${store.token}`
+      Authorization: `Token ${userStore.token}`
     }
   })
     .then((res) => {

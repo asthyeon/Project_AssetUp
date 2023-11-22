@@ -100,10 +100,6 @@ const router = createRouter({
 // 메인페이지 로그인 상태로만 이용 가능
 router.beforeEach((to, from) => {
   const userStore = useUserStore()
-  if (to.name === 'main' && !userStore.isLogin) {
-    window.alert('로그인이 필요합니다.')
-    return { name: 'login'}
-  }
   if ((to.name === 'signup' || to.name === 'login') && (userStore.isLogin)) {
     window.alert('이미 로그인이 되어있습니다.')
     return { name: 'main' }
