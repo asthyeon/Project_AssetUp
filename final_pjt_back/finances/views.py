@@ -1069,11 +1069,32 @@ def filter_user(request):
     if gender:
         filtered_users = filtered_users.filter(gender=gender)
     if age:
-        filtered_users = filtered_users.filter(age=int(age))
+        if int(age) < 20:
+            filtered_users = filtered_users.filter(age__lte=20)
+        elif 20 <= int(age) < 30:
+            filtered_users = filtered_users.filter(age__gte=20, age__lt=30)
+        elif 30 <= int(age) < 40:
+            filtered_users = filtered_users.filter(age__gte=30, age__lt=40)
+        elif 40 <= int(age) < 50:
+            filtered_users = filtered_users.filter(age__gte=40, age__lt=50)
+        elif 50 <= int(age) < 60:
+            filtered_users = filtered_users.filter(age__gte=50, age__lt=60)
+        else:
+            filtered_users = filtered_users.filter(age__gte=60)
     if address:
         filtered_users = filtered_users.filter(address=address)
     if salary:
-        filtered_users = filtered_users.filter(salary=int(salary))
+        # 3600
+        if int(salary) < 3600:
+            filtered_users = filtered_users.filter(salary__lte=3600)
+        # 6000
+        elif 3600 <= int(salary) < 6000:
+            filtered_users = filtered_users.filter(salary__gte=3600, salary__lt=6000)
+        # 10000
+        elif 6000 <= int(salary) < 10000:
+            filtered_users = filtered_users.filter(salary__gte=6000, salary__lt=10000)
+        else:
+            filtered_users = filtered_users.filter(salary__gte=10000)  
     if money:
         filtered_users = filtered_users.filter(money=int(money))
     if target_asset:

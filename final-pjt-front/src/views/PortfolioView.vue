@@ -24,7 +24,9 @@
       </p>
       <p>
         <strong>최애 은행</strong> : 
-        <input type="text" v-model="favoriteCompany">
+        <select v-model="favoriteCompany">
+          <option v-for="company in financeStore.companys" :key="company.id" :value="company.fin_co_no">{{ company.kor_co_nm }}</option>
+        </select>
         <button @click="goUpdate">수정하기</button>
       </p>
     </div>
@@ -35,9 +37,11 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue'
 import { useUserStore } from '@/stores/user'
+import { useFinanceStore } from '@/stores/finance'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 
+const financeStore = useFinanceStore()
 const userStore = useUserStore()
 const user = ref('')
 user.value = userStore.user
@@ -49,14 +53,11 @@ const favoriteCompany = ref(user.value.favorite_company)
 
 console.log(user.value)
 
-
+// 포트폴리오 정보 수정
 const goUpdate = function () {
   userStore.updateUserPortfolio(savingsType.value, favoriteCompany.value)
+  alert('수정 되었습니다.')
 }
-
-
-
-
 
 const goBack = function () {
   router.back()

@@ -148,7 +148,7 @@ export const useUserStore = defineStore('user', () => {
       console.log('구독을 해제합니다.')
 
       axios({
-        method: 'put',
+        method: 'post',
         url: `${API_URL}/accounts/update-user/`,
         headers: {
           Authorization: `Token ${token.value}`,
@@ -170,7 +170,7 @@ export const useUserStore = defineStore('user', () => {
     const newFinPrdtCd = existingProducts ? `${existingProducts},${finPrdtCd}` : finPrdtCd
 
     axios({
-      method: 'put',
+      method: 'post',
       url: `${API_URL}/accounts/update-user/`,
       headers: {
         Authorization: `Token ${token.value}`,

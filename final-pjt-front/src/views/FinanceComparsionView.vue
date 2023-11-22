@@ -1,17 +1,3 @@
-<!--
-(필수)
-1. 은행별 정렬
-2. 가입기간별 정렬
-    2.1 인덱스명이 공시제출일, 금융회사명, 상품명, 가입기간별 금리 금리
-3. 상세조회가 가능해야함 - 인덱스명이 공시제출일, 금융회사명, 상품명, 가입제한(1, 2, 3), 우대조건
-4. 가입이 가능해야함(즐겨찾기기능)
-
-(구상)
-1. (상품의 금리 정보가 수정되면 가입한 유저의 이메일로 메일이 전송되도록 구현해야함)
-2. 상세조회에서는 가입제한에 대한 설명 추가, 우대조건에 대한 설명 추가
-3. 가입기간, 이자율도 다시 상세에서 볼 수 있게, 적금일시 저축기간
-그 상품에 대한 기업웹사이트를 제공(링크) -->
-
 <template>
   <div>
       <h1>금융상품 비교</h1>
@@ -58,18 +44,18 @@
                   </tr>
               </thead>
               <tbody>
-                  <!-- 상품 나열, 클릭 시 상품 상세 페이지로 이동 -->
-                  <tr v-for="product in paginatedProducts" :key="product.product.id"
-                  @click="goDetail(product.product.fin_prdt_cd)"
-                  >
-                      <td>{{ product.product.dcls_month }}</td>
-                      <td>{{ product.product.kor_co_nm }}</td>
-                      <td>{{ product.product.fin_prdt_nm }}</td>
-                      <!-- 금리는 상품의 옵션에서 가져오기 -->
-                      <td v-for="term in selectedTerms" :key="term">
-                          {{ getInterestRate(product.options, term) }}%
-                      </td>
-                  </tr>
+                <!-- 상품 나열, 클릭 시 상품 상세 페이지로 이동 -->
+                <tr v-for="product in paginatedProducts" :key="product.product.id"
+                @click="goDetail(product.product.fin_prdt_cd)"
+                >
+                  <td>{{ product.product.dcls_month }}</td>
+                  <td>{{ product.product.kor_co_nm }}</td>
+                  <td>{{ product.product.fin_prdt_nm }}</td>
+                  <!-- 금리는 상품의 옵션에서 가져오기 -->
+                  <td v-for="term in selectedTerms" :key="term">
+                      {{ getInterestRate(product.options, term) }}%
+                  </td>
+                </tr>
               </tbody>
           </table>
 
@@ -114,23 +100,22 @@ const router = useRouter()
 const productType = ref('deposit')
 
 const changeToDeposit = function () {
-productType.value = 'deposit'
-financeStore.searchDepositProducts()
+  productType.value = 'deposit'
+  financeStore.searchDepositProducts()
 }
 
 const changeToSaving = function () {
-productType.value = 'saving'
-financeStore.searchSavingProducts()
+  productType.value = 'saving'
+  financeStore.searchSavingProducts()
 }
 
 // 상품 상세페이지로 이동
 const goDetail = function (finPrdtCd) {
-// console.log(financeStore.product)
-if (productType.value === 'deposit') {
-  router.push({name:'deposit_product_detail', params:{fin_prdt_cd: finPrdtCd}})
-} else {
-  router.push({name:'saving_product_detail', params:{fin_prdt_cd: finPrdtCd}})
-}
+  if (productType.value === 'deposit') {
+    router.push({name:'deposit_product_detail', params:{fin_prdt_cd: finPrdtCd}})
+  } else {
+    router.push({name:'saving_product_detail', params:{fin_prdt_cd: finPrdtCd}})
+  }
 }
 
 // 금리 가져오기
@@ -178,11 +163,10 @@ return pagesArray
 
 // 현재 페이지에 출력할 상품 목록
 const paginatedProducts = computed(() => {
-const start = (currentPage.value - 1) * itemsPerPage;
-const end = start + itemsPerPage
-return filteredProducts.value.slice(start, end)
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage
+  return filteredProducts.value.slice(start, end)
 })
-console.log(paginatedProducts.value);
 
 // 페이지 갱신
 const changePage = function (page) {

@@ -12,7 +12,7 @@ def userinfo(request):
     serializer = UserSerializer(user)
     return Response(serializer.data)
 
-@api_view(['PUT'])
+@api_view(['POST'])
 def update_user(request):
     user = request.user
     serializer = UserSerializer(user, data=request.data, partial=True)
