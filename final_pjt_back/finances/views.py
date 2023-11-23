@@ -1120,3 +1120,129 @@ def filter_user(request):
     sorted_products = dict(sorted(products.items(), key=lambda item: item[1], reverse=True))
     print(sorted_products)
     return Response(sorted_products)
+
+
+# 예금 top3
+@api_view(['GET'])
+def top_dps(request):  
+    print(request.POST)  
+    
+    # 모든 유저 정보
+    user_all = User.objects.all()
+
+    # 필터링된 유저들이 가입한 상품
+    products = {}
+    
+    for user in user_all:
+        financial_products = user.financial_products.split(',')
+        for product in financial_products:
+            if product:
+                products.setdefault(product, 0)
+                products[product] += 1
+
+    print('상품', products)
+    sorted_products = dict(sorted(products.items(), key=lambda item: item[1], reverse=True))
+
+    # 예금 베스트
+    dps_best = []
+    dps = DepositProduct.objects.all()
+    print(f'모든예금 : {dps}')
+    for dp in dps:
+        product_no = dp.fin_prdt_cd
+        for key, value in sorted_products.items():
+            if product_no == key:
+                dps_best.append((value, key))
+    
+    # 예금 베스트 정렬
+    dps_best.sort(reverse=True)
+    # sorted_dps_best = dict(sorted(dps_best.items(), key=lambda item: item[1], reverse=True))
+    print(f'예금 베스트: {dps_best}')
+    # 예금 top
+    dps_top = dps_best[:3]
+
+
+    return Response(dps_top)
+
+
+# 적금 top3
+@api_view(['GET'])
+def top_sps(request):  
+    print(request.POST)  
+    
+    # 모든 유저 정보
+    user_all = User.objects.all()
+
+    # 필터링된 유저들이 가입한 상품
+    products = {}
+    
+    for user in user_all:
+        financial_products = user.financial_products.split(',')
+        for product in financial_products:
+            if product:
+                products.setdefault(product, 0)
+                products[product] += 1
+
+    print('상품', products)
+    sorted_products = dict(sorted(products.items(), key=lambda item: item[1], reverse=True))
+
+    # 적금 베스트
+    sps_best = []
+    sps = SavingProduct.objects.all()
+    print(f'모든적금 : {sps}')
+    for sp in sps:
+        product_no = sp.fin_prdt_cd
+        for key, value in sorted_products.items():
+            if product_no == key:
+                sps_best.append((value, key))
+    
+    # 적금 베스트 정렬
+    sps_best.sort(reverse=True)
+    # sorted_dps_best = dict(sorted(dps_best.items(), key=lambda item: item[1], reverse=True))
+    print(f'적금 베스트: {sps_best}')
+    # 적금 top
+    sps_top = sps_best[:3]
+
+
+    return Response(sps_top)
+
+
+# 연금 top3
+@api_view(['GET'])
+def top_aps(request):  
+    print(request.POST)  
+    
+    # 모든 유저 정보
+    user_all = User.objects.all()
+
+    # 필터링된 유저들이 가입한 상품
+    products = {}
+    
+    for user in user_all:
+        financial_products = user.financial_products.split(',')
+        for product in financial_products:
+            if product:
+                products.setdefault(product, 0)
+                products[product] += 1
+
+    print('상품', products)
+    sorted_products = dict(sorted(products.items(), key=lambda item: item[1], reverse=True))
+
+    # 연금 베스트
+    aps_best = []
+    aps = AnnuitySavingProduct.objects.all()
+    print(f'연금 : {aps}')
+    for ap in aps:
+        product_no = ap.fin_prdt_cd
+        for key, value in sorted_products.items():
+            if product_no == key:
+                aps_best.append((value, key))
+    
+    # 연금 베스트 정렬
+    aps_best.sort(reverse=True)
+    # sorted_dps_best = dict(sorted(dps_best.items(), key=lambda item: item[1], reverse=True))
+    print(f'연금 베스트: {aps_best}')
+    # 연금 top
+    aps_top = aps_best[:3]
+
+
+    return Response(aps_top)

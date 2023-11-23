@@ -97,4 +97,11 @@ urlpatterns = [
     
 
     path('filter-user/', views.filter_user, name='filter_user'),
+
+    # 예금 베스트 top3
+    path('top-dps/', views.top_dps, name='top_dps'),
+    # 적금 베스트 top3
+    path('top-sps/', views.top_sps, name='top_sps'),
+    # 연금 베스트 top3
+    path('top-aps/', views.top_aps, name='top_aps'),
 ]
