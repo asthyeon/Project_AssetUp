@@ -19,8 +19,12 @@ import TopMbti from '@/components/TopMbti.vue'
 import TopAgeGender from '@/components/TopAgeGender.vue'
 import RecommendProduct from '@/components/RecommendProduct.vue'
 import BasicInfoUpdate from '@/components/BasicInfoUpdate.vue'
+<<<<<<< HEAD
 import SubscribeProduct from '@/components/SubscribeProduct.vue'
 import SubscribeProductView from '@/views/SubscribeProductView.vue'
+=======
+import ProductView from '@/views/ProductView.vue'
+>>>>>>> master
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -67,7 +71,7 @@ const router = createRouter({
 		},
     {
 		path: '/protfolio',
-		name: 'protfolio',
+		name: 'portfolio',
 		component: PortfolioUpdate
 		},
     {
@@ -120,6 +124,7 @@ const router = createRouter({
 		name: 'recommend',
 		component: RecommendProduct
 	},
+<<<<<<< HEAD
     {
 		path: '/subscription',
 		name: 'subscription',
@@ -129,6 +134,12 @@ const router = createRouter({
 		path: '/subscribe/:fin_prdt_cd',
 		name: 'subscribe',
 		component: SubscribeProductView
+=======
+	{
+		path: '/product',
+		name: 'product',
+		component: ProductView
+>>>>>>> master
 	},
   ]
 })
@@ -138,11 +149,22 @@ router.beforeEach((to, from) => {
   const userStore = useUserStore()
   if ((to.name === 'signup' || to.name === 'login') && (userStore.isLogin)) {
     window.alert('이미 로그인이 되어있습니다.')
-    return { name: 'main' }
+    return { name: 'login' }
   }
   if ((to.name === 'exchange' || to.name === 'map') && (!userStore.isLogin)) {
     window.alert('로그인이 필요합니다.')
-    return { name: 'main' }
+    return { name: 'login' }
+  }
+  // 여기서 특정 조건을 확인하여 이동을 막을 수 있습니다.
+  if (to.name === 'product') {
+    // 특정 조건을 확인하여 이동을 막는 경우
+    // 예를 들어, 로그인하지 않은 경우
+    const userStore = useUserStore();
+    if (!userStore.isLogin) {
+      window.alert('로그인이 필요합니다.');
+      next(false); // 이동을 막습니다.
+      return;
+    }
   }
 })
 export default router

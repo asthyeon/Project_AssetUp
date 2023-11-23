@@ -1,5 +1,6 @@
 
 <template>
+  
   <header>
     <nav id="app">
       <!-- 메인페이지로 이동 -->
@@ -28,7 +29,9 @@
       <RouterLink v-if="userStore.isLogin" :to="{name: 'profile'}">Profile</RouterLink>
     </nav>
   </header>
-  <RouterView />
+  <body>
+    <RouterView />
+  </body>
 </template>
 
 <script setup>
@@ -40,10 +43,20 @@ const userStore = useUserStore()
 </script>
 
 <style scoped>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px; /* Bootstrap navbar height */
+@font-face {
+    font-family: 'NanumSquareNeo-Variable';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
 }
+
+body {
+  font-family: 'NanumSquareNeo-Variable' , sans-serif;
+}
+
+header {
+  font-family: 'NanumSquareNeo-Variable' , sans-serif;
+  background-color: green;
+}
+
 </style>

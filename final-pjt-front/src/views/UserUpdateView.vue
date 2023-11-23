@@ -1,25 +1,27 @@
 <template>
   <div>
-    <h1>회원정보 수정 페이지</h1>
+    <h1>기본정보수정</h1>
     <form @submit.prevent="updateUser">
-      <label for="username">username : </label>
-      <input type="text" id="username" v-model.trim="user.username"><br>      
-      <label for="email"> email : </label>
-      <input type="email" id="email" v-model.trim="user.email"><br>
-      <label for="nickname"> nickname : </label>
+      <!-- <label for="username">아이디 : </label>
+      <input type="text" id="username" v-model.trim="user.username"><br>       -->
+      <!-- <label for="email"> email : </label>
+      <input type="email" id="email" v-model.trim="user.email"><br> -->
+      <strong>아이디</strong> : {{ userStore.user.username }}
+      <br>
+      <label for="nickname">별명</label>
       <input type="nickname" id="nickname" v-model.trim="user.nickname"><br>
-      <label for="age"> age : </label>
+      <label for="age">나이</label>
       <input type="age" id="age" v-model.trim="user.age"><br>
-      <label for="address"> address : </label>
+      <label for="address">주소</label>
       <input type="address" id="address" v-model.trim="user.address"><br>
-      <label for="salary"> salary : </label>
+      <label for="salary">연봉</label>
       <input type="salary" id="salary" v-model.trim="user.salary"><br>
-      <label for="money"> money : </label>
-      <input type="money" id="money" v-model.trim="user.money"><br>
-      <label for="target_asset"> target_asset : </label>
-      <input type="target_asset" id="target_asset" v-model.trim="user.target_asset"><br>
-      <label for="mbti"> mbti : </label>
+      <label for="mbti">MBTI</label>
       <input type="mbti" id="mbti" v-model.trim="user.mbti"><br>
+      <label for="money">현재자산</label>
+      <input type="money" id="money" v-model.trim="user.money"><br>
+      <label for="target_asset">목표자산</label>
+      <input type="target_asset" id="target_asset" v-model.trim="user.target_asset"><br>
 
       <input type="submit" value="수정하기">
     </form>
@@ -35,9 +37,9 @@ const user = ref(userStore.user)
 
 const updateUser = () => {
   userStore.userUpdate({
-    username: user.value.username,
+    // username: user.value.username,
     password: user.value.password,
-    email: user.value.email,
+    // email: user.value.email,
     nickname: user.value.nickname,
     age: user.value.age,
     address: user.value.address,

@@ -5,7 +5,10 @@
   <div>
     <h1>금융상품 상세 정보</h1>
       <div v-if="userStore.isLogin">
+<<<<<<< HEAD
           <!-- 구독 중인 상품인 경우 -->
+=======
+>>>>>>> master
           <div v-if="userProductsArray.some(item => item[1] === financeStore.depositProduct[0].product.fin_prdt_cd)">
               <p>이미 구독 중인 상품입니다.</p>
               <button @click="updateUser(false)">해제하기</button>
@@ -88,6 +91,11 @@ const goSubscribe = (finPrdtCd) => {
 const goBack = () => {
   router.back()
 }
+<<<<<<< HEAD
+=======
+
+console.log(userProductsArray.value);
+>>>>>>> master
 </script>
 
 <style scoped>

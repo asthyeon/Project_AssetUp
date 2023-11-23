@@ -1,5 +1,6 @@
 <template>
   <div>
+<<<<<<< HEAD
     <button @click="goBack">뒤로가기</button>
   </div>
   <div>
@@ -27,6 +28,31 @@
       <p>{{ financeStore.savingProduct[0].product.spcl_cnd }}</p>
       <p v-html="formatSpecialConditions(financeStore.savingProduct[0].product.spcl_cnd)"></p>
     </div>
+=======
+    <h1>금융상품 상세 정보</h1>
+    <div v-if="userStore.isLogin">
+          <!-- 구독 중인 상품인 경우 -->
+          <div v-if="userProductsArray.some(item => item[1] === financeStore.depositProduct[0].product.fin_prdt_cd)">
+              <p>이미 구독 중인 상품입니다.</p>
+              <button @click="updateUser(false)">해제하기</button>
+          </div>
+          <!-- 구독할 수 있는 상품인 경우 -->
+          <div v-else>
+              <p>가입 대상입니다.</p>
+              <button @click="updateUser(true)">가입하기</button>
+          </div>        </div>
+      <p>상품 정보</p>
+      <div>
+        <p>공시제출월 : {{ financeStore.savingProduct[0].product.dcls_month }}</p>
+        <p>금융회사명 : {{ financeStore.savingProduct[0].product.kor_co_nm }}</p>
+        <p>상품명 : {{ financeStore.savingProduct[0].product.fin_prdt_nm }}</p>
+        <p>가입제한 : {{ JOIN_DENY_CHOICES[financeStore.savingProduct[0].product.join_deny] }}</p>
+        <p>가입방법 : {{ financeStore.savingProduct[0].product.join_way }}</p>
+        <p>우대조건 :</p>
+        <p>{{ financeStore.savingProduct[0].product.spcl_cnd }}</p>
+        <p v-html="formatSpecialConditions(financeStore.savingProduct[0].product.spcl_cnd)"></p>
+      </div>
+>>>>>>> master
   </div>
 </template>
 
@@ -52,27 +78,27 @@ financeStore.getSavingProductOptions(route.params.fin_prdt_cd)
 
 // 가입제한 정보
 const JOIN_DENY_CHOICES = {
-    1: '제한 없음',
-    2: '서민전용',
-    3: '일부제한',
+  1: '제한 없음',
+  2: '서민전용',
+  3: '일부제한',
 }
 
 // 우대조건 줄바꿈 함수
 const formatSpecialConditions = (spclCnd) => {
-  const formattedConditions = spclCnd.replace('\n', '<br>')
-  return formattedConditions
+const formattedConditions = spclCnd.replace('\n', '<br>')
+return formattedConditions
 }
 // 상품 구독하기
 const updateUser = (isSubscribe) => {
-  if (isSubscribe) {
-    // 가입하기
-    userStore.subscribe(financeStore.savingProduct[0].product.fin_prdt_cd);
-  } else {
-    // 해제하기
-    userStore.unsubscribe(financeStore.savingProduct[0].product.fin_prdt_cd);
-  }
-  // 유저의 구독 상품 목록 갱신
-  userProductsArray.value = userStore.user.financial_products || []
+if (isSubscribe) {
+  // 가입하기
+  userStore.subscribe(financeStore.savingProduct[0].product.fin_prdt_cd);
+} else {
+  // 해제하기
+  userStore.unsubscribe(financeStore.savingProduct[0].product.fin_prdt_cd);
+}
+// 유저의 구독 상품 목록 갱신
+userProductsArray.value = userStore.user.financial_products || []
 }
 
 // 유저의 구독 상품 목록
@@ -84,7 +110,7 @@ const goSubscribe = (finPrdtCd) => {
 }
 
 const goBack = () => {
-  router.back()
+router.back()
 }
 </script>
 
