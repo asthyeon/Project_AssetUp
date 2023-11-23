@@ -188,7 +188,7 @@ export const useUserStore = defineStore('user', () => {
         user.value = res.data;
         console.log(res.data);
         console.log('상품 구독 완료');
-        router.push({name:'compare'})
+        router.back()
       })
       .catch((err) => console.log(err));
   }

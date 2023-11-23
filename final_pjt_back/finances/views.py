@@ -1145,6 +1145,7 @@ def filter_user(request):
                 products[product[1]] += 1
 
     sorted_products = list(sorted(products.items(), key=lambda item: item[1], reverse=True))
+    print(sorted_products)
     return Response(sorted_products)
   
 # 전체 상품 조회

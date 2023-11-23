@@ -30,21 +30,15 @@
 </template>
 
 <script setup>
-<<<<<<< HEAD
 import ProductChart from '@/components/ProductChart.vue'
-=======
 import { RouterLink, RouterView } from 'vue-router'
 import ProductView from '@/views/ProductView.vue'
->>>>>>> master
 import { ref, onMounted, computed } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 import { useFinanceStore } from '@/stores/finance'
-<<<<<<< HEAD
-=======
-import BasicInfoUpdate from '../components/BasicInfoUpdate.vue'
-import PortfolioUpdate from '../components/PortfolioUpdate.vue'
->>>>>>> master
+import BasicInfoUpdate from '@/components/BasicInfoUpdate.vue'
+import PortfolioUpdate from '@/components/PortfolioUpdate.vue'
 
 const userStore = useUserStore()
 const financeStore = useFinanceStore()

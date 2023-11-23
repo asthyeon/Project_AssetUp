@@ -29,6 +29,7 @@ class User(AbstractUser):
     # 포트폴리오
     saving_type = models.CharField(max_length=20, choices=SAVING_TYPE_CHOICES, blank=True, null=True)
     favorite_company = models.CharField(max_length=255, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
     mbti = models.CharField(max_length=4, blank=True, null=True)  # MBTI 필드 추가
 

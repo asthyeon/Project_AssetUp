@@ -1,15 +1,17 @@
 <template>
   <div>
-    <h1>로그인</h1>
-    <form @submit.prevent="logIn">
-      <label for="username">아이디 </label>
-      <input type="text" id="username" v-model.trim="username"><br>
+    <h1 class="text-center mb-4">로그인</h1>
+    <div class="login-container">
+      <form @submit.prevent="logIn" class="login-form">
+        <label for="username">아이디</label>
+        <input type="text" id="username" v-model.trim="username" required><br>
 
-      <label for="password">비밀번호</label>
-      <input type="password" id="password" v-model.trim="password"><br>
-      
-      <input type="submit" value="로그인">
-    </form>
+        <label for="password">비밀번호</label>
+        <input type="password" id="password" v-model.trim="password" required><br>
+        
+        <input type="submit" value="로그인" class="btn btn-primary">
+      </form>
+    </div>
   </div>
 </template>
 
@@ -33,5 +35,18 @@ const logIn = function () {
 </script>
 
 <style scoped>
+/* 추가한 스타일 */
+.login-container {
+  border: 2px solid #4CAF50; /* 초록색 테두리 */
+  border-radius: 10px; /* 테두리 둥글게 */
+  padding: 20px;
+  max-width: 400px;
+  margin: 0 auto;
+}
 
+/* 기존 스타일 */
+.login-form {
+  display: grid;
+  gap: 10px;
+}
 </style>

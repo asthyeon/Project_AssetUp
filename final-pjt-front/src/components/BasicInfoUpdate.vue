@@ -20,6 +20,13 @@
         <p>
           <strong>별명</strong> : {{ userStore.user.nickname }}
         </p>
+        <p v-if="userStore.user.gender === 'M'">
+          <strong>성별</strong> : 남자
+        </p>
+        <p v-else>
+          <strong>성별</strong> : 여자
+        </p>
+
         <p>
           <strong>나이</strong> : {{ userStore.user.age }}
         </p>
@@ -50,19 +57,20 @@
       <input type="email" id="email" v-model.trim="user.email"><br> -->
       <strong>아이디</strong> : {{ userStore.user.username }}
       <br>
-      <label for="nickname">별명</label>
+      <label for="nickname">별명 : </label>
       <input type="nickname" id="nickname" v-model.trim="user.nickname"><br>
-      <label for="age">나이</label>
+      <p>성별 : {{ user.gender }}</p>
+      <label for="age">나이 : </label>
       <input type="age" id="age" v-model.trim="user.age"><br>
-      <label for="address">주소</label>
+      <label for="address">주소 : </label>
       <input type="address" id="address" v-model.trim="user.address"><br>
-      <label for="salary">연봉</label>
+      <label for="salary">연봉 : </label>
       <input type="salary" id="salary" v-model.trim="user.salary"><br>
-      <label for="mbti">MBTI</label>
+      <label for="mbti">MBTI : </label>
       <input type="mbti" id="mbti" v-model.trim="user.mbti"><br>
-      <label for="money">현재자산</label>
+      <label for="money">현재자산 : </label>
       <input type="money" id="money" v-model.trim="user.money"><br>
-      <label for="target_asset">목표자산</label>
+      <label for="target_asset">목표자산 : </label>
       <input type="target_asset" id="target_asset" v-model.trim="user.target_asset"><br>
 
       <input type="submit" value="수정하기">
@@ -83,6 +91,8 @@ const userProducts = ref([])
 const router = useRouter()
 const user = ref(userStore.user)
 const status = ref('1')
+
+const gender = ref('')
 
 // 회원정보 수정
 const goUpdate = function () {
