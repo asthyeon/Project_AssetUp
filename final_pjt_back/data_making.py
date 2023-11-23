@@ -29,9 +29,9 @@ import requests
 
 
 # 이름만들기
-first_name_samples = "김이박최정강조윤장임"
-middle_name_samples = "민서예지도하주윤채현지"
-last_name_samples = "준윤우원호후서연아은진"
+first_name_samples = "김이박최정강조윤장임삼성커피가맹문의"
+middle_name_samples = "민서예지도하주윤채현지텀블백갤럭시"
+last_name_samples = "준윤우원호후서연아은진후드티상품추천"
 
 def random_name():
     result = ""
@@ -41,7 +41,7 @@ def random_name():
     return result + str(random.randint(1, 100))
 
 username_list = []
-N = 1000
+N = 3000
 i = 0
 while i < N:
     # print(f'user: {i}')
@@ -67,7 +67,7 @@ def random_nick():
     return result
 
 nick_list = []
-N = 1000
+N = 3000
 i = 0
 while i < N:
     # print(f'nick: {i}')
@@ -128,7 +128,7 @@ def random_address():
     return result
 
 address_list = []
-N = 1000
+N = 3000
 i = 0
 while i < N:
     # print(f'address: {i}')
@@ -152,7 +152,7 @@ def random_mbti():
     return result
 
 mbti_list = []
-N = 1000
+N = 3000
 i = 0
 while i < N:
     # print(f'mbti: {i}')
@@ -217,7 +217,7 @@ from collections import OrderedDict
 file = OrderedDict()
 
 
-N = 1000
+N = 3000
 i = 0
 # 저장 위치는 프로젝트 구조에 맞게 수정합니다.
 save_dir = 'accounts/fixtures/accounts/user_data.json'
@@ -238,7 +238,7 @@ with open(save_dir, 'w', encoding="utf-8") as f:
             'salary': random.randrange(0, 300000000, 1000000), # 연봉
             'money': random.randrange(0, 150000000, 100000),    # 현재 가진 금액
             # 랜덤한 0~5개의 상품을 가입하도록 삽입됨
-            'financial_products': ','.join([random.choice(financial_products) for _ in range(random.randint(0, 5))]), # 금융 상품 리스트
+            'financial_products': [[random.randrange(0, 2000), random.choice(financial_products)] for _ in range(random.randint(0, 5))],
             'password': "1234",
             'mbti': mbti_list[i],
             'is_active': True,

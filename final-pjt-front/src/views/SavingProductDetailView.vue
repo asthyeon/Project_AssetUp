@@ -3,7 +3,7 @@
       <h1>금융상품 상세 정보</h1>
       <div v-if="userStore.isLogin">
             <!-- 구독 중인 상품인 경우 -->
-            <div v-if="userProductsArray.includes(financeStore.savingProduct.fin_prdt_cd)" >
+            <div v-if="userProductsArray.includes(financeStore.savingProduct[0].product.fin_prdt_cd)" >
                 <p>이미 구독 중인 상품입니다.</p>
                 <button @click="updateUser(false)">해제하기</button>
             </div>
@@ -14,14 +14,14 @@
             </div>        </div>
         <p>상품 정보</p>
         <div>
-          <p>공시제출월 : {{ financeStore.savingProduct.dcls_month }}</p>
-          <p>금융회사명 : {{ financeStore.savingProduct.kor_co_nm }}</p>
-          <p>상품명 : {{ financeStore.savingProduct.fin_prdt_nm }}</p>
-          <p>가입제한 : {{ JOIN_DENY_CHOICES[financeStore.savingProduct.join_deny] }}</p>
-          <p>가입방법 : {{ financeStore.savingProduct.join_way }}</p>
+          <p>공시제출월 : {{ financeStore.savingProduct[0].product.dcls_month }}</p>
+          <p>금융회사명 : {{ financeStore.savingProduct[0].product.kor_co_nm }}</p>
+          <p>상품명 : {{ financeStore.savingProduct[0].product.fin_prdt_nm }}</p>
+          <p>가입제한 : {{ JOIN_DENY_CHOICES[financeStore.savingProduct[0].product.join_deny] }}</p>
+          <p>가입방법 : {{ financeStore.savingProduct[0].product.join_way }}</p>
           <p>우대조건 :</p>
-          <p>{{ financeStore.savingProduct.spcl_cnd }}</p>
-          <p v-html="formatSpecialConditions(financeStore.savingProduct.spcl_cnd)"></p>
+          <p>{{ financeStore.savingProduct[0].product.spcl_cnd }}</p>
+          <p v-html="formatSpecialConditions(financeStore.savingProduct[0].product.spcl_cnd)"></p>
         </div>
     </div>
 </template>
@@ -63,17 +63,17 @@ const formatSpecialConditions = (spclCnd) => {
 const updateUser = (isSubscribe) => {
   if (isSubscribe) {
     // 가입하기
-    userStore.subscribe(financeStore.savingProduct.fin_prdt_cd);
+    userStore.subscribe(financeStore.savingProduct[0].product.fin_prdt_cd);
   } else {
     // 해제하기
-    userStore.unsubscribe(financeStore.savingProduct.fin_prdt_cd);
+    userStore.unsubscribe(financeStore.savingProduct[0].product.fin_prdt_cd);
   }
   // 유저의 구독 상품 목록 갱신
-  userProductsArray.value = userStore.user.financial_products?.split(',') || []
+  userProductsArray.value = userStore.user.financial_products || []
 }
 
 // 유저의 구독 상품 목록
-const userProductsArray = ref(userStore.user.financial_products?.split(',') || [])
+const userProductsArray = ref(userStore.user.financial_products || [])
 
 const goBack = () => {
   router.back()

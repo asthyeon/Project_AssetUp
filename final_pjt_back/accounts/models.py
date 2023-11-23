@@ -24,7 +24,7 @@ class User(AbstractUser):
     salary = models.IntegerField(blank=True, null=True)
     money = models.IntegerField(blank=True, null=True)
     target_asset = models.IntegerField(blank=True, null=True)
-    financial_products = models.TextField(default='', blank=True, null=True)
+    financial_products = models.JSONField(default=list, blank=True)
 
     # 포트폴리오
     saving_type = models.CharField(max_length=20, choices=SAVING_TYPE_CHOICES, blank=True, null=True)
