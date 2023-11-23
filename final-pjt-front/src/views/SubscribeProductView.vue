@@ -5,18 +5,18 @@
   <div>
     <h1>금융상품 가입 페이지</h1>
     <div>
-      <form @submit="userStore.subscribe(financeStore.depositProduct[0].product.fin_prdt_cd, payment)">
+      <!-- <form @submit=""> -->
         <input type="payment" name="payment" id="payment" v-model="payment">
-        <input type="submit" value="가입하기">
-      </form>
-          <p>공시제출월 : {{ financeStore.depositProduct[0].product.dcls_month }}</p>
-          <p>금융회사명 : {{ financeStore.depositProduct[0].product.kor_co_nm }}</p>
-          <p>상품명 : {{ financeStore.depositProduct[0].product.fin_prdt_nm }}</p>
-          <p>가입제한 : {{ JOIN_DENY_CHOICES[financeStore.depositProduct[0].product.join_deny] }}</p>
-          <p>가입방법 : {{ financeStore.depositProduct[0].product.join_way }}</p>
+        <input @click="userStore.subscribe(financeStore.OneProduct.product.fin_prdt_cd, payment)" type="submit" value="가입하기">
+      <!-- </form> -->
+          <p>공시제출월 : {{ financeStore.OneProduct.product.dcls_month }}</p>
+          <p>금융회사명 : {{ financeStore.OneProduct.product.kor_co_nm }}</p>
+          <p>상품명 : {{ financeStore.OneProduct.product.fin_prdt_nm }}</p>
+          <p>가입제한 : {{ JOIN_DENY_CHOICES[financeStore.OneProduct.product.join_deny] }}</p>
+          <p>가입방법 : {{ financeStore.OneProduct.product.join_way }}</p>
           <p>우대조건 :</p>
-          <p>{{ financeStore.depositProduct[0].product.spcl_cnd }}</p>
-          <p v-html="formatSpecialConditions(financeStore.depositProduct[0].product.spcl_cnd)"></p>
+          <p>{{ financeStore.OneProduct.product.spcl_cnd }}</p>
+          <p v-html="formatSpecialConditions(financeStore.OneProduct.product.spcl_cnd)"></p>
       </div>
   </div>
 </template>
@@ -36,12 +36,8 @@ const finPrdtCd = ref('')
 
 const payment = ref('')
 
-// 현재 금융상품코드
-finPrdtCd.value = route.params.fin_prdt_cd
-// 단일 상품 조회
-financeStore.getDepositProductDetail(route.params.fin_prdt_cd)
-// 단일 상품의 옵션 목록 조회
-financeStore.getDepositProductOptions(route.params.fin_prdt_cd)
+financeStore.getAllProducts()
+financeStore.getOneProduct(route.params.fin_prdt_cd)
 
 // 가입제한 정보
 const JOIN_DENY_CHOICES = {

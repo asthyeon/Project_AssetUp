@@ -223,8 +223,8 @@ export const useFinanceStore = defineStore('finance', () => {
     columnSortStates[key] = !isSorted
   }
 
-
   const allProductList = ref({})
+
   const getAllProducts = () => {
     console.log('모든 상품 조회합니다');
     axios({
@@ -236,12 +236,18 @@ export const useFinanceStore = defineStore('finance', () => {
     }).catch(err => console.log(err))
   }
 
+  const OneProduct = ref({})
+  const getOneProduct = (finPrdtCd) => {
+    OneProduct.value = allProductList.value.find(product => product.product.fin_prdt_cd === finPrdtCd)
+    console.log(OneProduct.value);
+  }
+
   return {
     companys,
     depositProductList, depositProduct, savingProduct, depostiOptionLIst, depositProductOptionList,
-    savingProductList, savingOptionList, productType, savingProductOptionList, allProductList, annuitySavingProductList,
+    savingProductList, savingOptionList, productType, savingProductOptionList, allProductList, annuitySavingProductList, OneProduct,
     getCompanys, getDepositProducts, getDepositOptions, getDepositProductOptions, getDepositProductDetail,
     getSavingProducts, getSavingProductOptions,
     getSavingProductDetail,
-    filteredProducts, searchDepositProducts, searchSavingProducts, sortProducts, getAllProducts, getAnnuitySavingProducts }
+    filteredProducts, searchDepositProducts, searchSavingProducts, sortProducts, getAllProducts, getAnnuitySavingProducts, getOneProduct }
 }, { persist: true })

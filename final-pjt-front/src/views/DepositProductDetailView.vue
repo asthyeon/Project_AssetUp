@@ -5,6 +5,7 @@
   <div>
     <h1>금융상품 상세 정보</h1>
       <div v-if="userStore.isLogin">
+          <!-- 구독 중인 상품인 경우 -->
           <div v-if="userProductsArray.some(item => item[1] === financeStore.depositProduct[0].product.fin_prdt_cd)">
               <p>이미 구독 중인 상품입니다.</p>
               <button @click="updateUser(false)">해제하기</button>
@@ -40,6 +41,8 @@ const userStore = useUserStore()
 const route = useRoute()
 const router = useRouter()
 const finPrdtCd = ref('')
+
+financeStore.getOneProduct()
 
 // 현재 금융상품코드
 finPrdtCd.value = route.params.fin_prdt_cd
@@ -77,12 +80,13 @@ const updateUser = (isSubscribe) => {
 // 유저의 구독 상품 목록
 const userProductsArray = computed(() => userStore.user.financial_products || [])
 
-const goBack = () => {
-  router.back()
-}
 // 상품 가입 페이지로 이동
 const goSubscribe = (finPrdtCd) => {
   router.push({name:'subscribe', params:{fin_prdt_cd: finPrdtCd}})
+}
+
+const goBack = () => {
+  router.back()
 }
 </script>
 

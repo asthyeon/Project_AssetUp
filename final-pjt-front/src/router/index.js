@@ -121,12 +121,12 @@ const router = createRouter({
 		component: RecommendProduct
 	},
     {
-		path: '/subscription ',
+		path: '/subscription',
 		name: 'subscription',
 		component: SubscribeProduct
 	},
     {
-		path: '/subscribe:fin_prdt_cd',
+		path: '/subscribe/:fin_prdt_cd',
 		name: 'subscribe',
 		component: SubscribeProductView
 	},

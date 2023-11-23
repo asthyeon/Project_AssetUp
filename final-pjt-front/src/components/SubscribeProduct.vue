@@ -7,57 +7,69 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { Chart, LineController, LinearScale, PointElement, LineElement, CategoryScale } from 'chart.js';
+import { Chart, LineController, LinearScale, PointElement, LineElement, CategoryScale } from 'chart.js'
 import { useUserStore } from '@/stores/user';
+import { useFinanceStore } from '@/stores/finance'
 import { useRecommendStore } from '@/stores/recommend';
 
 Chart.register(LineController, LinearScale, PointElement, LineElement, CategoryScale);
 
 const userStore = useUserStore();
+const financeStore = useFinanceStore()
 const recommendStore = useRecommendStore();
 
 const chartData = ref({
   labels: [],
-  datasets: [
-    {
-      label: '이자 금액',
-      borderColor: 'rgba(75, 192, 192, 1)',
-      borderWidth: 1,
-      data: [],
-    },
-  ],
+  datasets: [],
 });
+
+const saveTrm = 6;
 
 onMounted(() => {
-  const financialProduct = userStore.user.financial_products[0]
-  drawLineChart(financialProduct[1], 6)
+  financeStore.getAllProducts()
+  generateChartData();
+  drawLineChart();
 });
 
-console.log(userStore.user);
-const drawLineChart = (finPrdtCd, depositPeriod) => {
-  const monthlyDeposit = 1000000; // 100만원을 월납입금으로 가정
-  chartData.value.labels = Array.from({ length: depositPeriod }, (_, i) => (i + 1) + '개월');
+const generateChartData = () => {
+  userStore.user.financial_products.forEach(product => {
+    financeStore.getOneProduct(product[1])
+    const { intr_rate_type_nm, interestRate, interestRate2 } = recommendStore.calculateAssetGrowthRate(
+      product[1],
+      saveTrm
+    )
 
-  // 부리 유형과 금리를 가져오는 함수 호출
-  const { intr_rate_type_nm, interestRate, interestRate2 } = recommendStore.calculateAssetGrowthRate(finPrdtCd, depositPeriod);
+    let cumulativeInterest = 0 // 누적 이자를 저장하는 변수 추가
 
-  // 여기서 필요한 comparsionDate를 계산해서 전달
-  const comparsionDate = userStore.getCurrentDate();
-  const interestAmounts = Array.from({ length: depositPeriod }, (_, i) => {
-    const currentDepositPeriod = i + 1;
+    const interestAmounts = Array.from({ length: saveTrm }, (_, i) => {
+      const currentDepositPeriod = i + 1
+      const currentInterestRate = intr_rate_type_nm === '단리' ? interestRate : interestRate2
+      const monthlyDeposit = product[2]
+      const monthlyInterestAmount = monthlyDeposit * (currentInterestRate / 100)
+      
+      // 누적 이자 계산 및 저장
+      cumulativeInterest += monthlyInterestAmount
 
-    // 부리 유형에 따라 금리 선택
-    const currentInterestRate = intr_rate_type_nm === '단리' ? interestRate : interestRate2;
+      return cumulativeInterest
+    });
 
-    // 월납입금 * 금리
-    const monthlyInterestAmount = monthlyDeposit * (currentInterestRate / 100);
-
-    return monthlyInterestAmount * currentDepositPeriod;
+    console.log(financeStore.OneProduct.product.kor_co_nm)
+    chartData.value.datasets.push({
+      label: financeStore.OneProduct.product.kor_co_nm,
+      borderColor: `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(
+        Math.random() * 256
+      )}, 1)`,
+      borderWidth: 1,
+      data: interestAmounts,
+    });
   });
 
-  chartData.value.datasets[0].data = interestAmounts;
+  chartData.value.labels = Array.from({ length: saveTrm }, (_, i) => (i + 1) + '개월');
+};
 
-  new Chart(document.getElementById('lineChart'), {
+const drawLineChart = () => {
+  const ctx = document.getElementById('lineChart').getContext('2d');
+  new Chart(ctx, {
     type: 'line',
     data: chartData.value,
     options: {
@@ -66,7 +78,7 @@ const drawLineChart = (finPrdtCd, depositPeriod) => {
       scales: {
         y: {
           beginAtZero: false,
-          callback: (value) => `$${value.toFixed(2)}`,
+          callback: (value) => `₩${value.toFixed(2)}`, // 통화 기호 및 소수점 2자리까지 표시
         },
         x: {
           type: 'category',
@@ -74,9 +86,9 @@ const drawLineChart = (finPrdtCd, depositPeriod) => {
       },
     },
   });
-};
+}
 </script>
 
 <style scoped>
-
+/* 스타일링을 추가하려면 여기에 작성하세요. */
 </style>
