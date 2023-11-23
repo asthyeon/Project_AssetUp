@@ -18,21 +18,21 @@ export const useHomeStore = defineStore('home', () => {
     })
     .then((res) => {
       dps.value = res.data.map(item => item[1])
-      console.log(dps.value);
+      console.log(`예금 탑 : ${dps.value}`);
       getTopDps()
     })
   }
 
   const getTopDps = () => {
     topDps.value = []
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 5; i++) {
       axios({
         method: 'get',
         url: `http://127.0.0.1:8000/finances/get-deposit-product-detail/${dps.value[i]}/`
       })
       .then((res) => {
         topDps.value.push(res.data)
-        console.log(res.data[0].product);
+        console.log(topDps.value[0]);
       })
       .catch((err) => {
         console.log(err);
@@ -48,13 +48,13 @@ export const useHomeStore = defineStore('home', () => {
     })
     .then((res) => {
       sps.value = res.data.map(item => item[1])
-      console.log(sps.value);
+      console.log(`적금 탑 : ${sps.value}`);
       getTopSps()
     })
   }
   const getTopSps = () => {
     topSps.value = []
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 5; i++) {
       axios({
         method: 'get',
         url: `http://127.0.0.1:8000/finances/get-saving-product-detail/${sps.value[i]}/`
@@ -110,14 +110,14 @@ export const useHomeStore = defineStore('home', () => {
   }
   const getTopAllps = () => {
     topAllps.value = []
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 5; i++) {
       axios({
         method: 'get',
-        url: `http://127.0.0.1:8000/finances/get-saving-product-detail/${sps.value[i]}/`
+        url: `http://127.0.0.1:8000/finances/get-all-product-detail/${allps.value[i]}/`
       })
       .then((res) => {
         topAllps.value.push(res.data)
-        console.log(topAllps.value);
+        console.log(topAllps.value[0]);
       })
       .catch((err) => {
         console.log(err);
@@ -129,7 +129,7 @@ export const useHomeStore = defineStore('home', () => {
   const getAll = () => {
     getDps()
     getSps()
-    getAllps()
+    // getAllps()
     // getAps()
   }
 

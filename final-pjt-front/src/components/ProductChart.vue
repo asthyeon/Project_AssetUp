@@ -66,7 +66,7 @@ allProducts.value = [
     ...financeStore.savingProductList
 ]
 // 유저가 가입한 상품명 목록
-const userProductArray = userStore.user.financial_products
+const userProductsArray = computed(() => userStore.user.financial_products || [])
 
 // 가입한 상품 정보 가져오기
 const findProductByCode = function (finPrdtCd) {
@@ -74,10 +74,10 @@ const findProductByCode = function (finPrdtCd) {
 }
 
 // 가입한 상품 정보 가져오기
-userProducts.value = userProductArray
-  .map(finPrdtCd => findProductByCode(finPrdtCd))
+userProducts.value = userProductsArray.value
+  .map(item => findProductByCode(item[1]))
   .filter(product => product !== null)
-
+  
 // 평균 금리 계산하는 함수
 const calculateAverageRate = (products) => {
   const totalRate = products.reduce((sum, product) => sum + product.options[0].intr_rate, 0)

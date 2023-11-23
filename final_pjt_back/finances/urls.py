@@ -99,6 +99,8 @@ urlpatterns = [
 
     path('get-all-products/', views.get_all_products, name='get_all_products'),
 
+    # 전체상품단일조회
+    # path('get-all-product-detail/<str:fin_prdt_cd>/', views.get_all_product_detail, name='get_all_product_detail'),
     # 예금 베스트 top3
     path('top-dps/', views.top_dps, name='top_dps'),
     # 적금 베스트 top3
