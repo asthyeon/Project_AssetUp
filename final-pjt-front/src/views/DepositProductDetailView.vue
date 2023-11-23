@@ -57,8 +57,8 @@ const JOIN_DENY_CHOICES = {
 
 // 우대조건 줄바꿈 함수
 const formatSpecialConditions = (spclCnd) => {
-const formattedConditions = spclCnd.replace('\n', '<br>')
-return formattedConditions
+  const formattedConditions = spclCnd.replace('\n', '<br>')
+  return formattedConditions
 }
 // 상품 구독하기
 const updateUser = (isSubscribe) => {

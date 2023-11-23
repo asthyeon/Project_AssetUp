@@ -1,7 +1,7 @@
 
 <template>
   <header>
-    <nav>
+    <nav id="app">
       <!-- 메인페이지로 이동 -->
       <RouterLink :to="{name: 'main' }">Home</RouterLink> |
       <!-- 금융상품 비교 페이지로 이동 -->
@@ -40,5 +40,10 @@ const userStore = useUserStore()
 </script>
 
 <style scoped>
-
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px; /* Bootstrap navbar height */
+}
 </style>

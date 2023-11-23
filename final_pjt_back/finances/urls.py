@@ -95,8 +95,9 @@ urlpatterns = [
     # 전체 상품 검색
     path('search-credit-loan-products/<str:fin_co_no>/<int:save_trm>/', views.search_credit_loan_products, name='search_credit_loan_products'),
     
-
     path('filter-user/', views.filter_user, name='filter_user'),
+
+    path('get-all-products/', views.get_all_products, name='get_all_products'),
 
     # 예금 베스트 top3
     path('top-dps/', views.top_dps, name='top_dps'),

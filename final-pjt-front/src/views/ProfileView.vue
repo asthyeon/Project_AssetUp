@@ -5,59 +5,17 @@
   </div>
   <div>
     <header>
-      <h1>{{ user.username }} 님의 프로필 페이지</h1>
+      <h1>{{ userStore.user.username }} 님의 프로필 페이지</h1>
     </header>
 
     <div>
-      <p>기본 정보 수정</p>
-      <RouterLink :to="{name:'protfolio'}">포트폴리오 수정</RouterLink>
-      <p>상품 추천 받기</p>
+      <p><RouterLink :to="{name:'basic-info'}">기본 정보 수정</RouterLink></p>
+      <p><RouterLink :to="{name:'protfolio'}">포트폴리오 수정</RouterLink></p>
+      <p><RouterLink :to="{name:'recommend'}">상품 추천 받기</RouterLink></p>
     </div>
 
     <div>
-
       <div>
-        <h2>기본 정보 수정</h2>
-      </div>
-
-      <div>
-        <p><strong>회원 번호</strong> : {{ user.id }}</p>
-        <p><strong>ID</strong> : {{ user.username }}</p>
-        <p>
-          <strong>Email</strong> : 
-          <span v-if="!user.email">이메일을 수정해주세요</span>
-          <span v-else>{{ user.email }}</span>
-          <button @click="goUpdate">수정하기</button>
-        </p>
-        <p>
-          <strong>Nickname</strong> : {{ user.nickname }}
-          <button @click="goUpdate">수정하기</button>
-        </p>
-        <p>
-          <strong>나이</strong> : {{ user.age }}
-          <button @click="goUpdate">수정하기</button>
-        </p>
-        <p>
-          <strong>MBTI</strong> : {{ user.mbti }}
-          <button @click="goUpdate">수정하기</button>
-        </p>
-        <p>
-          <strong>주소</strong> : {{ user.address }}
-          <button @click="goUpdate">수정하기</button>
-        </p>
-        <p>
-          <strong>현재 가진 금액</strong> : {{ user.money }}
-          <button @click="goUpdate">수정하기</button>
-        </p>
-        <p>
-          <strong>연봉</strong> : {{ user.salary }}
-          <button @click="goUpdate">수정하기</button>
-        </p>
-        <p>
-          <strong>목표 자산</strong> : {{ user.target_asset }}
-          <button @click="goUpdate">수정하기</button>
-        </p>
-
         <div>
           <strong>가입 상품 목록</strong>
           <ul v-if="user.financial_products && user.financial_products.length > 0">
