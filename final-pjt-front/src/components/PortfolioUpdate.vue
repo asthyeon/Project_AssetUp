@@ -1,31 +1,24 @@
 <template>
-  <div>
+  <div class="profile-box">
     <h1>{{ user.nickname }}의 포트폴리오</h1>
 
-    <div>
+    <div class="portfolio-info">
       <div>연봉 : {{ user.salary }}</div>
       <div>월급 : {{ salary }}</div>
       <p>
         <strong>저축 성향</strong> : 
         <label>
-        <input type="radio" v-model="savingsType" value="thrifty"/> 자유형
+          <input type="radio" v-model="savingsType" value="thrifty"/> 자유형
         </label>
         <label>
-        <input type="radio" v-model="savingsType" value="thrifty"/> 근검형
+          <input type="radio" v-model="savingsType" value="careful"/> 근검형
         </label>
         <label>
-        <input type="radio" v-model="savingsType" value="challenging"/> 도전형
+          <input type="radio" v-model="savingsType" value="challenging"/> 도전형
         </label>
         <label>
-        <input type="radio" v-model="savingsType" value="diligent"/> 욜로형
+          <input type="radio" v-model="savingsType" value="diligent"/> 욜로형
         </label>
-        <button @click="goUpdate">수정하기</button>
-      </p>
-      <p>
-        <strong>최애 은행</strong> : 
-        <select v-model="favoriteCompany">
-          <option v-for="company in financeStore.companys" :key="company.id" :value="company.fin_co_no">{{ company.kor_co_nm }}</option>
-        </select>
         <button @click="goUpdate">수정하기</button>
       </p>
       <p>월저축비중 : {{ percent }} %</p>
@@ -36,7 +29,6 @@
     <div>
       <RecommendProduct />
     </div>
-
   </div>
 </template>
 
@@ -68,18 +60,40 @@ const goUpdate = function () {
   userStore.updateUserPortfolio(savingsType.value, favoriteCompany.value)
   alert('수정 되었습니다.')
 }
-
+// 뒤로 가기
 const goBack = function () {
   router.back()
 }
-
+// 월 저축 비중
 const updatePercent = () => {
   percent.value = 33
   percentMoney.value = Math.round(salary * percent.value / 100)
 }
-
 </script>
 
 <style scoped>
+.profile-box {
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
 
+.portfolio-info {
+  margin-top: 20px;
+}
+
+button {
+  margin-top: 10px;
+  background-color: #2ecc71; /* 초록색 테마색 */
+  color: #ffffff; /* 흰색 텍스트 색상 */
+  padding: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #27ae60; /* 마우스를 올렸을 때의 배경 색상 */
+}
 </style>
