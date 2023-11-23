@@ -75,7 +75,7 @@ export const useUserStore = defineStore('user', () => {
         // accessToken 받아오기
         addressStore.getToken() 
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log(err.response.data))
   }
 
   // 로그아웃 함수
@@ -137,15 +137,14 @@ export const useUserStore = defineStore('user', () => {
       .catch((err) => console.log(err));
   }
 
-  // 상품 구독
+  // 상품 구독 해제
   const unsubscribe = function (finPrdtCd) {
-    // 기존 상품 구독 문자열
-    const existingProducts = user.value.financial_products || ''
+    // 기존 상품 구독 배열
+    const existingProducts = user.value.financial_products || []
 
     // 이미 구독한 상품인 경우 해당 상품 제거
-    if (existingProducts.includes(finPrdtCd)) {
-      const updatedProducts = existingProducts.split(',').filter(productCode => productCode !== finPrdtCd).join(',')
-      console.log('구독을 해제합니다.')
+    const updatedProducts = existingProducts.filter(productCode => productCode[1] !== finPrdtCd)
+    console.log('구독을 해제합니다.')
 
       axios({
         method: 'post',
@@ -160,14 +159,14 @@ export const useUserStore = defineStore('user', () => {
           console.log(res.data)
         })
         .catch((err) => console.log(err))
-    }}
+    }
 
-  // 구독 해제
+  // 구독
   const subscribe = function (finPrdtCd) {
-    const existingProducts = user.value.financial_products || ''
+    const existingProducts = user.value.financial_products || []
 
     // 없는 상품인 경우 새로 구독하기
-    const newFinPrdtCd = existingProducts ? `${existingProducts},${finPrdtCd}` : finPrdtCd
+    const newFinPrdtCd = existingProducts.concat([[0, finPrdtCd]])
 
     axios({
       method: 'post',

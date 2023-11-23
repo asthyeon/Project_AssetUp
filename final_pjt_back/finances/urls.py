@@ -18,7 +18,7 @@ urlpatterns = [
     path('get-deposit-products/', views.get_deposit_products, name='get_deposit_products'),
     # 전체 옵션 조회
     path('get-deposit-options/', views.get_deposit_options, name='get_deposit_options'),
-    # 단일 상품 조회
+    # 단일 상품 조회(옵션 포함)
     path('get-deposit-product-detail/<str:fin_prdt_cd>/', views.get_deposit_product_detail, name='get_deposit_product_detail'),
     # 단일 예금 상품 옵션 조회
     path('get-deposit-product-options/<str:fin_prdt_cd>/', views.get_deposit_product_options, name='get_deposit_product_options'),
@@ -32,7 +32,7 @@ urlpatterns = [
     path('get-saving-products/', views.get_saving_products, name='get_saving_products'),
     # 전체 옵션 조회
     path('get-saving-options/<str:fin_prdt_cd>/', views.get_saving_options, name='get_saving_options'),
-    # 단일 상품 조회
+    # 단일 상품 조회(옵션 포함)
     path('get-saving-product-detail/<str:fin_prdt_cd>/', views.get_saving_product_detail, name='get_saving_product_detail'),
     # 단일 적금 상품 옵션 조회
     path('get-saving-product-options/<str:fin_prdt_cd>/', views.get_saving_product_options, name='get_saving_product_options'),
@@ -46,7 +46,7 @@ urlpatterns = [
     path('get-annuity-saving-products/', views.get_annuity_saving_products, name='get_annuity_saving_products'),
     # 전체 옵션 조회
     path('get-annuity-saving-options/<str:fin_prdt_cd>/', views.get_annuity_saving_options, name='get_annuity_saving_options'),
-    # 단일 상품 조회
+    # 단일 상품 조회(옵션 포함)
     path('get-annuity-saving-product-detail/<str:fin_prdt_cd>/', views.get_annuity_saving_product_detail, name='get_annuity_saving_product_detail'),
     # 단일 적금 상품 옵션 조회
     path('get-annuity-saving-product-options/<str:fin_prdt_cd>/', views.get_annuity_saving_product_options, name='get_annuity_saving_product_options'),
@@ -95,8 +95,19 @@ urlpatterns = [
     # 전체 상품 검색
     path('search-credit-loan-products/<str:fin_co_no>/<int:save_trm>/', views.search_credit_loan_products, name='search_credit_loan_products'),
     
-
     path('filter-user/', views.filter_user, name='filter_user'),
-    
+
     path('get-all-products/', views.get_all_products, name='get_all_products'),
+
+    # 예금 베스트 top3
+    path('top-dps/', views.top_dps, name='top_dps'),
+    # 적금 베스트 top3
+    path('top-sps/', views.top_sps, name='top_sps'),
+    # 전체 top3 
+    path('best-three/', views.best_three, name='best_three'),
+    # 연금 베스트 top3
+    # path('top-aps/', views.top_aps, name='top_aps'),
+
+    # 금리 계산함수
+    path('calculate/<int:user_pk>/', views.calculate, name='calculate'),
 ]

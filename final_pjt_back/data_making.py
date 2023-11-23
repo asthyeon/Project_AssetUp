@@ -29,9 +29,9 @@ import requests
 
 
 # 이름만들기
-first_name_samples = "김이박최정강조윤장임"
-middle_name_samples = "민서예지도하주윤채현지"
-last_name_samples = "준윤우원호후서연아은진"
+first_name_samples = "김이박최정강조윤장임삼성커피가맹문의"
+middle_name_samples = "민서예지도하주윤채현지텀블백갤럭시"
+last_name_samples = "준윤우원호후서연아은진후드티상품추천"
 
 def random_name():
     result = ""
@@ -41,10 +41,10 @@ def random_name():
     return result + str(random.randint(1, 100))
 
 username_list = []
-N = 1000
+N = 3000
 i = 0
 while i < N:
-    print(f'user: {i}')
+    # print(f'user: {i}')
     rn = random_name()
     if rn in username_list:
         continue
@@ -67,10 +67,10 @@ def random_nick():
     return result
 
 nick_list = []
-N = 1000
+N = 3000
 i = 0
 while i < N:
-    print(f'nick: {i}')
+    # print(f'nick: {i}')
     rn = random_nick()
     if rn in nick_list:
         continue
@@ -128,10 +128,10 @@ def random_address():
     return result
 
 address_list = []
-N = 1000
+N = 3000
 i = 0
 while i < N:
-    print(f'address: {i}')
+    # print(f'address: {i}')
     rn = random_address()
     # print(address_list)
     address_list.append(rn)
@@ -152,10 +152,10 @@ def random_mbti():
     return result
 
 mbti_list = []
-N = 1000
+N = 3000
 i = 0
 while i < N:
-    print(f'mbti: {i}')
+    # print(f'mbti: {i}')
     rn = random_mbti()
     mbti_list.append(rn)
     i += 1    
@@ -179,6 +179,13 @@ params = {
   'pageNo': 1
 }
 
+params2 = {
+  'auth': API_KEY,
+  # 금융회사 코드 020000(은행), 030200(여신전문), 030300(저축은행), 050000(보험), 060000(금융투자)
+  'topFinGrpNo': '050000',
+  'pageNo': 1
+}
+
 # 정기예금 목록 저장
 response = requests.get(DP_URL, params=params).json()
 baseList = response.get('result').get('baseList')   # 상품 목록
@@ -194,10 +201,11 @@ for product in baseList:
     financial_products.append(product['fin_prdt_cd'])
 
 # 연금 목록 저장
-response = requests.get(AP_URL, params=params).json()
+response = requests.get(AP_URL, params=params2).json()
 baseList = response.get('result').get('baseList')   # 상품 목록
 
 for product in baseList:
+    print(product['fin_prdt_cd'])
     financial_products.append(product['fin_prdt_cd'])
 
 dict_keys = ['username', 'nickname', 'gender', 'age', 'address', 'salary', 'money', 'target_asset', 'financial_products']
@@ -209,7 +217,7 @@ from collections import OrderedDict
 file = OrderedDict()
 
 
-N = 1000
+N = 3000
 i = 0
 # 저장 위치는 프로젝트 구조에 맞게 수정합니다.
 save_dir = 'accounts/fixtures/accounts/user_data.json'
@@ -217,7 +225,7 @@ with open(save_dir, 'w', encoding="utf-8") as f:
     f.write('[')
     
     for i in range(N):
-        print(i)
+        # print(i)
         # 랜덤한 데이터를 삽입
         file["model"] = "accounts.User"
         file["pk"] = i+1
@@ -230,7 +238,7 @@ with open(save_dir, 'w', encoding="utf-8") as f:
             'salary': random.randrange(0, 300000000, 1000000), # 연봉
             'money': random.randrange(0, 150000000, 100000),    # 현재 가진 금액
             # 랜덤한 0~5개의 상품을 가입하도록 삽입됨
-            'financial_products': ','.join([random.choice(financial_products) for _ in range(random.randint(0, 5))]), # 금융 상품 리스트
+            'financial_products': [[random.randrange(0, 2000), random.choice(financial_products)] for _ in range(random.randint(0, 5))],
             'password': "1234",
             'mbti': mbti_list[i],
             'is_active': True,

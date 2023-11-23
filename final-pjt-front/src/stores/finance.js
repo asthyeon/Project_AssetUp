@@ -115,6 +115,7 @@ export const useFinanceStore = defineStore('finance', () => {
         console.log('단일 예금 상품 상세 조회 성공')
         console.log(res.data)
         depositProduct.value = res.data
+        console.log(depositProduct.value[0].product);
 
     }).catch(err => console.log(err))
   }
