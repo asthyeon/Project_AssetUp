@@ -1,24 +1,23 @@
 <template>
   <div>
-    <p></p>
-    <button @click="goBack">뒤로가기</button>
-  </div>
-  <div>
-    <h1>포트폴리오 수정</h1>
+    <h1>{{ user.nickname }}의 포트폴리오</h1>
 
     <div>
-      <p><strong>회원 번호</strong> : {{ user.id }}</p>
-      <p><strong>ID</strong> : {{ user.username }}</p>
+      <div>연봉 : {{ user.salary }}</div>
+      <div>월급 : {{ salary }}</div>
       <p>
         <strong>저축 성향</strong> : 
         <label>
-        <input type="radio" v-model="savingsType" value="thrifty"/> 알뜰형
+        <input type="radio" v-model="savingsType" value="thrifty"/> 자유형
+        </label>
+        <label>
+        <input type="radio" v-model="savingsType" value="thrifty"/> 근검형
         </label>
         <label>
         <input type="radio" v-model="savingsType" value="challenging"/> 도전형
         </label>
         <label>
-        <input type="radio" v-model="savingsType" value="diligent"/> 성실형
+        <input type="radio" v-model="savingsType" value="diligent"/> 욜로형
         </label>
         <button @click="goUpdate">수정하기</button>
       </p>
@@ -29,6 +28,13 @@
         </select>
         <button @click="goUpdate">수정하기</button>
       </p>
+      <p>월저축비중 : {{ percent }} %</p>
+      <p>월저축금액 : {{ percentMoney }}</p>
+      <button @click="updatePercent">월저축비중수정</button>
+    </div>
+    <hr>
+    <div>
+      <RecommendProduct />
     </div>
 
   </div>
@@ -40,11 +46,15 @@ import { useUserStore } from '@/stores/user'
 import { useFinanceStore } from '@/stores/finance'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+import RecommendProduct from './RecommendProduct.vue'
 
 const financeStore = useFinanceStore()
 const userStore = useUserStore()
 const user = ref('')
 user.value = userStore.user
+const salary = Math.round(user.value.salary / 12)
+const percent = ref(0)
+const percentMoney = ref(0)
 
 const router = useRouter()
 
@@ -62,6 +72,12 @@ const goUpdate = function () {
 const goBack = function () {
   router.back()
 }
+
+const updatePercent = () => {
+  percent.value = 33
+  percentMoney.value = Math.round(salary * percent.value / 100)
+}
+
 </script>
 
 <style scoped>

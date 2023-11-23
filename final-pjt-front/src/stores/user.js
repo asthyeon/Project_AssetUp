@@ -23,13 +23,14 @@ export const useUserStore = defineStore('user', () => {
     const address = payload.address
     const salary = payload.salary
     const money = payload.money
-    const mbti = payload.mbti
+    const mbti = payload.mbti.toUpperCase()
+    const target_asset = payload.target_asset
 
     axios({
       method: 'post',
       url: `${API_URL}/accounts/signup/`,
       data: {
-        username, password1, password2, nickname, gender, age, address, salary, money, mbti
+        username, password1, password2, nickname, gender, age, address, salary, money, mbti, target_asset
       }
     })
       .then(res => {
@@ -116,7 +117,7 @@ export const useUserStore = defineStore('user', () => {
       salary: payload.salary,
       money: payload.money,
       target_asset: payload.target_asset,
-      mbti: payload.mbti,
+      mbti: payload.mbti.toUpperCase(),
     }
     axios({
       method: 'put',
@@ -130,9 +131,6 @@ export const useUserStore = defineStore('user', () => {
         user.value = res.data
         console.log(res.data)
         console.log('회원정보 수정 완료!!');
-      })
-      .then(() => {
-        router.push({name:'profile'})
       })
       .catch((err) => console.log(err));
   }

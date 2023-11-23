@@ -7,6 +7,7 @@ import requests
 from accounts.models import User
 # from django.contrib.auth.models import User
 from accounts.serializers import UserSerializer
+from rest_framework.renderers import JSONRenderer
 
 from .models import Company, CompanyOption, DepositProduct, DepositOption, SavingProduct, SavingOption, AnnuitySavingProduct, AnnuitySavingOption, MortgageLoanProduct, MortgageLoanOption, RentHouseLoanProduct, RentHouseLoanOption, CreditLoanProduct, CreditLoanOption
 from .serializers import CompanySerializer, CompanyOptionSerializer, DepositProductSerializer, DepositOptionSerializer, SavingProductSerializer, SavingOptionSerializer, AnnuitySavingProductSerializer, AnnuitySavingOptionSerializer, MortgageLoanProductSerializer, MortgageLoanOptionSerializer, RentHouseLoanProductSerializer, RentHouseLoanOptionSerializer, CreditLoanProductSerializer, CreditLoanOptionSerializer
@@ -1231,7 +1232,7 @@ def top_dps(request):
     # sorted_dps_best = dict(sorted(dps_best.items(), key=lambda item: item[1], reverse=True))
     print(f'예금 베스트: {dps_best}')
     # 예금 top
-    dps_top = dps_best[:3]
+    dps_top = dps_best[:5]
 
 
     return Response(dps_top)
@@ -1273,7 +1274,7 @@ def top_sps(request):
     # sorted_dps_best = dict(sorted(dps_best.items(), key=lambda item: item[1], reverse=True))
     print(f'적금 베스트: {sps_best}')
     # 적금 top
-    sps_top = sps_best[:3]
+    sps_top = sps_best[:5]
 
 
     return Response(sps_top)
@@ -1324,10 +1325,47 @@ def best_three(request):
     # 전체 베스트 정렬
     all_best.sort(reverse=True)
 
-    best_three = all_best[:3]
+    best_three = all_best[:5]
 
 
     return Response(best_three)
+
+
+# 전체상품 단일조회
+def get_all_product_detail(request, fin_prdt_cd):
+    try:
+        product = DepositProduct.objects.get(fin_prdt_cd=fin_prdt_cd)
+        print(product)
+        if product:
+            print('예금상품입니다')
+            products_contain_options = []
+            option_list = DepositOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
+            seralizer1 = DepositOptionSerializer(option_list, many=True)
+            seralizer2 = DepositProductSerializer(product)
+            seralizer = {
+                'product': seralizer2.data,
+                'options': seralizer1.data
+            }
+            products_contain_options.append(seralizer)
+            return Response(products_contain_options)
+    except DepositProduct.DoesNotExist:
+        pass  # 예외 처리 로직을 추가하세요
+
+    try:
+        print('적금상품입니다')
+        product = SavingProduct.objects.get(fin_prdt_cd=fin_prdt_cd)
+        products_contain_options = []
+        option_list = SavingOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
+        seralizer1 = SavingOptionSerializer(option_list, many=True)
+        seralizer2 = SavingProductSerializer(product)
+        seralizer = {
+            'product': seralizer2.data,
+            'options': seralizer1.data
+        }
+        products_contain_options.append(seralizer)
+        return Response(products_contain_options)
+    except SavingProduct.DoesNotExist:
+        pass  # 예외 처리 로직을 추가하세요
 
 
 # # 연금 top3

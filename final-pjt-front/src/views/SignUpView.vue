@@ -1,22 +1,25 @@
 <template>
   <div>
-    <h1>회원가입 페이지</h1>
+    <h1>회원가입</h1>
     <!-- 회원가입 form -->
     <form @submit.prevent="signUp">
-      <label for="username">아이디 : </label>
+      <label for="username">아이디</label>
       <input type="text" id="username" v-model.trim="username"><br>
-      <label for="password1">비밀번호 : </label>
+      <label for="password1">비밀번호</label>
       <input type="password" id="password1" v-model.trim="password1"><br>
       <label for="password2">비밀번호 확인 </label>
       <input type="password" id="password2" v-model.trim="password2"><br>
       <label for="nickname">별명 </label>
       <input type="nickname" id="nickname" v-model.trim="nickname"><br>
 
-      <label for="gender">성별</label><br>
+      <label for="gender">성별</label>
+      <span>
       <input type="radio" id="male" value="M" v-model="gender">
-      <label for="male">남자</label><br>
+      <label for="male">남자</label>
       <input type="radio" id="female" value="F" v-model="gender">
-      <label for="female">여자</label><br>
+      <label for="female">여자</label>
+      </span>
+      <br>
 
       <label for="age">나이 </label>
       <input type="age" id="age" v-model.trim="age"><br>
@@ -24,10 +27,12 @@
       <input type="address" id="address" v-model.trim="address"><br>
       <label for="salary">연봉 </label>
       <input type="salary" id="salary" v-model.trim="salary"><br>
-      <label for="money">현자산 </label>
-      <input type="money" id="money" v-model.trim="money"><br>
       <label for="mbti">MBTI </label>
       <input type="mbti" id="mbti" v-model.trim="mbti"><br>
+      <label for="money">현재자산 </label>
+      <input type="money" id="money" v-model.trim="money"><br>
+      <label for="target_asset">목표자산 </label>
+      <input type="targetAsset" id="target_asset" v-model.trim="target_asset"><br>
 
       <input type="submit" value="회원가입">
     </form>
@@ -54,6 +59,7 @@ const address = ref(null)
 const salary = ref(null)
 const money = ref(null)
 const mbti = ref(null)
+const target_asset = ref(null)
 
 const userStore = useUserStore()
 const showWarning = ref(false)
@@ -99,6 +105,7 @@ const signUp = function () {
     salary: salary.value,
     money: money.value,
     mbti: mbti.value,
+    target_asset: target_asset.value,
   }
   userStore.signUp(payload)
 }

@@ -1,8 +1,4 @@
 <template>
-  <div>
-    <p></p>
-    <button @click="goBack">뒤로가기</button>
-  </div>
   <div class="container d-flex flex-column p-2">
     <!-- 상품 추천 -->
     <div class="mb-4">
@@ -51,7 +47,8 @@
             <h4 class="mb-3">추천된 상품</h4>
             <div v-for="product in recommendStore.rankedProductsList" :key="product.product.fin_prdt_cd" class="card mb-3">
               <div class="card-body">
-                {{ product.product.kor_co_nm }}
+                <strong>{{ product.product.kor_co_nm }}</strong>
+                <div>{{ product.product.fin_prdt_nm }}</div>
               </div>
             </div>
           </div>
