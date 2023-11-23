@@ -161,6 +161,14 @@ while i < N:
     i += 1    
 
 
+from datetime import datetime, timedelta
+
+# updated_at 만들기
+def random_datetime():
+    now = datetime.now()
+    return now - timedelta(days=random.randint(0, 365), hours=random.randint(0, 24), minutes=random.randint(0, 60), seconds=random.randint(0, 60))
+
+
 
 # 현재 API 에 들어있는 금융 상품 코드 리스트 저장
 DP_URL = 'http://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json'
@@ -232,6 +240,7 @@ with open(save_dir, 'w', encoding="utf-8") as f:
         file["fields"] = {
             'username': username_list[i],  # 유저 이름 랜덤 생성
             'nickname': nick_list[i],
+            'updated_at': random_datetime().strftime('%Y-%m-%dT%H:%M:%S.%fZ'),
             'gender': random.choice(GENDER_CHOICES),
             'age': random.randint(1, 80),  # 나이
             'address': address_list[i],

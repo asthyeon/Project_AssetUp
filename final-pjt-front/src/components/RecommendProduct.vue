@@ -43,19 +43,19 @@
         <!-- 인기 상품들 카드 -->
         <div>
           <!-- 필터링된 상품 출력 -->
-          <div v-if="recommendStore.rankedProductsList.length > 0 || isLoading">
+          <div v-if="recommendStore.rankedProductsList.length > 0">
             <h4 class="mb-3">추천된 상품</h4>
-            <div v-for="product in recommendStore.rankedProductsList" :key="product.product.fin_prdt_cd" class="card mb-3">
-              <div class="card-body">
+            <div v-for="product in recommendStore.rankedProductsList" :key="product?.product?.fin_prdt_cd" class="card mb-3">
+              <div class="card-body" v-if="product && product.product" @click="goDetail">
                 <strong>{{ product.product.kor_co_nm }}</strong>
                 <div>{{ product.product.fin_prdt_nm }}</div>
               </div>
             </div>
           </div>
-          <div v-else>
+          <!-- <div v-else>
             <p v-if="!isLoading" class="mb-2">추천된 상품이 없습니다.</p>
             <p v-else>데이터를 로딩 중입니다...</p>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -85,7 +85,7 @@ const selectedOptions = ref({
   salary: false,
 })
 
-recommendStore.updateRecommendation(selectedOptions)
+recommendStore.updateRecommendation(selectedOptions.value)
 
 const goBack = function () {
   router.back()

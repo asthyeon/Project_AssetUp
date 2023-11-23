@@ -223,7 +223,7 @@ export const useFinanceStore = defineStore('finance', () => {
     columnSortStates[key] = !isSorted
   }
 
-  const allProductList = ref({})
+  const allProductList = ref([])
 
   const getAllProducts = () => {
     console.log('모든 상품 조회합니다');
@@ -232,15 +232,28 @@ export const useFinanceStore = defineStore('finance', () => {
         url: `${API_URL}/finances/get-all-products/`
     }).then((res) => {
         allProductList.value = res.data
+        // console.log(allProductList.value);
         console.log('모든 상품이 저장되었습니다.');
     }).catch(err => console.log(err))
   }
 
   const OneProduct = ref({})
   const getOneProduct = (finPrdtCd) => {
-    OneProduct.value = allProductList.value.find(product => product.product.fin_prdt_cd === finPrdtCd)
-    console.log(OneProduct.value);
-  }
+    // allProductList.value이 배열인지 확인
+    if (Array.isArray(allProductList.value)) {
+      // 주어진 fin_prdt_cd와 일치하는 제품을 찾기 위해 find 메서드 사용
+      OneProduct.value = allProductList.value.find(product => product.product.fin_prdt_cd === finPrdtCd);
+  
+      if (OneProduct.value) {
+        console.log('제품을 찾았습니다:', OneProduct.value);
+      } else {
+        console.log('제품을 찾을 수 없습니다.');
+      }
+    } else {
+      console.error('allProductList.value이 배열이 아닙니다.');
+    }
+  };
+  
 
   return {
     companys,

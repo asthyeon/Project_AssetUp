@@ -1,45 +1,79 @@
 <template>
   <div>
-    <h1>회원가입</h1>
+    <h1 class="text-center mb-4">회원가입</h1>
     <!-- 회원가입 form -->
-    <form @submit.prevent="signUp">
-      <label for="username">아이디</label>
-      <input type="text" id="username" v-model.trim="username"><br>
-      <label for="password1">비밀번호</label>
-      <input type="password" id="password1" v-model.trim="password1"><br>
-      <label for="password2">비밀번호 확인 </label>
-      <input type="password" id="password2" v-model.trim="password2"><br>
-      <label for="nickname">별명 </label>
-      <input type="nickname" id="nickname" v-model.trim="nickname"><br>
+    <div class="signup-container">
 
-      <label for="gender">성별</label>
-      <span>
-      <input type="radio" id="male" value="M" v-model="gender">
-      <label for="male">남자</label>
-      <input type="radio" id="female" value="F" v-model="gender">
-      <label for="female">여자</label>
-      </span>
-      <br>
+    <form @submit.prevent="signUp" class="signup-form">
+      <div class="mb-3">
+        <label for="username" class="form-label">아이디</label>
+        <input type="text" id="username" class="form-control" v-model.trim="username" required>
+      </div>
 
-      <label for="age">나이 </label>
-      <input type="age" id="age" v-model.trim="age"><br>
-      <label for="address">주소 </label>
-      <input type="address" id="address" v-model.trim="address"><br>
-      <label for="salary">연봉 </label>
-      <input type="salary" id="salary" v-model.trim="salary"><br>
-      <label for="mbti">MBTI </label>
-      <input type="mbti" id="mbti" v-model.trim="mbti"><br>
-      <label for="money">현재자산 </label>
-      <input type="money" id="money" v-model.trim="money"><br>
-      <label for="target_asset">목표자산 </label>
-      <input type="targetAsset" id="target_asset" v-model.trim="target_asset"><br>
+      <div class="mb-3">
+        <label for="password1" class="form-label">비밀번호</label>
+        <input type="password" id="password1" class="form-control" v-model.trim="password1" required>
+      </div>
 
-      <input type="submit" value="회원가입">
+      <div class="mb-3">
+        <label for="password2" class="form-label">비밀번호 확인</label>
+        <input type="password" id="password2" class="form-control" v-model.trim="password2" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="nickname" class="form-label">별명</label>
+        <input type="text" id="nickname" class="form-control" v-model.trim="nickname">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">성별</label>
+        <div class="gender-radio">
+          <input type="radio" id="male" value="M" v-model="gender" required>
+          <label for="male">남자</label>
+          <input type="radio" id="female" value="F" v-model="gender" required>
+          <label for="female">여자</label>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="age" class="form-label">나이</label>
+        <input type="number" id="age" class="form-control" v-model.trim="age">
+      </div>
+
+      <div class="mb-3">
+        <label for="address" class="form-label">주소</label>
+        <input type="text" id="address" class="form-control" v-model.trim="address" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="salary" class="form-label">연봉 (만원)</label>
+        <input type="number" id="salary" class="form-control" v-model.trim="salary">
+      </div>
+
+      <div class="mb-3">
+        <label for="mbti" class="form-label">MBTI</label>
+        <input type="text" id="mbti" class="form-control" v-model.trim="mbti">
+      </div>
+
+      <div class="mb-3">
+        <label for="money" class="form-label">현재 자산 (만원)</label>
+        <input type="number" id="money" class="form-control" v-model.trim="money">
+      </div>
+
+      <div class="mb-3">
+        <label for="target_asset" class="form-label">목표 자산 (만원)</label>
+        <input type="number" id="target_asset" class="form-control" v-model.trim="target_asset">
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-success">회원가입</button>
+      </div>
     </form>
+</div>
     <div v-if="showWarning" class="warning-modal">
       <div class="warning-content">
         <p>{{ warningMessage }}</p>
-        <button @click="hideWarning">닫기</button>
+        <button @click="hideWarning" class="btn btn-primary">닫기</button>
       </div>
     </div>
   </div>
@@ -118,6 +152,14 @@ const hideWarning = function () {
 
 <style scoped>
 /* 가운데 정렬을 위한 스타일 */
+
+.signup-container {
+  border: 2px solid #4CAF50; /* 초록색 테두리 */
+  border-radius: 10px; /* 테두리 둥글게 */
+  padding: 20px;
+  max-width: 400px;
+  margin: 0 auto;
+}
 .warning-modal {
   display: flex;
   justify-content: center;
@@ -136,5 +178,17 @@ const hideWarning = function () {
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   text-align: center;
+}
+
+.signup-form {
+  display: grid;
+  gap: 10px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.gender-radio {
+  display: flex;
+  gap: 10px;
 }
 </style>

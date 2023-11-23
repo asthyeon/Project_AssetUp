@@ -1,4 +1,5 @@
 <template>
+
   <div>
     <div>자산Up과 함께하는 금융상품 추천 서비스</div>
     <h3>로그인시 환율정보 및 은행검색 이용이 가능합니다.</h3>
@@ -33,7 +34,7 @@
 
 <script setup>
 import { onMounted } from 'vue';
-import { useHomeStore } from '@/stores/home';
+import { useHomeStore } from '@/stores/home'
 
 const store = useHomeStore()
 
