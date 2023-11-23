@@ -44,7 +44,7 @@ username_list = []
 N = 1000
 i = 0
 while i < N:
-    print(f'user: {i}')
+    # print(f'user: {i}')
     rn = random_name()
     if rn in username_list:
         continue
@@ -70,7 +70,7 @@ nick_list = []
 N = 1000
 i = 0
 while i < N:
-    print(f'nick: {i}')
+    # print(f'nick: {i}')
     rn = random_nick()
     if rn in nick_list:
         continue
@@ -131,7 +131,7 @@ address_list = []
 N = 1000
 i = 0
 while i < N:
-    print(f'address: {i}')
+    # print(f'address: {i}')
     rn = random_address()
     # print(address_list)
     address_list.append(rn)
@@ -155,7 +155,7 @@ mbti_list = []
 N = 1000
 i = 0
 while i < N:
-    print(f'mbti: {i}')
+    # print(f'mbti: {i}')
     rn = random_mbti()
     mbti_list.append(rn)
     i += 1    
@@ -179,6 +179,13 @@ params = {
   'pageNo': 1
 }
 
+params2 = {
+  'auth': API_KEY,
+  # 금융회사 코드 020000(은행), 030200(여신전문), 030300(저축은행), 050000(보험), 060000(금융투자)
+  'topFinGrpNo': '050000',
+  'pageNo': 1
+}
+
 # 정기예금 목록 저장
 response = requests.get(DP_URL, params=params).json()
 baseList = response.get('result').get('baseList')   # 상품 목록
@@ -194,10 +201,11 @@ for product in baseList:
     financial_products.append(product['fin_prdt_cd'])
 
 # 연금 목록 저장
-response = requests.get(AP_URL, params=params).json()
+response = requests.get(AP_URL, params=params2).json()
 baseList = response.get('result').get('baseList')   # 상품 목록
 
 for product in baseList:
+    print(product['fin_prdt_cd'])
     financial_products.append(product['fin_prdt_cd'])
 
 dict_keys = ['username', 'nickname', 'gender', 'age', 'address', 'salary', 'money', 'target_asset', 'financial_products']
@@ -217,7 +225,7 @@ with open(save_dir, 'w', encoding="utf-8") as f:
     f.write('[')
     
     for i in range(N):
-        print(i)
+        # print(i)
         # 랜덤한 데이터를 삽입
         file["model"] = "accounts.User"
         file["pk"] = i+1
