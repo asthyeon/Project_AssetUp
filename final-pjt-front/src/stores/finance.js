@@ -225,6 +225,7 @@ export const useFinanceStore = defineStore('finance', () => {
 
   const allProductList = ref({})
   const getAllProducts = () => {
+    console.log('모든 상품 조회합니다');
     axios({
         method: 'get',
         url: `${API_URL}/finances/get-all-products/`

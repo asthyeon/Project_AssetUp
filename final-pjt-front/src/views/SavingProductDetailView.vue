@@ -56,7 +56,6 @@ const JOIN_DENY_CHOICES = {
 // 우대조건 줄바꿈 함수
 const formatSpecialConditions = (spclCnd) => {
   const formattedConditions = spclCnd.replace('\n', '<br>')
-  console.log(formattedConditions)
   return formattedConditions
 }
 // 상품 구독하기
@@ -73,7 +72,7 @@ const updateUser = (isSubscribe) => {
 }
 
 // 유저의 구독 상품 목록
-const userProductsArray = ref(userStore.user.financial_products?.split(',') || [])
+const userProductsArray = computed(() => userStore.user.financial_products?.split(',') || [])
 
 const goBack = () => {
   router.back()

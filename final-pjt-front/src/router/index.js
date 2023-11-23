@@ -14,8 +14,11 @@ import DepositProductDetailView from '@/views/DepositProductDetailView.vue'
 import SavingProductDetailView from '@/views/SavingProductDetailView.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import UserUpdateView from '@/views/UserUpdateView.vue'
-import PortfolioView from '@/views/PortfolioView.vue'
-import RecommendView from '@/views/RecommendView.vue'
+import PortfolioUpdate from '@/components/PortfolioUpdate.vue'
+import TopMbti from '@/components/TopMbti.vue'
+import TopAgeGender from '@/components/TopAgeGender.vue'
+import RecommendProduct from '@/components/RecommendProduct.vue'
+import BasicInfoUpdate from '@/components/BasicInfoUpdate.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,9 +59,14 @@ const router = createRouter({
 		component: ProfileView
 		},
     {
+		path: '/basic-info',
+		name: 'basic-info',
+		component: BasicInfoUpdate
+		},
+    {
 		path: '/protfolio',
 		name: 'protfolio',
-		component: PortfolioView
+		component: PortfolioUpdate
 		},
     {
 		path: '/update',
@@ -96,9 +104,19 @@ const router = createRouter({
 		component: ExchangeView
 	},
     {
+		path: '/age-gender',
+		name: 'age-gender',
+		component: TopAgeGender
+	},
+    {
+		path: '/mbti',
+		name: 'mbti',
+		component: TopMbti
+	},
+    {
 		path: '/recommend',
 		name: 'recommend',
-		component: RecommendView
+		component: RecommendProduct
 	},
   ]
 })
