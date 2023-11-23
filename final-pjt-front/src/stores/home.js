@@ -5,10 +5,10 @@ import axios from 'axios'
 export const useHomeStore = defineStore('home', () => {
   const dps = ref(null)
   const sps = ref(null)
-  const aps = ref(null)
+  const allps = ref(null)
   const topDps = ref([])
   const topSps = ref([])
-  const topAps = ref([])
+  const topAllps = ref([])
 
   // 예금
   const getDps = () => {
@@ -32,7 +32,7 @@ export const useHomeStore = defineStore('home', () => {
       })
       .then((res) => {
         topDps.value.push(res.data)
-        console.log(topDps.value);
+        console.log(res.data[0].product);
       })
       .catch((err) => {
         console.log(err);
@@ -69,27 +69,55 @@ export const useHomeStore = defineStore('home', () => {
     }
   }
 
-  // 연금
-  const getAps = () => {
+  // // 연금
+  // const getAps = () => {
+  //   axios({
+  //     method: 'get',
+  //     url: 'http://127.0.0.1:8000/finances/top-aps/'
+  //   })
+  //   .then((res) => {
+  //     aps.value = res.data.map(item => item[1])
+  //     console.log(aps.value);
+  //     getTopAps()
+  //   })
+  // }
+  // const getTopAps = () => {
+  //   topAps.value = []
+  //   for (let i = 0; i < 3; i++) {
+  //     axios({
+  //       method: 'get',
+  //       url: `http://127.0.0.1:8000/finances/get-annuity-saving-product-detail/${aps.value[i]}/`
+  //     })
+  //     .then((res) => {
+  //       topAps.value.push(res.data)
+  //       console.log(topAps.value);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     })
+  //   }
+  // }
+  const getAllps = () => {
     axios({
       method: 'get',
-      url: 'http://127.0.0.1:8000/finances/top-aps/'
+      url: 'http://127.0.0.1:8000/finances/best-three/'
     })
     .then((res) => {
-      aps.value = res.data.map(item => item[1])
-      console.log(aps.value);
+      allps.value = res.data.map(item => item[1])
+      console.log(allps.value);
+      getTopAllps()
     })
   }
-  const getTopAps = () => {
-    topAps.value = []
+  const getTopAllps = () => {
+    topAllps.value = []
     for (let i = 0; i < 3; i++) {
       axios({
         method: 'get',
-        url: `http://127.0.0.1:8000/finances/get-annuity-saving-product-detail/${aps.value[i]}/`
+        url: `http://127.0.0.1:8000/finances/get-saving-product-detail/${sps.value[i]}/`
       })
       .then((res) => {
-        topAps.value.push(res.data)
-        console.log(topAps);
+        topAllps.value.push(res.data)
+        console.log(topAllps.value);
       })
       .catch((err) => {
         console.log(err);
@@ -101,9 +129,11 @@ export const useHomeStore = defineStore('home', () => {
   const getAll = () => {
     getDps()
     getSps()
+    getAllps()
+    // getAps()
   }
 
   
 
-  return { getAll, topDps, topSps, topAps }
+  return { getAll, topDps, topSps, topAllps }
 }, { persist: true })
