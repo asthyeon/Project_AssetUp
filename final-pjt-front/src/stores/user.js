@@ -161,12 +161,22 @@ export const useUserStore = defineStore('user', () => {
         .catch((err) => console.log(err))
     }
 
+    // 현재 날짜 반환 함수
+    const getCurrentDate = () => {
+      const currentDate = new Date();
+      const year = String(currentDate.getFullYear()).slice(-2)
+      const month = String(currentDate.getMonth() + 1).padStart(2, '0')
+      const day = String(currentDate.getDate()).padStart(2, '0')
+      console.log(year+month+day);
+      return year + month + day
+    }
+
   // 구독
-  const subscribe = function (finPrdtCd) {
+  const subscribe = function (finPrdtCd, payment) {
     const existingProducts = user.value.financial_products || []
 
     // 없는 상품인 경우 새로 구독하기
-    const newFinPrdtCd = existingProducts.concat([[0, finPrdtCd]])
+    const newFinPrdtCd = existingProducts.concat([[getCurrentDate(), finPrdtCd, payment]])
 
     axios({
       method: 'post',
@@ -180,6 +190,7 @@ export const useUserStore = defineStore('user', () => {
         user.value = res.data;
         console.log(res.data);
         console.log('상품 구독 완료');
+        router.push({name:'compare'})
       })
       .catch((err) => console.log(err));
   }
@@ -208,5 +219,5 @@ export const useUserStore = defineStore('user', () => {
     .catch((err) => console.log(err));
   }
 
-  return { signUp, logIn, logOut, userUpdate, subscribe, unsubscribe, updateUserPortfolio, isLogin, token, name, user }
+  return { signUp, logIn, logOut, userUpdate, subscribe, unsubscribe, updateUserPortfolio, getCurrentDate, isLogin, token, name, user }
 }, { persist: true })

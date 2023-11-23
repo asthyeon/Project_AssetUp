@@ -36,23 +36,10 @@
 
 <script setup>
 import ProductChart from '@/components/ProductChart.vue'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 import { useFinanceStore } from '@/stores/finance'
-import { Bar } from 'vue-chartjs'
-import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
-
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
-
-const chartData = ref({
-  labels: ['January', 'February', 'March'],
-  datasets: [{ data: [40, 20, 12] }],
-})
-
-const chartOptions = ref({
-  responsive: true,
-})
 
 const userStore = useUserStore()
 const financeStore = useFinanceStore()
@@ -68,12 +55,12 @@ onMounted(async () => {
       ...financeStore.savingProductList
   ]
   // 유저가 가입한 상품명 목록
-  const userProductArray = userStore.user.financial_products.split(',')
+  const userProductsArray = computed(() => userStore.user.financial_products || [])
+
   // 가입한 상품 정보 가져오기
-  userProducts.value = userProductArray
-    .map(finPrdtCd => findProductByCode(finPrdtCd))
-    .filter(product => product !== null)
-  console.log('User Products:', userProducts.value)
+  userProducts.value = userProductsArray.value
+  .map(item => findProductByCode(item[1]))
+  .filter(product => product !== null)
 })
   
   const user = ref('')
@@ -81,11 +68,6 @@ onMounted(async () => {
   user.value = userStore.user
   
   const router = useRouter()
-  
-  // 회원정보 수정
-  const goUpdate = function () {
-    router.push({name:'update'})
-  }
   
   // 가입한 상품 정보 가져오기
   const findProductByCode = function (finPrdtCd) {

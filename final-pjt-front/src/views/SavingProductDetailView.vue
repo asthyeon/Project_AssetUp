@@ -3,7 +3,7 @@
       <h1>금융상품 상세 정보</h1>
       <div v-if="userStore.isLogin">
             <!-- 구독 중인 상품인 경우 -->
-            <div v-if="userProductsArray.includes(financeStore.savingProduct[0].product.fin_prdt_cd)" >
+            <div v-if="userProductsArray.some(item => item[1] === financeStore.depositProduct[0].product.fin_prdt_cd)">
                 <p>이미 구독 중인 상품입니다.</p>
                 <button @click="updateUser(false)">해제하기</button>
             </div>

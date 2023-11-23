@@ -32,11 +32,10 @@ export const useRecommendStore = defineStore('recommend', () => {
       rankedProductsList.value = filteredProductCodes.map(productCode => {
         return allProducts.value.find(product => product.product.fin_prdt_cd === productCode) || null;
       })
-
       console.log('상품 추천이 완료되었습니다.')
     }).catch(err => console.log(err))
   }
-
+  // 추천 업데이트
   const updateRecommendation = (selectedOptions) => {
     const payload = {}
   
@@ -51,12 +50,40 @@ export const useRecommendStore = defineStore('recommend', () => {
     }
     if (selectedOptions.salary) {
       payload.salary = userStore.user.salary
-    }
-    // 필터링된 상품 리스트 업데이트
-  
+    }  
     // 추천 상품 요청
     rankingProdut(payload)
   }
 
-  return { rankedProductsList, rankingProdut, updateRecommendation }
+  const calculateAssetGrowthRate = (finPrdtCd, saveTerm) => {
+    // 1. finPrdtCd에 해당하는 상품 찾기
+    financeStore.getAllProducts()
+
+    const targetProduct = financeStore.allProductList.find(product => product.product.fin_prdt_cd === finPrdtCd)
+    // 2. 예금인지 적금인지 체크
+    const intr_rate_type_nm = ref('')
+    if (targetProduct.product.fin_prdt_nm.includes('예금')) {
+      // 2-1. 예금이면
+      intr_rate_type_nm.value = '단리'
+    } else {
+      intr_rate_type_nm.value = '복리'
+    }
+    
+    // 3. 선택한 예치 기간에 해당하는 옵션 찾기
+    const options = targetProduct.options    
+    const selectedOption = options.find(option => option.save_trm === saveTerm)
+
+    // 만약 옵션이 없으면
+    if (!selectedOption) {
+      console.error(`No option found for the selected deposit period: ${saveTerm}`)
+      return null
+    }
+    // 저축 금리, 우대금리
+    const interestRate = selectedOption.intr_rate
+    const interestRate2 = selectedOption.intr_rate2
+
+    return {intr_rate_type_nm, interestRate, interestRate2}
+  }
+
+  return { rankedProductsList, rankingProdut, updateRecommendation, calculateAssetGrowthRate }
 }, { persist: true })

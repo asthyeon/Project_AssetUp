@@ -3,19 +3,12 @@
     <button @click="goBack">뒤로가기</button>
   </div>
   <div>
-    <h1>금융상품 상세 정보</h1>
-      <div v-if="userStore.isLogin">
-          <div v-if="userProductsArray.some(item => item[1] === financeStore.depositProduct[0].product.fin_prdt_cd)">
-              <p>이미 구독 중인 상품입니다.</p>
-              <button @click="updateUser(false)">해제하기</button>
-          </div>
-          <div v-else>
-              <!-- 상품 가입페이지로 이동 -->
-              <button @click="goSubscribe(financeStore.depositProduct[0].product.fin_prdt_nd)">가입하기</button>
-          </div>
-      </div>
-      <p>상품 정보</p>
-      <div>
+    <h1>금융상품 가입 페이지</h1>
+    <div>
+      <form @submit="userStore.subscribe(financeStore.depositProduct[0].product.fin_prdt_cd, payment)">
+        <input type="payment" name="payment" id="payment" v-model="payment">
+        <input type="submit" value="가입하기">
+      </form>
           <p>공시제출월 : {{ financeStore.depositProduct[0].product.dcls_month }}</p>
           <p>금융회사명 : {{ financeStore.depositProduct[0].product.kor_co_nm }}</p>
           <p>상품명 : {{ financeStore.depositProduct[0].product.fin_prdt_nm }}</p>
@@ -41,6 +34,8 @@ const route = useRoute()
 const router = useRouter()
 const finPrdtCd = ref('')
 
+const payment = ref('')
+
 // 현재 금융상품코드
 finPrdtCd.value = route.params.fin_prdt_cd
 // 단일 상품 조회
@@ -61,31 +56,13 @@ const formatSpecialConditions = (spclCnd) => {
   return formattedConditions
 }
 
-// 상품 구독하기
-const updateUser = (isSubscribe) => {
-  if (isSubscribe) {
-    // 가입하기
-    userStore.subscribe(financeStore.depositProduct[0].product.fin_prdt_cd)
-  } else {
-    // 해제하기
-    userStore.unsubscribe(financeStore.depositProduct[0].product.fin_prdt_cd)
-  }
-  // 유저의 구독 상품 목록 갱신
-  userProductsArray.value = userStore.user.financial_products || []
-}
-
-// 유저의 구독 상품 목록
-const userProductsArray = computed(() => userStore.user.financial_products || [])
-
+// 뒤로가기
 const goBack = () => {
   router.back()
 }
-// 상품 가입 페이지로 이동
-const goSubscribe = (finPrdtCd) => {
-  router.push({name:'subscribe', params:{fin_prdt_cd: finPrdtCd}})
-}
+
 </script>
 
-<style scoped>
+<style  scoped>
 
 </style>

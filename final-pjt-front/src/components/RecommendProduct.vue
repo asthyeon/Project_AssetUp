@@ -94,6 +94,9 @@ const goBack = function () {
   router.back()
 }
 
+
+
+recommendStore.interest('WR0001B')
 </script>
 
 <style scoped>
