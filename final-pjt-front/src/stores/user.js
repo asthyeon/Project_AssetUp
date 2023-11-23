@@ -145,7 +145,7 @@ export const useUserStore = defineStore('user', () => {
     console.log('구독을 해제합니다.')
 
       axios({
-        method: 'post',
+        method: 'put',
         url: `${API_URL}/accounts/update-user/`,
         headers: {
           Authorization: `Token ${token.value}`,
@@ -177,7 +177,7 @@ export const useUserStore = defineStore('user', () => {
     const newFinPrdtCd = existingProducts.concat([[getCurrentDate(), finPrdtCd, payment]])
 
     axios({
-      method: 'post',
+      method: 'put',
       url: `${API_URL}/accounts/update-user/`,
       headers: {
         Authorization: `Token ${token.value}`,
@@ -196,7 +196,7 @@ export const useUserStore = defineStore('user', () => {
   // 저축 성향 저장 및 수정
   const updateUserPortfolio  = function (savingsType, favoriteCompany) {
     axios({
-      method: 'post',
+      method: 'put',
       url: `${API_URL}/accounts/update-user/`,
       headers: {
         Authorization: `Token ${token.value}`,

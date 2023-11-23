@@ -19,12 +19,9 @@ import TopMbti from '@/components/TopMbti.vue'
 import TopAgeGender from '@/components/TopAgeGender.vue'
 import RecommendProduct from '@/components/RecommendProduct.vue'
 import BasicInfoUpdate from '@/components/BasicInfoUpdate.vue'
-<<<<<<< HEAD
 import SubscribeProduct from '@/components/SubscribeProduct.vue'
 import SubscribeProductView from '@/views/SubscribeProductView.vue'
-=======
 import ProductView from '@/views/ProductView.vue'
->>>>>>> master
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -124,7 +121,6 @@ const router = createRouter({
 		name: 'recommend',
 		component: RecommendProduct
 	},
-<<<<<<< HEAD
     {
 		path: '/subscription',
 		name: 'subscription',
@@ -134,12 +130,11 @@ const router = createRouter({
 		path: '/subscribe/:fin_prdt_cd',
 		name: 'subscribe',
 		component: SubscribeProductView
-=======
+	},
 	{
 		path: '/product',
 		name: 'product',
 		component: ProductView
->>>>>>> master
 	},
   ]
 })

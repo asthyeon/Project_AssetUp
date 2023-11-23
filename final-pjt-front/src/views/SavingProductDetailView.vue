@@ -1,6 +1,5 @@
 <template>
   <div>
-<<<<<<< HEAD
     <button @click="goBack">뒤로가기</button>
   </div>
   <div>
@@ -28,7 +27,6 @@
       <p>{{ financeStore.savingProduct[0].product.spcl_cnd }}</p>
       <p v-html="formatSpecialConditions(financeStore.savingProduct[0].product.spcl_cnd)"></p>
     </div>
-=======
     <h1>금융상품 상세 정보</h1>
     <div v-if="userStore.isLogin">
           <!-- 구독 중인 상품인 경우 -->
@@ -52,7 +50,6 @@
         <p>{{ financeStore.savingProduct[0].product.spcl_cnd }}</p>
         <p v-html="formatSpecialConditions(financeStore.savingProduct[0].product.spcl_cnd)"></p>
       </div>
->>>>>>> master
   </div>
 </template>
 
