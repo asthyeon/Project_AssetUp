@@ -1,5 +1,34 @@
 <template>
   <div>
+<<<<<<< HEAD
+    <button @click="goBack">뒤로가기</button>
+  </div>
+  <div>
+    <h1>금융상품 상세 정보</h1>
+    <div v-if="userStore.isLogin">
+      <!-- 구독 중인 상품인 경우 -->
+      <div v-if="userProductsArray.some(item => item[1] === financeStore.savingProduct[0].product.fin_prdt_cd)">
+          <p>이미 구독 중인 상품입니다.</p>
+          <button @click="updateUser(false)">해제하기</button>
+      </div>
+      <!-- 구독할 수 있는 상품인 경우 -->
+      <div v-else>
+        <!-- 상품 가입페이지로 이동 -->
+        <button @click="goSubscribe(financeStore.savingProduct[0].product.fin_prdt_nd)">가입하기</button>
+      </div>
+    </div>
+    <p>상품 정보</p>
+    <div>
+      <p>공시제출월 : {{ financeStore.savingProduct[0].product.dcls_month }}</p>
+      <p>금융회사명 : {{ financeStore.savingProduct[0].product.kor_co_nm }}</p>
+      <p>상품명 : {{ financeStore.savingProduct[0].product.fin_prdt_nm }}</p>
+      <p>가입제한 : {{ JOIN_DENY_CHOICES[financeStore.savingProduct[0].product.join_deny] }}</p>
+      <p>가입방법 : {{ financeStore.savingProduct[0].product.join_way }}</p>
+      <p>우대조건 :</p>
+      <p>{{ financeStore.savingProduct[0].product.spcl_cnd }}</p>
+      <p v-html="formatSpecialConditions(financeStore.savingProduct[0].product.spcl_cnd)"></p>
+    </div>
+=======
     <h1>금융상품 상세 정보</h1>
     <div v-if="userStore.isLogin">
           <!-- 구독 중인 상품인 경우 -->
@@ -23,6 +52,7 @@
         <p>{{ financeStore.savingProduct[0].product.spcl_cnd }}</p>
         <p v-html="formatSpecialConditions(financeStore.savingProduct[0].product.spcl_cnd)"></p>
       </div>
+>>>>>>> master
   </div>
 </template>
 
@@ -73,6 +103,11 @@ userProductsArray.value = userStore.user.financial_products || []
 
 // 유저의 구독 상품 목록
 const userProductsArray = ref(userStore.user.financial_products || [])
+
+// 상품 가입 페이지로 이동
+const goSubscribe = (finPrdtCd) => {
+  router.push({name:'subscribe', params:{fin_prdt_cd: finPrdtCd}})
+}
 
 const goBack = () => {
 router.back()

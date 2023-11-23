@@ -5,13 +5,17 @@
   <div>
     <h1>금융상품 상세 정보</h1>
       <div v-if="userStore.isLogin">
+<<<<<<< HEAD
+          <!-- 구독 중인 상품인 경우 -->
+=======
+>>>>>>> master
           <div v-if="userProductsArray.some(item => item[1] === financeStore.depositProduct[0].product.fin_prdt_cd)">
               <p>이미 구독 중인 상품입니다.</p>
               <button @click="updateUser(false)">해제하기</button>
           </div>
           <div v-else>
-              <p>가입 대상입니다.</p>
-              <button @click="updateUser(true)">가입하기</button>
+              <!-- 상품 가입페이지로 이동 -->
+              <button @click="goSubscribe(financeStore.depositProduct[0].product.fin_prdt_nd)">가입하기</button>
           </div>
       </div>
       <p>상품 정보</p>
@@ -41,6 +45,8 @@ const route = useRoute()
 const router = useRouter()
 const finPrdtCd = ref('')
 
+financeStore.getOneProduct()
+
 // 현재 금융상품코드
 finPrdtCd.value = route.params.fin_prdt_cd
 // 단일 상품 조회
@@ -60,6 +66,7 @@ const formatSpecialConditions = (spclCnd) => {
   const formattedConditions = spclCnd.replace('\n', '<br>')
   return formattedConditions
 }
+
 // 상품 구독하기
 const updateUser = (isSubscribe) => {
   if (isSubscribe) {
@@ -76,11 +83,19 @@ const updateUser = (isSubscribe) => {
 // 유저의 구독 상품 목록
 const userProductsArray = computed(() => userStore.user.financial_products || [])
 
+// 상품 가입 페이지로 이동
+const goSubscribe = (finPrdtCd) => {
+  router.push({name:'subscribe', params:{fin_prdt_cd: finPrdtCd}})
+}
+
 const goBack = () => {
   router.back()
 }
+<<<<<<< HEAD
+=======
 
 console.log(userProductsArray.value);
+>>>>>>> master
 </script>
 
 <style scoped>

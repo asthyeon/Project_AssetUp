@@ -91,6 +91,7 @@ const goBack = function () {
   router.back()
 }
 
+// recommendStore.calculateAssetGrowthRate('WR0001B')
 </script>
 
 <style scoped>
