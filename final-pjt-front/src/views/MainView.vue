@@ -6,20 +6,21 @@
         <h6>로그인시 환율정보 및 은행검색 이용이 가능합니다.</h6>
       </div>
 
-      <hr class="separator">
-      <hr class="separator">
-
       <div class="outer-container" :style="{ backgroundColor: '#ffffff' }">
         <div class="product-section">
           <h3>예금 Top5</h3>
           <div class="product-container">
             <div
               v-for="dp in store.topDps"
+              @click="goDetail(dp[0].product.fin_prdt_cd, dp[0].product.fin_prdt_nm)"
               :key="dp[0].product.fin_prdt_cd"
               class="product-box"
               :style="{ backgroundColor: getRandomColor(0.3), borderColor: getRandomColor(1) }"
             >
-              <p>{{ dp[0].product.fin_prdt_nm }}</p>
+
+              <strong>{{ dp[0].product.fin_prdt_nm }}</strong>
+              <p>{{ dp[0].product.kor_co_nm }}</p>
+              <p>금리 : 연 {{ dp[0].options[0].intr_rate }}%</p>
             </div>
           </div>
         </div>
@@ -30,12 +31,15 @@
           <h3>적금 Top5</h3>
           <div class="product-container">
             <div
-              v-for="sp in store.topSps"
-              :key="sp[0].product.fin_prdt_cd"
               class="product-box"
+              v-for="sp in store.topSps"
+              @click="goDetail(sp[0].product.fin_prdt_cd, sp[0].product.fin_prdt_nm)"
+              :key="sp[0].product.fin_prdt_cd"
               :style="{ backgroundColor: getRandomColor(0.8), borderColor: getRandomColor(1) }"
             >
-              <p>{{ sp[0].product.fin_prdt_nm }}</p>
+              <strong>{{ sp[0].product.fin_prdt_nm }}</strong>
+              <p>{{ sp[0].product.kor_co_nm }}</p>
+              <p>금리 : 연 {{ sp[0].options[0].intr_rate }}%</p>
             </div>
           </div>
         </div>
@@ -80,14 +84,17 @@
 
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useHomeStore } from '@/stores/home'
-import {useUserStore } from '@/stores/user'
+import { useUserStore } from '@/stores/user'
 import { useRecommendStore } from '@/stores/recommend'
+import { useFinanceStore } from '@/stores/finance'
 import TopAgeGender from '@/components/TopAgeGender.vue'
 import TopMbti from '@/components/TopMbti.vue'
 import SubscribeProduct from '@/components/SubscribeProduct.vue'
 
+const router = useRouter()
 const store = useHomeStore()
 const userStore = useUserStore()
 const recommendStore = useRecommendStore()
@@ -101,11 +108,11 @@ const calculateProgress = computed(() => {
   return (currentMoney.value / targetAsset.value) * 100
 })
 
-
 onMounted(() => {
   store.getAll()
 })
 
+// 랜덤 색깔 부여
 const getRandomColor = (opacity) => {
   const letters = '0123456789ABCDEF';
   let color = '#';
@@ -115,6 +122,15 @@ const getRandomColor = (opacity) => {
   return color + (opacity !== undefined ? Math.round(opacity * 255).toString(16) : '');
 }
 
+// 상품 상세 페이지로 이동
+const goDetail = function (finPrdtCd, finPrdtNm) {
+  if (finPrdtNm.includes('예금')) {
+    router.push({name:'deposit_product_detail', params:{fin_prdt_cd: finPrdtCd}})
+  } else {
+    router.push({name:'saving_product_detail', params:{fin_prdt_cd: finPrdtCd}})
+  }
+}
+
 </script>
 
 <style scoped>
@@ -122,6 +138,7 @@ const getRandomColor = (opacity) => {
   background-color: #f7f7f7;
   padding: 20px;
   text-align: center;
+  border-bottom: 10px solid green;
 }
 
 .separator {

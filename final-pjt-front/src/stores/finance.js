@@ -20,6 +20,7 @@ export const useFinanceStore = defineStore('finance', () => {
   const savingProductOptionList = ref([])
   const savingOptionList = ref([])
   const productType = ref('')
+
   // 전체 회사 조회
   const getCompanys = function () {
     axios({
@@ -225,6 +226,7 @@ export const useFinanceStore = defineStore('finance', () => {
 
   const allProductList = ref([])
 
+  // 모든 상품 조회 및 저장(옵션 목록 포함)
   const getAllProducts = () => {
     console.log('모든 상품 조회합니다');
     axios({

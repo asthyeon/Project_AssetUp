@@ -1,66 +1,66 @@
 <template>
   <div>
-    <h1 class="text-center mb-4">회원가입</h1>
+    <h1 class="text-center mb-4 pt-4">회원가입</h1>
     <!-- 회원가입 form -->
     <div class="signup-container">
 
     <form @submit.prevent="signUp" class="signup-form">
-      <div class="mb-3">
+      <div class="">
         <label for="username" class="form-label">아이디</label>
         <input type="text" id="username" class="form-control" v-model.trim="username" required>
       </div>
 
-      <div class="mb-3">
+      <div class="">
         <label for="password1" class="form-label">비밀번호</label>
         <input type="password" id="password1" class="form-control" v-model.trim="password1" required>
       </div>
 
-      <div class="mb-3">
+      <div class="">
         <label for="password2" class="form-label">비밀번호 확인</label>
         <input type="password" id="password2" class="form-control" v-model.trim="password2" required>
       </div>
 
-      <div class="mb-3">
+      <div class="">
         <label for="nickname" class="form-label">별명</label>
         <input type="text" id="nickname" class="form-control" v-model.trim="nickname">
       </div>
 
-      <div class="mb-3">
+      <div class="">
         <label class="form-label">성별</label>
         <div class="gender-radio">
-          <input type="radio" id="male" value="M" v-model="gender" required>
-          <label for="male">남자</label>
-          <input type="radio" id="female" value="F" v-model="gender" required>
-          <label for="female">여자</label>
+            <input type="radio" id="male" value="M" v-model="gender" required>
+            <label for="male">남자</label>
+            <input type="radio" id="female" value="F" v-model="gender" required>
+            <label for="female">여자</label>
         </div>
       </div>
 
-      <div class="mb-3">
+      <div class="">
         <label for="age" class="form-label">나이</label>
         <input type="number" id="age" class="form-control" v-model.trim="age">
       </div>
 
-      <div class="mb-3">
+      <div class="">
         <label for="address" class="form-label">주소</label>
         <input type="text" id="address" class="form-control" v-model.trim="address" required>
       </div>
 
-      <div class="mb-3">
+      <div class="">
         <label for="salary" class="form-label">연봉 (만원)</label>
         <input type="number" id="salary" class="form-control" v-model.trim="salary">
       </div>
 
-      <div class="mb-3">
+      <div class="">
         <label for="mbti" class="form-label">MBTI</label>
         <input type="text" id="mbti" class="form-control" v-model.trim="mbti">
       </div>
 
-      <div class="mb-3">
+      <div class="">
         <label for="money" class="form-label">현재 자산 (만원)</label>
         <input type="number" id="money" class="form-control" v-model.trim="money">
       </div>
 
-      <div class="mb-3">
+      <div class="">
         <label for="target_asset" class="form-label">목표 자산 (만원)</label>
         <input type="number" id="target_asset" class="form-control" v-model.trim="target_asset">
       </div>

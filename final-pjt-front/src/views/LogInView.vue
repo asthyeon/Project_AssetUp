@@ -1,15 +1,16 @@
 <template>
   <div>
-    <h1 class="text-center mb-4">로그인</h1>
+    <h1 class="text-center mb-4 pt-4">로그인</h1>
     <div class="login-container">
       <form @submit.prevent="logIn" class="login-form">
         <label for="username">아이디</label>
-        <input type="text" id="username" v-model.trim="username" required><br>
+        <input class="form-control" type="text" id="username" v-model.trim="username" required>
 
         <label for="password">비밀번호</label>
-        <input type="password" id="password" v-model.trim="password" required><br>
-        
-        <input type="submit" value="로그인" class="btn btn-primary">
+        <input class="form-control" type="password" id="password" v-model.trim="password" required>
+        <div class="text-center">
+          <input type="submit" value="로그인" class="btn btn-success">
+        </div>
       </form>
     </div>
   </div>

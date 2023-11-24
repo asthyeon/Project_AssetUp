@@ -3,7 +3,7 @@
     <nav id="app">
       <div class="nav-links">
         <!-- 고정된 Home 링크 -->
-        <RouterLink :to="{ name: 'main' }" class="nav-link fixed-home">자산Up</RouterLink>
+        <RouterLink :to="{ name: 'main' }" class="nav-link fixed-home fw-bold" style="font-size: 20px;">자산Up</RouterLink>
       </div>
       <div class="auth-links">
         <!-- 금융상품 비교 페이지로 이동 -->

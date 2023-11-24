@@ -43,8 +43,10 @@
           {{ company.kor_co_nm }}
         </option>
       </select>
-      <button type="submit">검색</button>
-      <button type="button" @click="searchHome">우리집근처</button>
+      |
+      <button class="btn btn-success" style="font-size: 10px; padding: 5px;" type="submit">검색</button>
+      |
+      <button class="btn btn-success" style="font-size: 10px; padding: 5px;" type="button" @click="searchHome">우리집근처</button>
     </form>
     <hr>
     <div class="map_wrap">

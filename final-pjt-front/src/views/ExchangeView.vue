@@ -27,7 +27,7 @@
       <form @submit.prevent="multiply" class="calculator-form">
         <label for="number">KRW : </label>
         <input type="text" id="number" v-model="won" @input="validateWon">
-        <button type="submit" :disabled="wonError">계산</button>
+        <button class="btn btn-success p-1" style="font-size: 14px;" type="submit" :disabled="wonError">계산</button>
         <span v-if="wonError" class="error-message">{{ wonError }}</span>
       </form>
 
@@ -35,7 +35,7 @@
       <form @submit.prevent="multiply2" class="calculator-form">
         <label for="number">{{ getExchangeInfo(selected).cur_unit }} : </label>
         <input type="text" id="number" v-model="result" @input="validateResult">
-        <button type="submit" :disabled="resultError">계산</button>
+        <button class="btn btn-success p-1" style="font-size: 14px;" type="submit" :disabled="resultError">계산</button>
         <span v-if="resultError" class="error-message">{{ resultError }}</span>
       </form>
     </div>

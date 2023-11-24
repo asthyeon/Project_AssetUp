@@ -99,8 +99,8 @@ const drawLineChart = () => {
 
 <style scoped>
 .chart-container {
-  max-width: 700; /* 원하는 최대 너비 설정 */
-  max-height: 700px; /* 원하는 최대 높이 설정 */
+  max-width: 1000px; /* 원하는 최대 너비 설정 */
+  max-height: 600px; /* 원하는 최대 높이 설정 */
   margin: auto; /* 가운데 정렬을 위한 마진 설정 */
 }
 .container {

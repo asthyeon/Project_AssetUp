@@ -1,6 +1,7 @@
 <template>
   <div>
     <h3>전체 글</h3>
+    <hr>
     <ArticleListItem
       v-for="(article, index) in revesedArticles"
       :key="article.id"
@@ -8,7 +9,6 @@
       :index="store.articles.length - index"
     />
   </div>
-  <hr>
 </template>
 
 <script setup>
