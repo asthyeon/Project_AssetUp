@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-4">
     <div v-if="status === '1'" class="row">
-      <div class="col-md-6">
+      <div class="col-md-12">
         <div>
           <h2>기본정보</h2>
         </div>
