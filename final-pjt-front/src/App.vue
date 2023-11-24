@@ -3,7 +3,7 @@
     <nav id="app">
       <div class="nav-links">
         <!-- 고정된 Home 링크 -->
-        <RouterLink :to="{ name: 'main' }" class="nav-link fixed-home">자산Up</RouterLink> |
+        <RouterLink :to="{ name: 'main' }" class="nav-link fixed-home">자산Up</RouterLink>
       </div>
       <div class="auth-links">
         <!-- 금융상품 비교 페이지로 이동 -->
@@ -13,19 +13,19 @@
         <!-- 환율계산기 -->
         <RouterLink :to="{ name: 'exchange' }" class="nav-link">Exchange</RouterLink> |
         <!-- 카카오맵 보기 -->
-          <RouterLink :to="{ name: 'map' }" class="nav-link">Map</RouterLink> |
+        <RouterLink :to="{ name: 'map' }" class="nav-link">Map</RouterLink> |
         <!-- 회원가입 페이지로 이동 -->
-        <span v-if="!userStore.isLogin" >
-          <RouterLink :to="{ name: 'signup' }" class="nav-link">Signup</RouterLink> |
-        </span>
-        <!-- 로그인 페이지로 이동 -->
-        <span v-if="!userStore.isLogin" >
-          <RouterLink :to="{ name: 'login' }" class="nav-link">Login</RouterLink> |
-        </span>
-        <!-- 로그아웃 -->
-        <span v-if="userStore.isLogin" @click="userStore.logOut" class="nav-link">Logout | </span>
+        <div v-if="!userStore.isLogin" >
+          <RouterLink :to="{ name: 'signup' }" class="nav-link">Signup</RouterLink>
+        </div>
+        <p v-if="!userStore.isLogin">|</p>
+        <div v-if="!userStore.isLogin">
+          <RouterLink :to="{ name: 'login' }" class="nav-link">Login</RouterLink>
+        </div>
         <!-- 프로필 페이지로 이동 -->
-        <RouterLink v-if="userStore.isLogin" :to="{ name: 'profile' }" class="nav-link">Profile</RouterLink>
+        <RouterLink v-if="userStore.isLogin" :to="{ name: 'profile' }" class="nav-link">Profile |</RouterLink>
+        <!-- 로그아웃 -->
+        <span v-if="userStore.isLogin" @click="userStore.logOut" class="nav-link">Logout</span>
       </div>
     </nav>
   </header>

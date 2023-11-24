@@ -16,10 +16,10 @@
           </p>
           <p><strong>나이</strong> : {{ userStore.user.age }}</p>
           <p><strong>주소</strong> : {{ userStore.user.address }}</p>
-          <p><strong>연봉</strong> : {{ userStore.user.salary }}</p>
+          <p><strong>연봉</strong> : {{ userStore.user.salary }} 만원</p>
           <p><strong>MBTI</strong> : {{ userStore.user.mbti }}</p>
-          <p><strong>현재자산</strong> : {{ userStore.user.money }}</p>
-          <p><strong>목표자산</strong> : {{ userStore.user.target_asset }}</p>
+          <p><strong>현재자산</strong> : {{ userStore.user.money }} 만원</p>
+          <p><strong>목표자산</strong> : {{ userStore.user.target_asset }} 만원</p>
           <button @click="goUpdate" class="btn btn-primary mt-3">수정하기</button>
         </div>
       </div>

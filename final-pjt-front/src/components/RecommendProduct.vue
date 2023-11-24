@@ -44,7 +44,7 @@
             <div v-if="recommendStore.rankedProductsList.length > 0">
               <h4 class="mb-3">추천된 상품</h4>
               <div v-for="product in recommendStore.rankedProductsList" :key="product?.product?.fin_prdt_cd" class="card mb-3">
-                <div class="card-body" v-if="product && product.product" @click="goDetail">
+                <div class="card-body" v-if="product && product.product" @click="goDetail(product.product.fin_prdt_cd, product.product.fin_prdt_nm)">
                   <strong>
                     {{ product.product.kor_co_nm }}
                   </strong>
@@ -71,7 +71,7 @@ import { useUserStore } from '@/stores/user'
 import { useFinanceStore } from '@/stores/finance'
 import { useRouter } from 'vue-router'
 
-const props = defineProps(['salary'])
+const props = defineProps(['percentMoney'])
 
 const userStore = useUserStore()
 const recommendStore = useRecommendStore()
@@ -95,7 +95,7 @@ const goBack = function () {
 }
 
 const calculateMaturityAmount = (option) => {
-  const principal = props.salary / 5
+  const principal = props.percentMoney / 5
   const interestRate = option.intr_rate / 100
   const time = option.save_trm
 
@@ -107,8 +107,13 @@ const calculateMaturityAmount = (option) => {
   return 0
 }
 
-
-
+const goDetail = function (finPrdtCd, finPrdtNm) {
+  if (finPrdtNm.includes('예금')) {
+    router.push({name:'deposit_product_detail', params:{fin_prdt_cd: finPrdtCd}})
+  } else {
+    router.push({name:'saving_product_detail', params:{fin_prdt_cd: finPrdtCd}})
+  }
+}
 
 </script>
 

@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h1>카카오 맵 보기</h1>
+  <div style="padding-left: 50px; padding-top: 20px; ">
+    <h1>은행 검색</h1>
     <hr>
     <form @submit.prevent="moveTo">
       <select name="" id="" v-model="citySelected" @change="getDistrict(citySelected)">

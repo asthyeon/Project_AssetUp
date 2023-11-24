@@ -229,8 +229,8 @@ if (page >= 1 && page <= totalPages.value) {
 
 .search-results {
   /* 스크롤이 필요한 경우 설정 */
-  max-height: 400px;
-  overflow-y: auto;
+  /* max-height: 400px;
+  overflow-y: auto; */
 }
 
 table {

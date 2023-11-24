@@ -11,15 +11,14 @@
       <p>
         <strong>저축 성향</strong> : 
         <label>
-          <input type="radio" v-model="userStore.user.saving_type" value="careful"/> 근검형
+          <input type="radio" v-model="savingsType" value="careful"/> 근검형
         </label>
         <label>
-          <input type="radio" v-model="userStore.user.saving_type" value="challenging"/> 도전형
+          <input type="radio" v-model="savingsType" value="challenging"/> 실속형
         </label>
         <label>
-          <input type="radio" v-model="userStore.user.saving_type" value="diligent"/> 욜로형
+          <input type="radio" v-model="savingsType" value="diligent"/> 욜로형
         </label>
-        <button @click="goUpdate">수정하기</button>
       </p>
       <p>월저축비중 : {{ percent }} %</p>
       <p>월저축금액 : {{ percentMoney }}</p>
@@ -27,7 +26,7 @@
     </div>
     <hr>
     <div>
-      <RecommendProduct :salary="salary" />
+      <RecommendProduct :percentMoney="percentMoney" />
     </div>
   </div>
 </template>
@@ -39,44 +38,54 @@ import { useFinanceStore } from '@/stores/finance'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 import RecommendProduct from './RecommendProduct.vue'
+import { computed } from '@vue/reactivity'
+import LogInView from '../views/LogInView.vue'
 
 const financeStore = useFinanceStore()
 const userStore = useUserStore()
 const user = ref('')
 user.value = userStore.user
 const salary = ref(Math.round(user.value.salary / 12))
-const percent = ref(0)
+// const percent = ref(0)
 const percentMoney = ref(0)
 const save = ref(Math.round(salary/5))
 const router = useRouter()
-const savingsType = ref(user.value.saving_type)
+const savingsType = ref(user.saving_type)
 const favoriteCompany = ref(user.value.favorite_company)
+
+const percent = computed(() => {
+  if (savingsType.value === 'careful') {
+    return 50
+  } else if (savingsType.value === 'challenging') {
+    return 30
+  } else if (savingsType.value === 'diligent') {
+    return 10
+  } else {
+    return 0
+  }
+})
 
 onMounted(() => {
   // 사용자의 저축 성향에 따라 초기값 설정
   if (savingsType.value === 'careful') {
-    percent.value = 40
+    percent.value = 50
   } else if (savingsType.value === 'challenging') {
-    percent.value = 20
+    percent.value = 30
   } else if (savingsType.value === 'diligent') {
     percent.value = 10
   }
   percentMoney.value = Math.round(salary.value * percent.value / 100);
 });
 
-// 포트폴리오 정보 수정
-const goUpdate = function () {
-  userStore.updateUserPortfolio(savingsType.value, favoriteCompany.value)
-  alert('수정 되었습니다.')
-}
 // 뒤로 가기
 const goBack = function () {
   router.back()
 }
+console.log(percentMoney.value);
 // 월 저축 비중
 const updatePercent = () => {
-  percent.value = 20
   percentMoney.value = Math.round(salary.value * percent.value / 100)
+  alert('수정 되었습니다.')
 }
 </script>
 

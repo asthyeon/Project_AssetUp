@@ -36,7 +36,7 @@
         <div v-else-if="status === '2'" class="content-section">
           <PortfolioUpdate />
         </div>
-        <div v-else class="content-section">
+        <div v-else class="content-section" style="">
           <BasicInfoUpdate />
         </div>
       </div>

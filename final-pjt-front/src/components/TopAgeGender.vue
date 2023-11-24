@@ -3,7 +3,7 @@
     <!-- 나이, 성별 Top 3 -->
     <h2>{{ ageRange }} {{ genderString }} Top 3</h2>
     <div v-for="product in recommendStore.rankedProductsList.slice(0, 3)" :key="product?.product?.fin_prdt_cd" class="card mb-3">
-      <div class="card-body" v-if="product && product.product" @click="">
+      <div class="card-body" v-if="product && product.product" @click="goDetail(product.product.fin_prdt_cd, product.product.fin_prdt_nm)">
         <strong>
           {{ product.product.kor_co_nm }}
         </strong>
@@ -20,10 +20,12 @@ import { ref } from 'vue'
 import { useRecommendStore } from '@/stores/recommend'
 import { useUserStore } from '@/stores/user'
 import { useFinanceStore } from '@/stores/finance'
+import { useRouter } from 'vue-router'
 
 const userStore = useUserStore()
 const recommendStore = useRecommendStore()
 
+const router = useRouter()
 const userAge = userStore.user.age;
 
 recommendStore.rankingProduct({ age: userStore.user.age, gender: userStore.user.gender })
@@ -59,6 +61,16 @@ if (userGender === 'M') {
 } else {
   genderString = '기타'; // 다른 경우에 대한 처리를 원하는 대로 설정할 수 있습니다.
 }
+
+// 상품 상세페이지로 이동
+const goDetail = function (finPrdtCd, finPrdtNm) {
+  if (finPrdtNm.includes('예금')) {
+    router.push({name:'deposit_product_detail', params:{fin_prdt_cd: finPrdtCd}})
+  } else {
+    router.push({name:'saving_product_detail', params:{fin_prdt_cd: finPrdtCd}})
+  }
+}
+
 </script>
 
 <style scoped>

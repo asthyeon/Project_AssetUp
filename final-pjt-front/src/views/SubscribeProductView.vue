@@ -1,13 +1,14 @@
 <template>
-  <div>
-    <button @click="goBack">뒤로가기</button>
+  <div class='product-type-buttons'>
+    <button class='product-type-buttons' @click="goBack">뒤로가기</button>
   </div>
-  <div>
+  <div class='product-type-buttons'>
     <h1>금융상품 가입 페이지</h1>
-    <div>
+    <div class='product-type-buttons'>
       <!-- <form @submit=""> -->
+        <div></div>
         <input type="payment" name="payment" id="payment" v-model="payment">
-        <input @click="userStore.subscribe(financeStore.OneProduct.product.fin_prdt_cd, payment)" type="submit" value="가입하기">
+        <input class='product-type-buttons' @click="userStore.subscribe(financeStore.OneProduct.product.fin_prdt_cd, payment)" type="submit" value="가입하기">
       <!-- </form> -->
           <p>공시제출월 : {{ financeStore.OneProduct.product.dcls_month }}</p>
           <p>금융회사명 : {{ financeStore.OneProduct.product.kor_co_nm }}</p>
@@ -60,5 +61,22 @@ const goBack = () => {
 </script>
 
 <style  scoped>
+.product-type-buttons {
+  margin-bottom: 20px;
+}
+
+.product-type-buttons button {
+  margin-right: 10px;
+  background-color: #2ecc71;
+  color: #ffffff;
+  padding: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.product-type-buttons button:hover {
+  background-color: #27ae60;
+}
 
 </style>

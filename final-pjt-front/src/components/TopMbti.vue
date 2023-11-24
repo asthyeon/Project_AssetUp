@@ -3,7 +3,7 @@
     <!-- MBTI Top 3 -->
     <h2>{{ userStore.user.mbti }} Top 3</h2>
     <div v-for="product in recommendStore.rankedProductsList.slice(0, 3)" :key="product?.product?.fin_prdt_cd" class="card mb-3">
-      <div class="card-body" v-if="product && product.product" @click="">
+      <div class="card-body" v-if="product && product.product" @click="goDetail(product.product.fin_prdt_cd, product.product.fin_prdt_nm)">
         <strong>
           {{ product.product.kor_co_nm }}
         </strong>
@@ -18,11 +18,21 @@
 <script setup>
 import { useRecommendStore } from '@/stores/recommend'
 import { useUserStore } from '@/stores/user'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const userStore = useUserStore()
 const recommendStore = useRecommendStore()
 
 recommendStore.rankingProduct({ mbti: userStore.user.mbti })
+
+const goDetail = function (finPrdtCd, finPrdtNm) {
+  if (finPrdtNm.includes('예금')) {
+    router.push({name:'deposit_product_detail', params:{fin_prdt_cd: finPrdtCd}})
+  } else {
+    router.push({name:'saving_product_detail', params:{fin_prdt_cd: finPrdtCd}})
+  }
+}
 
 </script>
 

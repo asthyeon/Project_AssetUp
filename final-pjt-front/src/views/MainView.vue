@@ -46,7 +46,7 @@
 
     <div v-else>
       <div class="welcome">
-        <div>{{ userStore.user.nickname }}님 어서오세요!<br>오늘도 자산 Up!</div>
+        <h4><strong>{{ userStore.user.nickname }}</strong>님 어서오세요!<br>오늘도 자산 Up!</h4>
         <div>
           <div class="progress-bar-container">
             <div class="progress">
@@ -63,7 +63,7 @@
             <TopAgeGender />
           </div>
 
-          <div>
+          <div style="margin-top: 20px;">
             <TopMbti />
           </div>
         </div>
@@ -114,6 +114,7 @@ const getRandomColor = (opacity) => {
   }
   return color + (opacity !== undefined ? Math.round(opacity * 255).toString(16) : '');
 }
+
 </script>
 
 <style scoped>
