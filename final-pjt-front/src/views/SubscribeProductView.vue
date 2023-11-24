@@ -5,11 +5,11 @@
   <div class='product-type-buttons'>
     <h1>금융상품 가입 페이지</h1>
     <div class='product-type-buttons'>
-      <!-- <form @submit=""> -->
-        <div></div>
-        <input type="payment" name="payment" id="payment" v-model="payment">
-        <input class='product-type-buttons' @click="userStore.subscribe(financeStore.OneProduct.product.fin_prdt_cd, payment)" type="submit" value="가입하기">
-      <!-- </form> -->
+        <form @submit.prevent="userStore.subscribe(financeStore.OneProduct.product.fin_prdt_cd, payment)" style="">
+          <label for="payment">월 납입금 : </label>
+          <input type="payment" name="payment" id="payment" v-model="payment">
+          <button class='product-type-buttons'>가입하기</button>
+        </form>
           <p>공시제출월 : {{ financeStore.OneProduct.product.dcls_month }}</p>
           <p>금융회사명 : {{ financeStore.OneProduct.product.kor_co_nm }}</p>
           <p>상품명 : {{ financeStore.OneProduct.product.fin_prdt_nm }}</p>

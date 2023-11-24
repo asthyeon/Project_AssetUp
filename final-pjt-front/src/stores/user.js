@@ -172,7 +172,7 @@ export const useUserStore = defineStore('user', () => {
   // 구독
   const subscribe = function (finPrdtCd, payment) {
     const existingProducts = user.value.financial_products || []
-
+    console.log(finPrdtCd, payment);
     // 없는 상품인 경우 새로 구독하기
     const newFinPrdtCd = existingProducts.concat([[getCurrentDate(), finPrdtCd, payment]])
 
