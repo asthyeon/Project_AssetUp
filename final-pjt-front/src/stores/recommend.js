@@ -28,10 +28,7 @@ export const useRecommendStore = defineStore('recommend', () => {
       console.log('상품 추천이 완료되었습니다.')
       return filteredProductCodes
     }).then((filteredProductCodes) => {
-      console.log(financeStore.allProductList);
-      console.log(filteredProductCodes);
       rankedProductsList.value = filteredProductCodes.map(productCode => {
-        console.log(productCode);
         return financeStore.allProductList.find(product => product.product.fin_prdt_cd === productCode) || null
       })
       console.log(rankedProductsList.value);
@@ -150,9 +147,10 @@ const updateAsset = async () => {
       totalAmount = totalAmount === null ? calculateCompoundInterestDaily(updatedPrincipal, interestRate) : totalAmount + calculateCompoundInterestDaily(updatedPrincipal, interestRate);
     }
   }
-  if (totalAmount !== null) { // totalAmount가 계산되지 않은 경우 갱신을 하지 않음
+  if (!isNaN(totalAmount) && totalAmount !== 0) { // totalAmount가 계산되지 않은 경우 갱신을 하지 않음
 
     console.log('totalAmount', totalAmount);
+    console.log(totalAmount);
     userStore.userUpdate({
       username: userStore.user.username,
       email: userStore.user.email,

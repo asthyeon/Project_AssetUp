@@ -244,8 +244,8 @@ with open(save_dir, 'w', encoding="utf-8") as f:
             'gender': random.choice(GENDER_CHOICES),
             'age': random.randint(1, 80),  # 나이
             'address': address_list[i],
-            'salary': random.randrange(0, 300000000, 1000000), # 연봉
-            'money': random.randrange(0, 150000000, 100000),    # 현재 가진 금액
+            'salary': random.randrange(0, 30000, 100), # 연봉
+            'money': random.randrange(0, 15000, 10),    # 현재 가진 금액
             # 랜덤한 0~5개의 상품을 가입하도록 삽입됨
             'financial_products': [[str(random.randrange(20, 24))+str(random.randrange(1, 13))+str(random.randrange(1, 31)), random.choice(financial_products), random.randrange(10, 2000)] for _ in range(random.randint(0, 5))],
             'password': "1234",

@@ -1,7 +1,9 @@
 <template>
   <div>
     <h1>내가 가입한 상품</h1>
-    <canvas id="lineChart" width="100" height="100"></canvas>
+    <div class="chart-container">
+      <canvas id="lineChart" width="100" height="100"></canvas>
+    </div>
   </div>
 </template>
 
@@ -34,6 +36,12 @@ onMounted(() => {
 const generateChartData = () => {
   userStore.user.financial_products.forEach(product => {
     financeStore.getOneProduct(product[1])
+    const result = recommendStore.calculateAssetGrowthRate(product[1], saveTrm);
+
+  if (!result) {
+    console.error('Error calculating asset growth rate for product:', product[1]);
+    return; // 함수에서 올바른 결과가 나오지 않으면 종료
+  }
     const { intr_rate_type_nm, interestRate, interestRate2 } = recommendStore.calculateAssetGrowthRate(
       product[1],
       saveTrm
@@ -53,7 +61,6 @@ const generateChartData = () => {
       return cumulativeInterest
     });
 
-    console.log(financeStore.OneProduct.product.kor_co_nm)
     chartData.value.datasets.push({
       label: financeStore.OneProduct.product.kor_co_nm,
       borderColor: `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(
@@ -62,6 +69,7 @@ const generateChartData = () => {
       borderWidth: 1,
       data: interestAmounts,
     });
+    // chartData.value.labels.push(financeStore.OneProduct.product.kor_co_nm)
   });
 
   chartData.value.labels = Array.from({ length: saveTrm }, (_, i) => (i + 1) + '개월');
@@ -90,5 +98,12 @@ const drawLineChart = () => {
 </script>
 
 <style scoped>
-/* 스타일링을 추가하려면 여기에 작성하세요. */
+.chart-container {
+  max-width: 700; /* 원하는 최대 너비 설정 */
+  max-height: 700px; /* 원하는 최대 높이 설정 */
+  margin: auto; /* 가운데 정렬을 위한 마진 설정 */
+}
+.container {
+  text-align: center;
+}
 </style>

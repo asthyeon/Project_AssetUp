@@ -1,80 +1,64 @@
 <template>
-  <div>
-    <p></p>
-    <button @click="goBack">뒤로가기</button>
-  </div>
-
-  <div v-if="status === '1'">
-    
-    <div>
-      <h2>기본정보</h2>
-    </div>
-
-    <div>
-        <p><strong>아이디</strong> : {{ userStore.user.username }}</p>
-        <!-- <p>
-          <strong>Email</strong> : 
-          <span v-if="!userStore.user.email">이메일을 수정해주세요</span>
-          <span v-else>{{ userStore.user.email }}</span>
-        </p> -->
-        <p>
-          <strong>별명</strong> : {{ userStore.user.nickname }}
-        </p>
-        <p v-if="userStore.user.gender === 'M'">
-          <strong>성별</strong> : 남자
-        </p>
-        <p v-else>
-          <strong>성별</strong> : 여자
-        </p>
-
-        <p>
-          <strong>나이</strong> : {{ userStore.user.age }}
-        </p>
-        <p>
-          <strong>주소</strong> : {{ userStore.user.address }}
-        </p>
-        <p>
-          <strong>연봉</strong> : {{ userStore.user.salary }}
-        </p>
-        <p>
-          <strong>MBTI</strong> : {{ userStore.user.mbti }}
-        </p>
-        <p>
-          <strong>현재자산</strong> : {{ userStore.user.money }}
-        </p>
-        <p>
-          <strong>목표자산</strong> : {{ userStore.user.target_asset }}
-        </p>
-        <button @click="goUpdate">수정하기</button>
+  <div class="container mt-4">
+    <div v-if="status === '1'" class="row">
+      <div class="col-md-6">
+        <div>
+          <h2>기본정보</h2>
+        </div>
+        <div>
+          <p><strong>아이디</strong> : {{ userStore.user.username }}</p>
+          <p><strong>별명</strong> : {{ userStore.user.nickname }}</p>
+          <p v-if="userStore.user.gender === 'M'">
+            <strong>성별</strong> : 남자
+          </p>
+          <p v-else>
+            <strong>성별</strong> : 여자
+          </p>
+          <p><strong>나이</strong> : {{ userStore.user.age }}</p>
+          <p><strong>주소</strong> : {{ userStore.user.address }}</p>
+          <p><strong>연봉</strong> : {{ userStore.user.salary }}</p>
+          <p><strong>MBTI</strong> : {{ userStore.user.mbti }}</p>
+          <p><strong>현재자산</strong> : {{ userStore.user.money }}</p>
+          <p><strong>목표자산</strong> : {{ userStore.user.target_asset }}</p>
+          <button @click="goUpdate" class="btn btn-primary mt-3">수정하기</button>
+        </div>
       </div>
     </div>
     <div v-else>
-    <h1>기본정보수정</h1>
-    <form @submit.prevent="updateUser">
-      <!-- <label for="username">아이디 : </label>
-      <input type="text" id="username" v-model.trim="user.username"><br>       -->
-      <!-- <label for="email"> email : </label>
-      <input type="email" id="email" v-model.trim="user.email"><br> -->
-      <strong>아이디</strong> : {{ userStore.user.username }}
-      <br>
-      <label for="nickname">별명 : </label>
-      <input type="nickname" id="nickname" v-model.trim="user.nickname"><br>
-      <p>성별 : {{ user.gender }}</p>
-      <label for="age">나이 : </label>
-      <input type="age" id="age" v-model.trim="user.age"><br>
-      <label for="address">주소 : </label>
-      <input type="address" id="address" v-model.trim="user.address"><br>
-      <label for="salary">연봉 : </label>
-      <input type="salary" id="salary" v-model.trim="user.salary"><br>
-      <label for="mbti">MBTI : </label>
-      <input type="mbti" id="mbti" v-model.trim="user.mbti"><br>
-      <label for="money">현재자산 : </label>
-      <input type="money" id="money" v-model.trim="user.money"><br>
-      <label for="target_asset">목표자산 : </label>
-      <input type="target_asset" id="target_asset" v-model.trim="user.target_asset"><br>
-
-      <input type="submit" value="수정하기">
-    </form>
+      <h1 class="mb-4">기본정보 수정</h1>
+      <form @submit.prevent="updateUser">
+        <p><strong>아이디</strong> : {{ userStore.user.username }}</p>
+        <div class="mb-3">
+          <label for="nickname" class="form-label">별명</label>
+          <input type="text" class="form-control" id="nickname" v-model.trim="user.nickname">
+        </div>
+        <div class="mb-3">
+          <label for="age" class="form-label">나이</label>
+          <input type="age" class="form-control" id="age" v-model.trim="user.age"><br>
+        </div>
+        <div class="mb-3">
+          <label for="address" class="form-label">주소</label>
+          <input type="address" class="form-control" id="address" v-model.trim="user.address"><br>
+        </div>
+        <div class="mb-3">
+          <label for="salary" class="form-label">연봉</label>
+          <input type="salary" class="form-control" id="salary" v-model.trim="user.salary"><br>
+        </div>
+        <div class="mb-3">
+          <label for="mbti" class="form-label">MBTI</label>
+          <input type="mbti" class="form-control" id="mbti" v-model.trim="user.mbti"><br>
+        </div>
+        <div class="mb-3">
+          <label for="money" class="form-label">현재자산</label>
+          <input type="money" class="form-control" id="money" v-model.trim="user.money"><br>
+        </div>
+        <div class="mb-3">
+          <label for="target_asset" class="form-label">목표자산</label>
+          <input type="target_asset" class="form-control" id="target_asset" v-model.trim="user.target_asset"><br>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">수정하기</button>
+      </form>
+    </div>
   </div>
 </template>
 

@@ -1,11 +1,17 @@
 <template>
-  <div>
+  <div class="top-products">
     <!-- 나이, 성별 Top 3 -->
-    <h2>{{ ageRange }} {{ genderString }} Top3</h2>
-    <div v-for="product in recommendStore.rankedProductsList">
-      {{ product.product.kor_co_nm }}
+    <h2>{{ ageRange }} {{ genderString }} Top 3</h2>
+    <div v-for="product in recommendStore.rankedProductsList.slice(0, 3)" :key="product?.product?.fin_prdt_cd" class="card mb-3">
+      <div class="card-body" v-if="product && product.product" @click="">
+        <strong>
+          {{ product.product.kor_co_nm }}
+        </strong>
+        <div>
+          {{ product.product.fin_prdt_nm }}
+        </div>
+      </div>
     </div>
-
   </div>
 </template>
 
@@ -20,7 +26,7 @@ const recommendStore = useRecommendStore()
 
 const userAge = userStore.user.age;
 
-recommendStore.rankingProdut({age:userStore.user.age, gender:userStore.user.gender})
+recommendStore.rankingProduct({ age: userStore.user.age, gender: userStore.user.gender })
 
 // 나이 변환
 let ageRange;
@@ -40,6 +46,7 @@ if (userAge < 10) {
 } else {
   ageRange = '60세 이상';
 }
+
 // 성별 변환
 const userGender = userStore.user.gender;
 
@@ -52,9 +59,40 @@ if (userGender === 'M') {
 } else {
   genderString = '기타'; // 다른 경우에 대한 처리를 원하는 대로 설정할 수 있습니다.
 }
-
 </script>
 
 <style scoped>
+.top-products {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* 카드 간격 조절 */
+  justify-content: center; /* 카드를 수평 중앙 정렬 */
+}
 
+.card {
+  width: 300px; /* 원하는 카드 너비 조절 */
+  background-color: #fff; /* 카드 배경색 */
+  border: 1px solid #ddd; /* 카드 테두리 스타일 */
+  border-radius: 8px; /* 카드 테두리 둥글게 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+}
+
+.card-body {
+  padding: 20px; /* 카드 내용 여백 */
+  cursor: pointer; /* 포인터로 마우스 스타일 변경 */
+  transition: background-color 0.3s ease; /* 배경색 변경 시 부드러운 효과 */
+}
+
+.card-body:hover {
+  background-color: #f5f5f5; /* 호버 시 배경색 변경 */
+}
+
+.card-body strong {
+  font-size: 1.2em; /* 강조 텍스트 크기 */
+}
+
+.card-body div {
+  margin-top: 8px; /* 텍스트 간격 조절 */
+  color: #555; /* 텍스트 색상 */
+}
 </style>

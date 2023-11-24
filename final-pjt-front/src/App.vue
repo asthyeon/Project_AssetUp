@@ -2,8 +2,10 @@
   <header>
     <nav id="app">
       <div class="nav-links">
-        <!-- 메인페이지로 이동 -->
-        <RouterLink :to="{ name: 'main' }" class="nav-link">Home</RouterLink> |
+        <!-- 고정된 Home 링크 -->
+        <RouterLink :to="{ name: 'main' }" class="nav-link fixed-home">자산Up</RouterLink> |
+      </div>
+      <div class="auth-links">
         <!-- 금융상품 비교 페이지로 이동 -->
         <RouterLink :to="{ name: 'compare' }" class="nav-link">Compare</RouterLink> |
         <!-- 게시판으로 이동 -->
@@ -11,13 +13,15 @@
         <!-- 환율계산기 -->
         <RouterLink :to="{ name: 'exchange' }" class="nav-link">Exchange</RouterLink> |
         <!-- 카카오맵 보기 -->
-        <RouterLink :to="{ name: 'map' }" class="nav-link">Map</RouterLink> |
-      </div>
-      <div class="auth-links">
+          <RouterLink :to="{ name: 'map' }" class="nav-link">Map</RouterLink> |
         <!-- 회원가입 페이지로 이동 -->
-        <RouterLink v-if="!userStore.isLogin" :to="{ name: 'signup' }" class="nav-link">Signup</RouterLink> |
+        <span v-if="!userStore.isLogin" >
+          <RouterLink :to="{ name: 'signup' }" class="nav-link">Signup</RouterLink> |
+        </span>
         <!-- 로그인 페이지로 이동 -->
-        <RouterLink v-if="!userStore.isLogin" :to="{ name: 'login' }" class="nav-link">Login</RouterLink> |
+        <span v-if="!userStore.isLogin" >
+          <RouterLink :to="{ name: 'login' }" class="nav-link">Login</RouterLink> |
+        </span>
         <!-- 로그아웃 -->
         <span v-if="userStore.isLogin" @click="userStore.logOut" class="nav-link">Logout | </span>
         <!-- 프로필 페이지로 이동 -->
@@ -39,12 +43,8 @@ import { useRecommendStore } from '@/stores/recommend'
 const userStore = useUserStore()
 const recommendStore = useRecommendStore()
 
-console.log(userStore.user.money)
-
 onMounted(() => {
-  console.log(userStore.user.money)
   recommendStore.updateAsset()
-  console.log(userStore.user.money)
 })
 </script>
 
@@ -64,20 +64,21 @@ body {
 header {
   font-family: 'NanumSquareNeo-Variable', sans-serif;
   background-color: #4CAF50;
-  padding: 10px 0;
+  padding: 10px 20px;
+  color: white;
+
 }
 
 #app {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: white;
-  padding: 0 20px;
 }
 
 .nav-links {
   display: flex;
   gap: 10px;
+  margin-right: auto; /* 나머지 링크들을 왼쪽으로 붙입니다. */
 }
 
 .auth-links {
@@ -92,5 +93,9 @@ header {
 
 .nav-link:hover {
   text-decoration: underline;
+}
+
+.fixed-home {
+  margin-right: auto;
 }
 </style>

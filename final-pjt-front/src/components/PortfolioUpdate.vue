@@ -4,20 +4,20 @@
 
     <div class="portfolio-info">
       <div>연봉 : {{ user.salary }}</div>
-      <div>월급 : {{ salary }}</div>
+      <div>
+        <label for="salary">월급 : </label>
+        <input @click="updatePercent" type="salary" name="salary" id="salary" v-model="salary">
+      </div>
       <p>
         <strong>저축 성향</strong> : 
         <label>
-          <input type="radio" v-model="savingsType" value="thrifty"/> 자유형
+          <input type="radio" v-model="userStore.user.saving_type" value="careful"/> 근검형
         </label>
         <label>
-          <input type="radio" v-model="savingsType" value="careful"/> 근검형
+          <input type="radio" v-model="userStore.user.saving_type" value="challenging"/> 도전형
         </label>
         <label>
-          <input type="radio" v-model="savingsType" value="challenging"/> 도전형
-        </label>
-        <label>
-          <input type="radio" v-model="savingsType" value="diligent"/> 욜로형
+          <input type="radio" v-model="userStore.user.saving_type" value="diligent"/> 욜로형
         </label>
         <button @click="goUpdate">수정하기</button>
       </p>
@@ -27,7 +27,7 @@
     </div>
     <hr>
     <div>
-      <RecommendProduct />
+      <RecommendProduct :salary="salary" />
     </div>
   </div>
 </template>
@@ -44,16 +44,25 @@ const financeStore = useFinanceStore()
 const userStore = useUserStore()
 const user = ref('')
 user.value = userStore.user
-const salary = Math.round(user.value.salary / 12)
+const salary = ref(Math.round(user.value.salary / 12))
 const percent = ref(0)
 const percentMoney = ref(0)
-
+const save = ref(Math.round(salary/5))
 const router = useRouter()
-
 const savingsType = ref(user.value.saving_type)
 const favoriteCompany = ref(user.value.favorite_company)
 
-console.log(user.value)
+onMounted(() => {
+  // 사용자의 저축 성향에 따라 초기값 설정
+  if (savingsType.value === 'careful') {
+    percent.value = 40
+  } else if (savingsType.value === 'challenging') {
+    percent.value = 20
+  } else if (savingsType.value === 'diligent') {
+    percent.value = 10
+  }
+  percentMoney.value = Math.round(salary.value * percent.value / 100);
+});
 
 // 포트폴리오 정보 수정
 const goUpdate = function () {
@@ -66,8 +75,8 @@ const goBack = function () {
 }
 // 월 저축 비중
 const updatePercent = () => {
-  percent.value = 33
-  percentMoney.value = Math.round(salary * percent.value / 100)
+  percent.value = 20
+  percentMoney.value = Math.round(salary.value * percent.value / 100)
 }
 </script>
 
