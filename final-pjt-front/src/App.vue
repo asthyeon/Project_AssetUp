@@ -45,6 +45,10 @@ const recommendStore = useRecommendStore()
 
 onMounted(() => {
   recommendStore.updateAsset()
+  const joinDate = new Date();
+  joinDate.setDate(joinDate.getDate() - 365) // 현재 날짜에서 75일 전
+
+  recommendStore.calculateUpdatedPrincipal(200, 5, joinDate)
 })
 </script>
 

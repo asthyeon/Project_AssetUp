@@ -1,4 +1,5 @@
 <template>
+  <!-- 프로필 페이지 기본 정보 -->
   <div class="container mt-4">
     <div v-if="status === '1'" class="row">
       <div class="col-md-12">
