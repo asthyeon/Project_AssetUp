@@ -67,7 +67,7 @@ body {
 
 header {
   font-family: 'NanumSquareNeo-Variable', sans-serif;
-  background-color: #4CAF50;
+  background-color: green;
   padding: 10px 20px;
   color: white;
 

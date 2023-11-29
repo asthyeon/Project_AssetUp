@@ -17,19 +17,19 @@
           <div class="fw-bold">추천 카테고리</div>
           <div class="form-check">
             <input class="form-check-input" type="checkbox" v-model="selectedOptions.age" @change="recommendStore.updateRecommendation(selectedOptions)" />
-            <label class="form-check-label">나이</label>
+            <label class="form-check-label">나이({{ ages }}대)</label>
           </div>
           <div class="form-check">
             <input class="form-check-input" type="checkbox" v-model="selectedOptions.gender" @change="recommendStore.updateRecommendation(selectedOptions)" />
-            <label class="form-check-label">성별</label>
+            <label class="form-check-label">성별({{ userStore.user.gender }})</label>
           </div>
           <div class="form-check">
             <input class="form-check-input" type="checkbox" v-model="selectedOptions.mbti" @change="recommendStore.updateRecommendation(selectedOptions)" />
-            <label class="form-check-label">MBTI</label>
+            <label class="form-check-label">MBTI({{ userStore.user.mbti }})</label>
           </div>
           <div class="form-check">
             <input class="form-check-input" type="checkbox" v-model="selectedOptions.salary" @change="recommendStore.updateRecommendation(selectedOptions)" />
-            <label class="form-check-label">연봉</label>
+            <label class="form-check-label">연봉(±10%)</label>
           </div>
 
         </div>
@@ -42,7 +42,12 @@
           <div>
             <!-- 필터링된 상품 출력 -->
             <div v-if="recommendStore.rankedProductsList.length > 0">
-              <h4 class="mb-3">추천된 상품</h4>
+              <h4 class="mb-3">
+                추천된 상품
+                <span>
+                  
+                </span>
+              </h4>
               <div v-for="product in recommendStore.rankedProductsList" :key="product?.product?.fin_prdt_cd" class="card mb-3">
                 <div class="card-body" v-if="product && product.product" @click="goDetail(product.product.fin_prdt_cd, product.product.fin_prdt_nm)">
                   <strong>
@@ -76,6 +81,7 @@ const props = defineProps(['percentMoney'])
 const userStore = useUserStore()
 const recommendStore = useRecommendStore()
 const financeStore = useFinanceStore()
+const ages = Math.floor(userStore.user.age / 10) * 10
 
 const router = useRouter()
 financeStore.getAllProducts()

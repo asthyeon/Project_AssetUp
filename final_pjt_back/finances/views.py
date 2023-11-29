@@ -1123,17 +1123,7 @@ def filter_user(request):
     if address:
         filtered_users = filtered_users.filter(address=address)
     if salary:
-        # 3600
-        if int(salary) < 3600:
-            filtered_users = filtered_users.filter(salary__lte=3600)
-        # 6000
-        elif 3600 <= int(salary) < 6000:
-            filtered_users = filtered_users.filter(salary__gte=3600, salary__lt=6000)
-        # 10000
-        elif 6000 <= int(salary) < 10000:
-            filtered_users = filtered_users.filter(salary__gte=6000, salary__lt=10000)
-        else:
-            filtered_users = filtered_users.filter(salary__gte=10000)  
+        filtered_users = filtered_users.filter(salary__lte=(int(salary) * 0.95), salary__lt=(int(salary) * 1.05))
     if money:
         filtered_users = filtered_users.filter(money=int(money))
     if target_asset:
