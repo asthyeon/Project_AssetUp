@@ -15,11 +15,12 @@
       </div>
     </div>
     <div class="product-info">
+      <!-- 예금 상품 상세 정보 -->
       <p class="section-title">상품 정보</p>
       <div class="info-container">
         <div style="padding-left: 50px;">
           <p>공시제출월 : {{ financeStore.depositProduct[0].product.dcls_month }}</p>
-          <p>금융회사명 : {{ financeStore.depositProduct[0].product.kor_co_nm }}</p>
+          <p @click="goHomepage">금융회사명 : <span class="clickable-text">{{ financeStore.depositProduct[0].product.kor_co_nm }}</span></p>
           <p>상품명 : {{ financeStore.depositProduct[0].product.fin_prdt_nm }}</p>
           <p>가입제한 : {{ JOIN_DENY_CHOICES[financeStore.depositProduct[0].product.join_deny] }}</p>
           <p>가입방법 : {{ financeStore.depositProduct[0].product.join_way }}</p>
@@ -28,6 +29,20 @@
           <p>우대조건 :</p>
           <p>{{ financeStore.depositProduct[0].product.spcl_cnd }}</p>
           <p v-html="formatSpecialConditions(financeStore.depositProduct[0].product.spcl_cnd)"></p>
+        </div>
+      </div>
+    </div>
+    <hr style="border-top: 3px solid #2ecc71">
+    <!-- 상품의 옵션 리스트 -->
+    <div class="card-container d-flex flex-wrap">
+      <h3 class="w-100">옵션 목록</h3>
+      <div class="col-md-4 option-card p-3 m-3 " v-for="(option, index) in financeStore.depositProduct[0].options" :key="index">
+        <div class="option-card-body">
+          <p class="font-weight-bold">{{ index }}번 옵션</p>
+          <p><strong>금리 유형</strong> : {{ option.intr_rate_type_nm }}</p>
+          <p><strong>예치 기간</strong> : {{ option.save_trm }}개월</p>
+          <p><strong>저축 금리</strong> : {{ option.intr_rate }}%</p>
+          <p><strong>우대 금리</strong> : {{ option.intr_rate2 }}%</p>
         </div>
       </div>
     </div>
@@ -90,6 +105,23 @@ const goSubscribe = (finPrdtCd) => {
   router.push({name:'subscribe', params:{fin_prdt_cd: finPrdtCd}})
 }
 
+// 회사 정보 조회
+financeStore.getCompanyDetail(financeStore.depositProduct[0].product.fin_co_no)
+
+// 은행 홈페이지로 가기
+const goHomepage = function () {
+  // 은행 홈페이지 url 확인
+  const homepageUrl = financeStore.company?.homp_url
+
+  if (homepageUrl) {
+    // 새 탭에서 은행 홈페이지 열기
+    window.open(homepageUrl, '_blank')
+  } else {
+    console.error('은행 홈페이지 url이 없습니다.')
+  }
+}
+
+// 뒤로 가기
 const goBack = () => {
   router.back()
 }
@@ -133,4 +165,40 @@ const goBack = () => {
   background-color: #27ae60;
 }
 
+.clickable-text {
+  color: #3498db;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.clickable-text:hover {
+  color: #2980b9;
+}
+
+.card-container {
+  text-align: center;
+}
+.option-card {
+  display: inline-block;
+  background-color: #fff;
+  border: 1px solid #2ecc71;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 200px;
+  height: 250px;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.option-card-body {
+  cursor: pointer;
+  padding: 20px;
+  font-size: 15px;
+}
+
+.option-card:hover {
+  background-color: #f5f5f5;
+
+}
 </style>

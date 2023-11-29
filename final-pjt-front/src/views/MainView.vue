@@ -76,7 +76,7 @@
 
         <div class="right-content">
           <div>
-            <SubscribeProduct />
+            <ChartLine />
           </div>
         </div>
       </div>
@@ -94,7 +94,7 @@ import { useRecommendStore } from '@/stores/recommend'
 import { useFinanceStore } from '@/stores/finance'
 import TopAgeGender from '@/components/TopAgeGender.vue'
 import TopMbti from '@/components/TopMbti.vue'
-import SubscribeProduct from '@/components/SubscribeProduct.vue'
+import ChartLine from '@/components/ChartLine.vue'
 
 const router = useRouter()
 const store = useHomeStore()

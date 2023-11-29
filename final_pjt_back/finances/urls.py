@@ -8,6 +8,8 @@ urlpatterns = [
     path('save-companys/', views.save_companys, name='save_companys'),
     # 전체 조회
     path('get-companys/', views.get_companys, name='get_companys'),
+    # 단일 회사 조회
+    path('get-company-detail/<str:fin_co_no>/', views.get_company_detail, name='get_company_detail'),
     # 전체 옵션 조회
     path('get-company-options/<str:fin_co_no>/', views.get_company_options, name='get_company_options'),
     
@@ -48,10 +50,17 @@ urlpatterns = [
     path('get-annuity-saving-options/<str:fin_prdt_cd>/', views.get_annuity_saving_options, name='get_annuity_saving_options'),
     # 단일 상품 조회(옵션 포함)
     path('get-annuity-saving-product-detail/<str:fin_prdt_cd>/', views.get_annuity_saving_product_detail, name='get_annuity_saving_product_detail'),
-    # 단일 적금 상품 옵션 조회
+    # 단일 연금 상품 옵션 조회
     path('get-annuity-saving-product-options/<str:fin_prdt_cd>/', views.get_annuity_saving_product_options, name='get_annuity_saving_product_options'),
+    
     # 전체 상품 검색
-    path('search-annuity-saving-products/<str:fin_co_no>/<int:save_trm>/', views.search_annuity_saving_products, name='search_annuity_saving_products'),
+    path('search-annuity-saving-products/<str:fin_co_no>/<str:pnsn_recp_trm>/', views.search_annuity_saving_products, name='search_annuity_saving_products'),
+    
+    # 모든 대출 상품
+    path('get-loan-products/', views.get_loan_products, name='get_loan_products'),
+    
+    # 대출 상품 검색
+    path('search-loan-products/<str:fin_co_no>/', views.search_loan_products, name='search_loan_products'),
     
     # 주택담보 대출
     # 저장

@@ -300,17 +300,21 @@ def save_annuity_saving_products(request):
                 dcls_month = li['dcls_month']
                 fin_co_no = li['fin_co_no']
                 fin_prdt_cd = li['fin_prdt_cd']
-                pnsn_recp_trm = li['pnsn_recp_trm'],
-                pnsn_recp_trm_nm = li['pnsn_recp_trm_nm'],
-                pnsn_entr_age = li['pnsn_entr_age'],
-                pnsn_entr_age_nm = li['pnsn_entr_age_nm'],
-                mon_paym_atm = li['mon_paym_atm'],
-                mon_paym_atm_nm = li['mon_paym_atm_nm'],
-                paym_prd = li['paym_prd'],
-                paym_prd_nm = li['paym_prd_nm'],
-                pnsn_strt_age = li['pnsn_strt_age'],
-                pnsn_strt_age_nm = li['pnsn_strt_age_nm'],
+                
+                pnsn_recp_trm = li.get('pnsn_recp_trm', [])
+                pnsn_recp_trm_nm = li.get('pnsn_recp_trm_nm', [])
+                pnsn_entr_age = li.get('pnsn_entr_age', [])
+                pnsn_entr_age_nm = li.get('pnsn_entr_age_nm', [])
+                mon_paym_atm = li.get('mon_paym_atm', [])
+                mon_paym_atm_nm = li.get('mon_paym_atm_nm', [])
+                paym_prd = li.get('paym_prd', [])
+                paym_prd_nm = li.get('paym_prd_nm', [])
+                pnsn_strt_age = li.get('pnsn_strt_age', [])
+                pnsn_strt_age_nm = li.get('pnsn_strt_age_nm', [])
+                
                 pnsn_recp_amt = li['pnsn_recp_amt']
+                
+                print(pnsn_recp_trm, pnsn_recp_trm_nm)
                 
                 # 중복 데이터 패스
                 if AnnuitySavingOption.objects.filter(
@@ -624,6 +628,14 @@ def get_companys(request):
     seralizer = CompanySerializer(companys, many=True)
     return Response(seralizer.data)
 
+# 단일 회사 조회
+@api_view(['GET'])
+def get_company_detail(request, fin_co_no):
+    # 예금 목록 불러오기
+    company = Company.objects.get(fin_co_no=fin_co_no)
+    seralizer = CompanySerializer(company)
+    return Response(seralizer.data)
+
 # 특정 금융 회사 옵션 조회
 @api_view(['GET'])
 def get_company_options(request, fin_co_no):
@@ -704,6 +716,7 @@ def search_deposit_products(request, fin_co_no, save_trm):
             option_list = DepositOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd, save_trm=save_trm)
         else:
             option_list = DepositOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
+            
         serializer1 = DepositOptionSerializer(option_list, many=True)
         serializer2 = DepositProductSerializer(product)
         serializer = {
@@ -782,6 +795,7 @@ def search_saving_products(request, fin_co_no, save_trm):
             option_list = SavingOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd, save_trm=save_trm)
         else:
             option_list = SavingOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
+            
         serializer1 = SavingOptionSerializer(option_list, many=True)
         serializer2 = SavingProductSerializer(product)
         serializer = {
@@ -794,7 +808,7 @@ def search_saving_products(request, fin_co_no, save_trm):
 
 
 # 연금저축
-# 전체 상품 조회 [연금저춝]
+# 전체 상품 조회 [연금저축]
 @api_view(['GET'])
 def get_annuity_saving_products(request):
     products = AnnuitySavingProduct.objects.all()
@@ -844,7 +858,7 @@ def get_annuity_saving_product_options(request, fin_prdt_cd):
 
 # 전체 상품 검색
 @api_view(['GET'])
-def search_annuity_saving_products(request, fin_co_no, paym_prd):
+def search_annuity_saving_products(request, fin_co_no, pnsn_recp_trm):
     
     if fin_co_no != '전체':
         products = AnnuitySavingProduct.objects.filter(fin_co_no=fin_co_no)
@@ -852,13 +866,13 @@ def search_annuity_saving_products(request, fin_co_no, paym_prd):
         products = AnnuitySavingProduct.objects.all()
         
     filtered_products = []
-    
     for product in products:
         # 옵션 목록 불러오기
-        if paym_prd:
-            option_list = AnnuitySavingOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd, paym_prd=paym_prd)
+        if pnsn_recp_trm != '전체':
+            option_list = AnnuitySavingOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd, pnsn_recp_trm=pnsn_recp_trm)
         else:
             option_list = AnnuitySavingOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
+            
         serializer1 = AnnuitySavingOptionSerializer(option_list, many=True)
         serializer2 = AnnuitySavingProductSerializer(product)
         serializer = {
@@ -1063,9 +1077,6 @@ def search_credit_loan_products(request, fin_co_no, crdt_lend_rate_type):
 
     return Response(filtered_products)
 
-
-
-
 # 전체 상품 검색 [예금]
 @api_view(['GET', 'POST'])
 def filter_user(request):  
@@ -1155,11 +1166,9 @@ def get_all_products(request):
             'options':serializer1.data
         }
         products_contain_options.append(serializer)
-    # all_products['deposit'] = deposit_products_contain_options
     
     # 적금 목록 불러오기
     saving_products = SavingProduct.objects.all()
-    # products_contain_options = []
     for product in saving_products:
         option_list = SavingOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
         serializer1 = SavingOptionSerializer(option_list, many=True)
@@ -1172,7 +1181,6 @@ def get_all_products(request):
     
     # 연금 목록 불러오기
     annuity_products = AnnuitySavingProduct.objects.all()
-    # annuity_products_contain_options = []
     for product in annuity_products:
         option_list = AnnuitySavingOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
         serializer1 = AnnuitySavingOptionSerializer(option_list, many=True)
@@ -1182,9 +1190,93 @@ def get_all_products(request):
             'options':serializer1.data
         }
         products_contain_options.append(serializer)
-    # all_products['annuity'] = annuity_products_contain_options
-    # print(products_contain_options)
     return Response(products_contain_options)
+
+# 대출 상품 검색
+@api_view(['GET'])
+def search_loan_products(request, fin_co_no):
+    filtered_products = []
+    
+    # 주택 담보 대출
+    mortgage_products = MortgageLoanProduct.objects.filter(fin_co_no=fin_co_no)
+    for product in mortgage_products:
+        option_list = MortgageLoanOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
+        serializer1 = MortgageLoanOptionSerializer(option_list, many=True)
+        serializer2 = MortgageLoanProductSerializer(product)
+        serializer = {
+            'product':serializer2.data,
+            'options':serializer1.data
+        }
+        filtered_products.append(serializer)
+        
+    # 전세자금 대출
+    rent_house_products = RentHouseLoanProduct.objects.filter(fin_co_no=fin_co_no)
+    for product in rent_house_products:
+        option_list = RentHouseLoanOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
+        serializer1 = RentHouseLoanOptionSerializer(option_list, many=True)
+        serializer2 = RentHouseLoanProductSerializer(product)
+        serializer = {
+            'product':serializer2.data,
+            'options':serializer1.data
+        }
+        filtered_products.append(serializer)
+        
+    # 신용 대출
+    credit_products = CreditLoanProduct.objects.filter(fin_co_no=fin_co_no)
+    for product in credit_products:
+        option_list = CreditLoanOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
+        serializer1 = CreditLoanOptionSerializer(option_list, many=True)
+        serializer2 = CreditLoanProductSerializer(product)
+        serializer = {
+            'product':serializer2.data,
+            'options':serializer1.data
+        }
+        filtered_products.append(serializer)
+    return Response(filtered_products)
+
+
+# 모든 대출 상품 조회
+@api_view(['GET'])
+def get_loan_products(request):
+    products_contain_options = []
+    
+    # 주택 담보 대출
+    mortgage_products = MortgageLoanProduct.objects.all()
+    for product in mortgage_products:
+        option_list = MortgageLoanOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
+        serializer1 = MortgageLoanOptionSerializer(option_list, many=True)
+        serializer2 = MortgageLoanProductSerializer(product)
+        serializer = {
+            'product':serializer2.data,
+            'options':serializer1.data
+        }
+        products_contain_options.append(serializer)
+        
+    # 전세자금 대출
+    rent_house_products = RentHouseLoanProduct.objects.all()
+    for product in rent_house_products:
+        option_list = RentHouseLoanOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
+        serializer1 = RentHouseLoanOptionSerializer(option_list, many=True)
+        serializer2 = RentHouseLoanProductSerializer(product)
+        serializer = {
+            'product':serializer2.data,
+            'options':serializer1.data
+        }
+        products_contain_options.append(serializer)
+        
+    # 신용 대출
+    credit_products = CreditLoanProduct.objects.all()
+    for product in credit_products:
+        option_list = CreditLoanOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
+        serializer1 = CreditLoanOptionSerializer(option_list, many=True)
+        serializer2 = CreditLoanProductSerializer(product)
+        serializer = {
+            'product':serializer2.data,
+            'options':serializer1.data
+        }
+        products_contain_options.append(serializer)
+    return Response(products_contain_options)
+
 
 # 예금 top3
 @api_view(['GET'])
@@ -1403,4 +1495,3 @@ def get_all_product_detail(request, fin_prdt_cd):
 # 금리계산 함수
 def calculate(request, user_pk):
     user = User.objects.get(pk=user_pk)
-

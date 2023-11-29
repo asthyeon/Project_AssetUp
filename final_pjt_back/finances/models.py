@@ -1,7 +1,6 @@
 from django.db import models
 from django.conf import settings
 
-
 # 금융회사
 class Company(models.Model):
     dcls_month = models.TextField()             # 공시 제출월[YYYYMM]
@@ -124,16 +123,16 @@ class AnnuitySavingOption(models.Model):
     dcls_month = models.TextField()
     fin_co_no = models.TextField()
     fin_prdt_cd = models.TextField()
-    pnsn_recp_trm = models.TextField()
-    pnsn_recp_trm_nm = models.TextField()
-    pnsn_entr_age = models.TextField()
-    pnsn_entr_age_nm = models.TextField()
-    mon_paym_atm = models.TextField()
-    mon_paym_atm_nm = models.TextField()
-    paym_prd = models.TextField()
-    paym_prd_nm = models.TextField()
-    pnsn_strt_age = models.TextField()
-    pnsn_strt_age_nm = models.TextField()
+    pnsn_recp_trm = models.JSONField(default=list, blank=True)
+    pnsn_recp_trm_nm = models.JSONField(default=list, blank=True)
+    pnsn_entr_age = models.JSONField(default=list, blank=True)
+    pnsn_entr_age_nm = models.JSONField(default=list, blank=True)
+    mon_paym_atm = models.JSONField(default=list, blank=True)
+    mon_paym_atm_nm = models.JSONField(default=list, blank=True)
+    paym_prd = models.JSONField(default=list, blank=True)
+    paym_prd_nm = models.JSONField(default=list, blank=True)
+    pnsn_strt_age = models.JSONField(default=list, blank=True)
+    pnsn_strt_age_nm = models.JSONField(default=list, blank=True)
     pnsn_recp_amt = models.IntegerField()
 
 

@@ -10,8 +10,8 @@ import ArticleUpdateView from '@/views/ArticleUpdateView.vue'
 import MapView from '@/views/MapView.vue'
 import ExchangeView from '@/views/ExchangeView.vue'
 import FinanceComparsionView from '@/views/FinanceComparsionView.vue'
-import DepositProductDetailView from '@/views/DepositProductDetailView.vue'
-import SavingProductDetailView from '@/views/SavingProductDetailView.vue'
+import DepositProductDetailView from '@/views/ProductDetail/DepositProductDetailView.vue'
+import SavingProductDetailView from '@/views/ProductDetail/SavingProductDetailView.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import UserUpdateView from '@/views/UserUpdateView.vue'
 import PortfolioUpdate from '@/components/PortfolioUpdate.vue'
@@ -19,9 +19,11 @@ import TopMbti from '@/components/TopMbti.vue'
 import TopAgeGender from '@/components/TopAgeGender.vue'
 import RecommendProduct from '@/components/RecommendProduct.vue'
 import BasicInfoUpdate from '@/components/BasicInfoUpdate.vue'
-import SubscribeProduct from '@/components/SubscribeProduct.vue'
-import SubscribeProductView from '@/views/SubscribeProductView.vue'
+import ChartLine from '@/components/ChartLine.vue'
+import SubscribeProductView from '@/views/ProductView/SubscribeProductView.vue'
 import ProductView from '@/views/ProductView.vue'
+import FinanceProductView from '@/views/ProductView/FinanceProductView.vue'
+import AnnuityProductDetailView from '@/views/ProductDetail/AnnuityProductDetailView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,17 +36,22 @@ const router = createRouter({
     {
       path: '/compare',
       name: 'compare',
-      component: FinanceComparsionView
+      component: FinanceProductView
     },
     {
-      path: '/deposit_product-detail/:fin_prdt_cd',
+      path: '/deposit-product-detail/:fin_prdt_cd',
       name: 'deposit_product_detail',
       component: DepositProductDetailView
     },
     {
-      path: '/saving_product-detail/:fin_prdt_cd',
+      path: '/saving-product-detail/:fin_prdt_cd',
       name: 'saving_product_detail',
       component: SavingProductDetailView
+    },
+    {
+      path: '/annuity-saving-product-detail/:fin_prdt_cd',
+      name: 'annuity_saving_product_detail',
+      component: AnnuityProductDetailView
     },
     {
 		path: '/signup',
@@ -75,27 +82,27 @@ const router = createRouter({
 		path: '/update',
 		name: 'update',
 		component: UserUpdateView
-		},
-		{
-			path: '/articles',
-			name: 'articles',
-			component: ArticleView
-		},
+	},
+	{
+		path: '/articles',
+		name: 'articles',
+		component: ArticleView
+	},
     {
-			path: '/article-create',
-			name: 'article_create',
-			component: ArticleCreateView
-		},
+		path: '/article-create',
+		name: 'article_create',
+		component: ArticleCreateView
+	},
     {
-			path: '/article-detail/:article_id',
-			name: 'article_detail',
-			component: ArticleDetailView
-		},
-		{
-			path: '/article-update/:article_id',
-			name: 'article_update',
-			component: ArticleUpdateView
-		},
+		path: '/article-detail/:article_id',
+		name: 'article_detail',
+		component: ArticleDetailView
+	},
+	{
+		path: '/article-update/:article_id',
+		name: 'article_update',
+		component: ArticleUpdateView
+	},
     {
 		path: '/map',
 		name: 'map',
@@ -124,7 +131,7 @@ const router = createRouter({
     {
 		path: '/subscription',
 		name: 'subscription',
-		component: SubscribeProduct
+		component: ChartLine
 	},
     {
 		path: '/subscribe/:fin_prdt_cd',

@@ -32,6 +32,18 @@ export const useFinanceStore = defineStore('finance', () => {
     }).catch(err => console.log(err))
   }
 
+  const company = ref({})
+  // 단일 회사 조회
+  const getCompanyDetail = function (finCoNo) {
+    axios({
+        method: 'get',
+        url: `${API_URL}/finances/get-company-detail/${finCoNo}/`
+    }).then(res => {
+        console.log('금융회사 조회 완료')
+        company.value = res.data
+    }).catch(err => console.log(err))
+  }
+
   const filteredProducts = ref([])
 
   // 예금 상품 검색
@@ -43,10 +55,8 @@ export const useFinanceStore = defineStore('finance', () => {
         method: 'get',
         url: `${API_URL}/finances/search-deposit-products/${fin_co_no}/${save_trm}/`
     }).then(res => {
-        console.log('검색 완료')
+        console.log('예금 검색 완료')
         filteredProducts.value = res.data
-        console.log(filteredProducts.value)
-        console.log(filteredProducts.value.length)
         productType.value = 'deposit'
     }).catch(err => console.log(err))
   }
@@ -55,17 +65,40 @@ export const useFinanceStore = defineStore('finance', () => {
   const searchSavingProducts = function (fin_co_no, save_trm) {
       fin_co_no = fin_co_no || '전체'
       save_trm = save_trm || 0
-      console.log(fin_co_no, save_trm)
     axios({
         method: 'get',
         url: `${API_URL}/finances/search-saving-products/${fin_co_no}/${save_trm}/`
     }).then(res => {
-        console.log('검색 완료')
+        console.log('적금 검색 완료')
+        filteredProducts.value = res.data
+        productType.value = 'saving'
+    }).catch(err => console.log(err))
+  }
+
+  // 연금 저축 상품 검색
+  const searchAnnuitySavingProducts = function (fin_co_no, pnsn_recp_trm) {
+      fin_co_no = fin_co_no || '전체'
+      pnsn_recp_trm = pnsn_recp_trm || '전체'
+    axios({
+        method: 'get',
+        url: `${API_URL}/finances/search-annuity-saving-products/${fin_co_no}/${pnsn_recp_trm}/`
+    }).then(res => {
+        console.log('연금 저축 검색 완료')
+        filteredProducts.value = res.data
+    }).catch(err => console.log(err))
+  }
+
+  // 연금 저축 상품 검색
+  const searchLoanProducts = function (fin_co_no) {
+      fin_co_no = fin_co_no || '전체'
+      console.log(fin_co_no);
+    axios({
+        method: 'get',
+        url: `${API_URL}/finances/search-loan-products/${fin_co_no}/`
+    }).then(res => {
+        console.log('대출 상품 검색 완료')
         filteredProducts.value = res.data
         console.log(filteredProducts.value)
-        console.log(filteredProducts.value.length)
-        productType.value = 'saving'
-
     }).catch(err => console.log(err))
   }
 
@@ -91,15 +124,28 @@ export const useFinanceStore = defineStore('finance', () => {
         }).catch(err => console.log(err))
     }
     
-    const annuitySavingProductList = ref([])
+  const annuitySavingProductList = ref([])
+
   // 연금 상품 목록 조회
   const getAnnuitySavingProducts = function () {
     axios({
         method: 'get',
         url: `${API_URL}/finances/get-annuity-saving-products/`
     }).then(res => {
-        console.log('연그 상품 조회 완료')
+        console.log('연금 상품 조회 완료')
         annuitySavingProductList.value = res.data
+    }).catch(err => console.log(err))
+  }
+
+  const loanProductsList = ref([])
+  // 대출 상품 목록 조회
+  const getLoanProducts = function () {
+    axios({
+        method: 'get',
+        url: `${API_URL}/finances/get-loan-products/`
+    }).then(res => {
+        console.log('대출 상품 조회 완료')
+        loanProductsList.value = res.data
     }).catch(err => console.log(err))
   }
 
@@ -130,6 +176,19 @@ export const useFinanceStore = defineStore('finance', () => {
         console.log('단일 적금 상품 상세 조회 성공')
         console.log(res.data)
         savingProduct.value = res.data
+    }).catch(err => console.log(err))
+  }
+
+  const anniutyProduct = ref(null)
+  // 단일 연금 상품 상세 정보 조회
+  const getAnnuitySavingProductDetail = function (finPrdtCd) {
+    axios({
+        method: 'get',
+        url: `${API_URL}/finances/get-annuity-saving-product-detail/${finPrdtCd}/`
+    }).then(res => {
+        console.log('단일 연금 상품 상세 조회 성공')
+        console.log(res.data)
+        anniutyProduct.value = res.data
     }).catch(err => console.log(err))
   }
 
@@ -175,6 +234,7 @@ export const useFinanceStore = defineStore('finance', () => {
     const option = options.find(opt => opt.save_trm === term)
     return option ? option.intr_rate : '--'
   }
+
   // 열 정렬 상태
   const columnSortStates = {
     dcls_month: false,
@@ -183,8 +243,13 @@ export const useFinanceStore = defineStore('finance', () => {
     6: false,
     12: false,
     24: false,
-    36: false
+    36: false,
+    pnsn_kind_nm: false,
+    prdt_type_nm: false,
+    dcls_rate: false,
+    avg_prft_rate: false
   }
+
   // 상품 정렬
   const sortProducts = function (key) {
     console.log(key)
@@ -197,13 +262,20 @@ export const useFinanceStore = defineStore('finance', () => {
         }
     })
 
-    if (key === 'dcls_month' || key === 'fin_prdt_nm' || key === 'kor_co_nm') {
+    if (key === 'dcls_month' || key === 'fin_prdt_nm' || key === 'kor_co_nm' || key === 'pnsn_kind_nm' || key === 'prdt_type_nm') {
         filteredProducts.value.sort((a, b) => {
             const valueA = a.product[key]
             const valueB = b.product[key]
 
-            return isSorted ? valueB.localeCompare(valueA) : valueA.localeCompare(valueB);
-        });
+            return isSorted ? valueB.localeCompare(valueA) : valueA.localeCompare(valueB)
+        })
+    } else if (key === 'dcls_rate' || key === 'avg_prft_rate') {
+        filteredProducts.value.sort((a, b) => {
+          const valueA = a.product[key]
+          const valueB = b.product[key]
+
+          return isSorted ? valueB - valueA : valueA - valueB
+        })
     } else if ([6, 12, 24, 36].includes(key)) {
         const term = Number(key)
         console.log(term)
@@ -254,15 +326,15 @@ export const useFinanceStore = defineStore('finance', () => {
     } else {
       console.error('allProductList.value이 배열이 아닙니다.');
     }
-  };
+  }
   
-
   return {
-    companys,
+    companys, company, 
     depositProductList, depositProduct, savingProduct, depostiOptionLIst, depositProductOptionList,
     savingProductList, savingOptionList, productType, savingProductOptionList, allProductList, annuitySavingProductList, OneProduct,
     getCompanys, getDepositProducts, getDepositOptions, getDepositProductOptions, getDepositProductDetail,
     getSavingProducts, getSavingProductOptions,
     getSavingProductDetail,
-    filteredProducts, searchDepositProducts, searchSavingProducts, sortProducts, getAllProducts, getAnnuitySavingProducts, getOneProduct }
+    filteredProducts, searchDepositProducts, searchSavingProducts, sortProducts, getAllProducts, getAnnuitySavingProducts, getOneProduct,
+    searchAnnuitySavingProducts, anniutyProduct, getAnnuitySavingProductDetail, getCompanyDetail, getLoanProducts, loanProductsList, searchLoanProducts }
 }, { persist: true })

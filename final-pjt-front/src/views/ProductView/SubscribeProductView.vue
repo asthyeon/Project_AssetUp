@@ -1,23 +1,30 @@
 <template>
+  <!-- 뒤로 가기 -->
   <div class='product-type-buttons'>
     <button class='product-type-buttons' @click="goBack">뒤로가기</button>
   </div>
+  <!-- 금융상품 가입 페이지 -->
   <div class='product-type-buttons'>
     <h1>금융상품 가입 페이지</h1>
     <div class='product-type-buttons'>
+        <!-- 예치금 및 월 납입금, 가입하기 -->
         <form @submit.prevent="userStore.subscribe(financeStore.OneProduct.product.fin_prdt_cd, payment)" style="">
-          <label for="payment">월 납입금 : </label>
+          <label v-if="financeStore.OneProduct.product.fin_prdt_nm.includes('예금')" for="payment">예치금 : </label>
+          <label v-else for="payment">월 납입금 : </label>
           <input type="payment" name="payment" id="payment" v-model="payment">
           <button class='product-type-buttons'>가입하기</button>
         </form>
+          <!-- 금융 상품 상세 정보 -->
           <p>공시제출월 : {{ financeStore.OneProduct.product.dcls_month }}</p>
           <p>금융회사명 : {{ financeStore.OneProduct.product.kor_co_nm }}</p>
           <p>상품명 : {{ financeStore.OneProduct.product.fin_prdt_nm }}</p>
-          <p>가입제한 : {{ JOIN_DENY_CHOICES[financeStore.OneProduct.product.join_deny] }}</p>
-          <p>가입방법 : {{ financeStore.OneProduct.product.join_way }}</p>
-          <p>우대조건 :</p>
-          <p>{{ financeStore.OneProduct.product.spcl_cnd }}</p>
-          <p v-html="formatSpecialConditions(financeStore.OneProduct.product.spcl_cnd)"></p>
+          <div v-if="financeStore.OneProduct.product.fin_prdt_nm.includes('예금') || financeStore.OneProduct.product.fin_prdt_nm.includes('적금')">
+            <p>가입제한 : {{ JOIN_DENY_CHOICES[financeStore.OneProduct.product.join_deny] }}</p>
+            <p>가입방법 : {{ financeStore.OneProduct.product.join_way }}</p>
+            <p>우대조건 :</p>
+            <p>{{ financeStore.OneProduct.product.spcl_cnd }}</p>
+            <p v-html="formatSpecialConditions(financeStore.OneProduct.product.spcl_cnd)"></p>
+          </div>
       </div>
   </div>
 </template>
