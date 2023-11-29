@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!userStore.isLogin">
+    <div v-if="!userStore.isLogin" class="header">
       <div class="welcome">
         <h3>자산Up과 함께하는 금융상품 추천 서비스</h3>
         <h6>로그인시 환율정보 및 은행검색 이용이 가능합니다.</h6>
@@ -53,11 +53,13 @@
         <h4><strong>{{ userStore.user.nickname }}</strong>님 어서오세요!<br>오늘도 자산 Up!</h4>
         <div>
           <div class="progress-bar-container">
-            <div class="progress">
-              <div class="progress-bar" role="progressbar" :aria-valuenow="calculateProgress" aria-valuemin="0" :aria-valuemax="userStore.user.target_asset" :style="{ width: calculateProgress + '%' }"></div>
-            </div>
-            <p class="progress-label">{{ calculateProgress.toFixed(2) }}%</p>
-          </div>
+      <div class="progress">
+        <div class="progress-bar" role="progressbar" :aria-valuenow="calculateProgress" aria-valuemin="0" :aria-valuemax="userStore.user.target_asset" :style="{ width: calculateProgress + '%' }">
+          <!-- 텍스트를 나타내는 progress-label 추가 -->
+          <p class="progress-label">{{ calculateProgress.toFixed(2) }}%</p>
+        </div>
+      </div>
+    </div>
         </div>
       </div>
 
@@ -137,8 +139,10 @@ const goDetail = function (finPrdtCd, finPrdtNm) {
 .welcome {
   background-color: #f7f7f7;
   padding: 20px;
-  text-align: center;
   border-bottom: 10px solid green;
+  background-color: white;
+  text-align: end;
+  height: 150px;
 }
 
 .separator {
@@ -199,19 +203,29 @@ const goDetail = function (finPrdtCd, finPrdtNm) {
 
 .progress-bar-container {
   margin-top: 20px;
+  display: flex;
+  justify-content: flex-end; /* 내용을 오른쪽으로 정렬 */
 }
 
 .progress {
   height: 20px;
+  width: 300px;
+  position: relative; /* 상대 위치 설정 */
+  height: 30px;
 }
 
 .progress-bar {
   border-radius: 10px;
+  background-color: #05f240; /* 초록색으로 변경 */
 }
 
 .progress-label {
-  margin-top: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* 가운데로 이동시키는 CSS */
   text-align: center;
   font-weight: bold;
+  color: black;
 }
 </style>
