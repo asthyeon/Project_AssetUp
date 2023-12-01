@@ -24,6 +24,7 @@ import SubscribeProductView from '@/views/ProductView/SubscribeProductView.vue'
 import ProductView from '@/views/ProductView.vue'
 import FinanceProductView from '@/views/ProductView/FinanceProductView.vue'
 import AnnuityProductDetailView from '@/views/ProductDetail/AnnuityProductDetailView.vue'
+import LoanProductDetailView from '@/views/ProductDetail/LoanProductDetailView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -52,6 +53,11 @@ const router = createRouter({
       path: '/annuity-saving-product-detail/:fin_prdt_cd',
       name: 'annuity_saving_product_detail',
       component: AnnuityProductDetailView
+    },
+    {
+      path: '/loan-product-detail/:fin_prdt_cd',
+      name: 'loan_product_detail',
+      component: LoanProductDetailView
     },
     {
 		path: '/signup',

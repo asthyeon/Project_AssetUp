@@ -1,37 +1,38 @@
 <template>
-    <div class="product-type-buttons">
-      <button @click="goBack">뒤로가기</button>
+  <div class="product-type-buttons">
+    <button @click="goBack">뒤로가기</button>
+  </div>
+  <div>
+    <h1>금융상품 상세 정보</h1>
+    <div v-if="userStore.isLogin" class='product-type-buttons'>
+      <div v-if="userProductsArray.some(item => item[1] === financeStore.anniutyProduct[0].product.fin_prdt_cd)">
+        <p>이미 구독 중인 상품입니다.</p>
+        <button class='product-type-buttons' @click="updateUser(false)">해제하기</button>
+      </div>
+      <div v-else>
+        <!-- 상품 가입페이지로 이동 -->
+        <button class='product-type-buttons' @click="goSubscribe(financeStore.anniutyProduct[0].product.fin_prdt_nd)">가입하기</button>
+      </div>
     </div>
-    <div>
-      <h1>금융상품 상세 정보</h1>
-      <div v-if="userStore.isLogin" class='product-type-buttons'>
-        <div v-if="userProductsArray.some(item => item[1] === financeStore.anniutyProduct[0].product.fin_prdt_cd)">
-          <p>이미 구독 중인 상품입니다.</p>
-          <button class='product-type-buttons' @click="updateUser(false)">해제하기</button>
-        </div>
-        <div v-else>
-          <!-- 상품 가입페이지로 이동 -->
-          <button class='product-type-buttons' @click="goSubscribe(financeStore.anniutyProduct[0].product.fin_prdt_nd)">가입하기</button>
+    <div class="product-info">
+      <p class="section-title">상품 정보</p>
+      <div class="info-container">
+        <div style="padding-left: 50px;">
+          <p>공시제출월 : {{ financeStore.anniutyProduct[0].product.dcls_month }}</p>
+          <p>금융회사명 : <span class="clickable-text">{{ financeStore.anniutyProduct[0].product.kor_co_nm }}</span></p>
+          <p>상품명 : {{ financeStore.anniutyProduct[0].product.fin_prdt_nm }}</p>
+          <p>상품 종류 : {{ financeStore.anniutyProduct[0].product.pnsn_kind_nm }}</p>
+          <p>상품 유형 : {{ financeStore.anniutyProduct[0].product.prdt_type_nm }}</p>
+      </div>
+      <div style="padding-right: 50px;">
+          <p>평균 수익률 : {{ financeStore.anniutyProduct[0].product.avg_prft_rate }}%</p>
+          <p>공시 이율 : {{ financeStore.anniutyProduct[0].product.dcls_rate }}%</p>
+          <p>보장 금리 :</p>
+          <p v-html="formatSpecialConditions(financeStore.anniutyProduct[0].product.guar_rate)"></p>
+
         </div>
       </div>
-      <div class="product-info">
-        <p class="section-title">상품 정보</p>
-        <div class="info-container">
-          <div style="padding-left: 50px;">
-            <p>공시제출월 : {{ financeStore.anniutyProduct[0].product.dcls_month }}</p>
-            <p>금융회사명 : <span class="clickable-text">{{ financeStore.anniutyProduct[0].product.kor_co_nm }}</span></p>
-            <p>상품명 : {{ financeStore.anniutyProduct[0].product.fin_prdt_nm }}</p>
-            <p>상품 종류 : {{ financeStore.anniutyProduct[0].product.pnsn_kind_nm }}</p>
-            <p>상품 유형 : {{ financeStore.anniutyProduct[0].product.prdt_type_nm }}</p>
-        </div>
-        <div style="padding-right: 50px;">
-            <p>평균 수익률 : {{ financeStore.anniutyProduct[0].product.avg_prft_rate }}</p>
-            <p>공시 이율 : {{ financeStore.anniutyProduct[0].product.dcls_rate }}</p>
-            <p>보장 금리 : {{ financeStore.anniutyProduct[0].product.guar_rate}}</p>
-            <!-- <p>보장 금리 : {{ parseGuarRate(financeStore.anniutyProduct[0].product.guar_rate)}}</p> -->
-          </div>
-        </div>
-      </div>
+    </div>
     </div>
   </template>
   
@@ -56,32 +57,6 @@ finPrdtCd.value = route.params.fin_prdt_cd
 // 단일 상품 조회
 financeStore.getAnnuitySavingProductDetail(route.params.fin_prdt_cd)
   
-const parseGuarRate = function (inputStr) {
-    // 정규표현식 패턴
-    const pattern = /(\d+)\s*년\s*이\s*하|(\d+)\s*년\s*초과|(\d+\.\d+)%/gi;
-
-    // 각 줄을 처리
-    const lines = inputStr.split('\n');
-    const matches = [];
-
-    lines.forEach(line => {
-        const match = line.match(pattern);
-        if (match) {
-            matches.push(match);
-        }
-    })
-
-    let text = ref('')
-
-    // 결과 출력
-    matches.forEach(match => {
-        const duration = match[1] || match[2];
-        const interestRate = match[3];
-        text.value = text.value + '\n' + `기간: ${duration}년, 이율: ${interestRate}%`
-    })
-    return text.value
-}
-
 // 상품 구독하기
 const updateUser = (isSubscribe) => {
     if (isSubscribe) {
@@ -93,6 +68,12 @@ const updateUser = (isSubscribe) => {
     }
     // 유저의 구독 상품 목록 갱신
     userProductsArray.value = userStore.user.financial_products || []
+}
+
+// 줄바꿈 함수
+const formatSpecialConditions = (data) => {
+  const formattedConditions = data.replace('\n', '<br>')
+  return formattedConditions
 }
 
 // 유저의 구독 상품 목록
@@ -128,42 +109,41 @@ const goHomepage = function () {
   
 <style scoped>
 .product-info {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .section-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .info-container {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .info-container div {
-    width: 48%; /* 조정 가능한 너비 */
+  width: 48%; /* 조정 가능한 너비 */
 }
 
 .product-type-buttons {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .product-type-buttons button {
-    margin-right: 10px;
-    background-color: #2ecc71;
-    color: #ffffff;
-    padding: 8px;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  margin-right: 10px;
+  background-color: #2ecc71;
+  color: #ffffff;
+  padding: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .product-type-buttons button:hover {
-    background-color: #27ae60;
+  background-color: #27ae60;
 }
-
 
 .clickable-text {
   color: #3498db;
@@ -174,5 +154,9 @@ const goHomepage = function () {
 
 .clickable-text:hover {
   color: #2980b9;
+}
+
+.card-container {
+  text-align: center;
 }
 </style>

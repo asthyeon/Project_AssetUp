@@ -107,7 +107,7 @@
   })
   
   // 검색하기 옵션 적용
-  const applyOptions = function (type) {
+  const applyOptions = function () {
     const fin_co_no = selectCompany.value || '전체'
     console.log(fin_co_no);
     const save_trm = selectedTerm.value ? Number(selectedTerm.value) : 0
@@ -196,7 +196,7 @@
 .search-results th, .search-results td {
   border: 1px solid #ddd;
   padding: 10px;
-  text-align: left;
+  text-align: center;
 }
 
 .search-results th {

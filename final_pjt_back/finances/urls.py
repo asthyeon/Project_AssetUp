@@ -58,7 +58,7 @@ urlpatterns = [
     
     # 모든 대출 상품
     path('get-loan-products/', views.get_loan_products, name='get_loan_products'),
-    
+    path('get-loan-product-detail/<str:fin_prdt_cd>/', views.get_loan_product_detail , name='get_loan_product_detail'),
     # 대출 상품 검색
     path('search-loan-products/<str:fin_co_no>/', views.search_loan_products, name='search_loan_products'),
     
@@ -108,8 +108,9 @@ urlpatterns = [
 
     path('get-all-products/', views.get_all_products, name='get_all_products'),
 
-    # 전체상품단일조회
-    # path('get-all-product-detail/<str:fin_prdt_cd>/', views.get_all_product_detail, name='get_all_product_detail'),
+    # 상품 단일 조회
+    path('get-all-product-detail/<str:fin_prdt_cd>/', views.get_all_product_detail, name='get_all_product_detail'),
+    
     # 예금 베스트 top3
     path('top-dps/', views.top_dps, name='top_dps'),
     # 적금 베스트 top3

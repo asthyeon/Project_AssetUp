@@ -75,8 +75,8 @@ const generateChartData = () => {
       parseInt(product[0].substring(4, 6))
     ) // 상품 가입일
 
-    // x축 라벨 생성 (현재 날짜부터 12개월)
-    for (let i = 0; i <= 11; i++) {
+    // x축 라벨 생성 (현재 날짜부터 6개월)
+    for (let i = 0; i <= 5; i++) {
       const currentLabelDate = new Date(currentDate)
       currentLabelDate.setMonth(currentLabelDate.getMonth() + i)
       productChartData.labels.push(`${currentLabelDate.getFullYear()}-${(currentLabelDate.getMonth() + 1).toString().padStart(2, '0')}`)

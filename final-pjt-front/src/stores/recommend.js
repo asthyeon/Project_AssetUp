@@ -180,6 +180,7 @@ const calculateUpdatedPrincipal = (monthlyPayment, interestRate, joinDate, curre
 
   // 가입일과 현재 날짜 사이의 일 수 차이 계산
   const daysDiff = Math.floor((currentDate - joinDate) / (1000 * 60 * 60 * 24))
+  console.log('가입일과 현재 날짜의 차이', daysDiff);
 
   // 월 단위 이자율
   const monthlyInterestRate = interestRate / 12 / 100

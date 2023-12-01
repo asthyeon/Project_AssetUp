@@ -56,14 +56,14 @@ onMounted(() => {
   console.log('mounted')
   // 회사 목록 조회
   financeStore.getCompanys()
-  // 적금 상품 목록 조회
-  financeStore.getSavingProducts()
-  // 예금 상품 목록 조회
-  financeStore.getDepositProducts()
-  // 대출
-  financeStore.getLoanProducts()
-  // 검색 상품 목록 조회
-  financeStore.searchDepositProducts()
+  // // 적금 상품 목록 조회
+  // financeStore.getSavingProducts()
+  // // 예금 상품 목록 조회
+  // financeStore.getDepositProducts()
+  // // 대출
+  // financeStore.getLoanProducts()
+  // // 검색 상품 목록 조회
+  // financeStore.searchDepositProducts()
 })
 
 // 회사 옵션
@@ -95,7 +95,9 @@ const changeToAnnuity = function () {
 
 // 대출 상품
 const changeToLoan = function () {
+  console.log(productType.value)
   productType.value = 'loan'
+  console.log(productType.value)
   financeStore.searchLoanProducts()
 }
 

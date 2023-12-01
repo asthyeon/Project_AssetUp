@@ -31,6 +31,7 @@
         <p>가입제한 : {{ JOIN_DENY_CHOICES[financeStore.savingProduct[0].product.join_deny] }}</p>
         <p>가입방법 : {{ financeStore.savingProduct[0].product.join_way }}</p>
       </div>
+
       <div style="padding-right: 50px;">
         <p>우대조건 :</p>
         <p>{{ financeStore.savingProduct[0].product.spcl_cnd }}</p>
@@ -39,7 +40,6 @@
       </div>
     </div>
   </div>
-  　
 </div>
 </template>
 
@@ -132,26 +132,26 @@ const goHomepage = function () {
 }
 
 .product-info {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .section-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .info-container {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .info-container div {
-    width: 48%; /* 조정 가능한 너비 */
+  width: 48%; /* 조정 가능한 너비 */
 }
 
 .product-type-buttons {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .product-type-buttons button {
@@ -166,7 +166,7 @@ const goHomepage = function () {
 }
 
 .product-type-buttons button:hover {
-    background-color: #27ae60;
+  background-color: #27ae60;
 }
 
 .clickable-text {
@@ -178,5 +178,9 @@ const goHomepage = function () {
 
 .clickable-text:hover {
   color: #2980b9;
+}
+
+.card-container {
+  text-align: center;
 }
 </style>
