@@ -3,34 +3,40 @@
     <nav id="app">
       <div class="nav-links">
         <!-- 고정된 Home 링크 -->
-        <RouterLink :to="{ name: 'main' }" class="nav-link fixed-home fw-bold" style="font-size: 20px;">자산Up</RouterLink>
-      </div>
+<!-- 고정된 Home 이미지 -->
+        <router-link :to="{ name: 'main' }" class="nav-link fixed-home">
+          <img src="@/assets/assetup.png" alt="Home" style="width: 70px; height: 30px; padding: 0px;">
+        </router-link>      </div>
       <div class="auth-links">
         <!-- 금융상품 비교 페이지로 이동 -->
-        <RouterLink :to="{ name: 'compare' }" class="nav-link">Compare</RouterLink> |
-        <!-- 게시판으로 이동 -->
-        <RouterLink :to="{ name: 'articles' }" class="nav-link">Board</RouterLink> |
+        <RouterLink :to="{ name: 'compare' }" class="nav-link">상품비교</RouterLink> |
         <!-- 환율계산기 -->
-        <RouterLink :to="{ name: 'exchange' }" class="nav-link">Exchange</RouterLink> |
+        <RouterLink :to="{ name: 'exchange' }" class="nav-link">환율정보</RouterLink> |
         <!-- 카카오맵 보기 -->
-        <RouterLink :to="{ name: 'map' }" class="nav-link">Map</RouterLink> |
+        <RouterLink :to="{ name: 'map' }" class="nav-link">은행검색</RouterLink> |
+        <!-- 게시판으로 이동 -->
+        <RouterLink :to="{ name: 'articles' }" class="nav-link">게시판</RouterLink> |
         <!-- 회원가입 페이지로 이동 -->
         <div v-if="!userStore.isLogin" >
-          <RouterLink :to="{ name: 'signup' }" class="nav-link">Signup</RouterLink>
+          <RouterLink :to="{ name: 'signup' }" class="nav-link">회원가입</RouterLink>
         </div>
-        <p v-if="!userStore.isLogin">|</p>
-        <div v-if="!userStore.isLogin">
-          <RouterLink :to="{ name: 'login' }" class="nav-link">Login</RouterLink>
-        </div>
+        <div v-if="!userStore.isLogin">|</div>
+        <span v-if="!userStore.isLogin">
+          <RouterLink :to="{ name: 'login' }" class="nav-link">로그인</RouterLink>
+        </span>
         <!-- 프로필 페이지로 이동 -->
-        <RouterLink v-if="userStore.isLogin" :to="{ name: 'profile' }" class="nav-link">Profile |</RouterLink>
+        <RouterLink v-if="userStore.isLogin" :to="{ name: 'profile' }" class="nav-link">마이페이지</RouterLink>
+        <div v-if="userStore.isLogin">|</div>
         <!-- 로그아웃 -->
-        <span v-if="userStore.isLogin" @click="userStore.logOut" class="nav-link">Logout</span>
+        <span v-if="userStore.isLogin" @click="userStore.logOut" class="nav-link">로그아웃</span>
       </div>
     </nav>
   </header>
   <body>
     <RouterView />
+    <footer>
+      문의 <span style="font-family: 'Courier New', Courier, monospace;">:</span> asthyeon@gmail.com / ggobug94@gmail.com
+    </footer>
   </body>
 </template>
 
@@ -101,5 +107,16 @@ header {
 
 .fixed-home {
   margin-right: auto;
+}
+
+footer {
+  background-color: green;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  color: white;
+  text-align: end;
+  padding-right: 20px;
+  z-index: 2;
 }
 </style>

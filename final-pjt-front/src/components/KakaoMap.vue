@@ -1,7 +1,6 @@
 <template>
-  <div style="padding-left: 50px; padding-top: 20px; ">
-    <h1>은행 검색</h1>
-    <hr>
+  <div style="padding-left: 50px; padding-top: 20px;">
+
     <form @submit.prevent="moveTo">
       <select name="" id="" v-model="citySelected" @change="getDistrict(citySelected)">
         <option value="">시/도</option>

@@ -1,7 +1,10 @@
 <template>
-  <div class="exchange-calculator">
-    <h1>환율 계산기</h1>
-    <hr>
+  <div class="welcome">
+  <h1>환율정보</h1>
+  <p>환율정보 파악 및 환율을 계산할 수 있습니다</p>
+</div>
+<div style="background-color: gainsboro; padding: 20px;">
+  <div class="exchange-calculator" style="text-align: center; border: 1px solid;">
 
     <!-- 화폐 선택 드롭다운 -->
     <select id="currency" v-model="selected">
@@ -17,12 +20,14 @@
 
     <!-- 선택된 화폐에 대한 정보 출력 -->
     <div v-if="selected" class="exchange-info">
+      <hr>
       <h2>{{ getExchangeInfo(selected).cur_nm }} ({{ getExchangeInfo(selected).cur_unit }})</h2>
       <p>전신환(송금) 받으실 때 : {{ getExchangeInfo(selected).ttb }}</p>
       <p>전신환(송금) 보내실 때: {{ getExchangeInfo(selected).tts }}</p>
       <p>매매 기준율 : {{ getExchangeInfo(selected).deal_bas_r }}</p>
 
       <!-- 환율 계산 폼 (원 -> 선택한 화폐) -->
+      <hr>
       <h3>환율 계산(매매 기준율)</h3>
       <form @submit.prevent="multiply" class="calculator-form">
         <label for="number">KRW : </label>
@@ -40,6 +45,17 @@
       </form>
     </div>
   </div>
+  <p>　</p>
+  <p>　</p>
+  <p>　</p>
+  <p>　</p>
+  <p>　</p>
+  <p>　</p>
+  <p>　</p>
+  <p>　</p>
+  <p>　</p>
+  <p>　</p>
+</div>
 </template>
 
 
@@ -142,6 +158,17 @@ const validateResult = function () {
 </script>
 
 <style scoped>
+.welcome {
+  background-image: url('@/assets/upup2.png');
+  background-size: 150px; /* 배경 이미지를 커버하도록 설정 */
+  background-repeat: no-repeat;
+  background-position: 10px; /* 이미지를 가운데 정렬 */
+  padding: 20px;
+  border-bottom: 20px solid green;
+  background-color: white;
+  text-align: end;
+  height: 160px;
+}
 .exchange-calculator {
   max-width: 600px;
   margin: auto;
@@ -149,6 +176,7 @@ const validateResult = function () {
   border: 1px solid #ddd;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
 }
 
 .exchange-info {

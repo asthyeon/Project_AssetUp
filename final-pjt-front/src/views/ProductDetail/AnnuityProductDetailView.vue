@@ -33,24 +33,6 @@
         </div>
       </div>
     </div>
-
-    <hr style="border-top: 3px solid #2ecc71">
-
-    <!-- 상품의 옵션 리스트 -->
-    <div class="card-container d-flex flex-wrap">
-      <h3 class="w-100">옵션 목록</h3>
-      <div class="col-md-4 option-card p-3 m-3 " v-for="(option, index) in financeStore.anniutyProduct[0].options" :key="index">
-        <div class="option-card-body">
-          <p class="font-weight-bold">{{ index+1 }}번 옵션</p>
-          <p><strong>연금수령기간</strong> : {{ option.pnsn_recp_trm_nm }}</p>
-          <p><strong>월납입금액</strong> : {{ option.mon_paym_atm_nm }}</p>
-          <p><strong>가입나이</strong> : {{ option.pnsn_entr_age_nm	 }}</p>
-          <p><strong>연금개시나이</strong> : {{ option.pnsn_strt_age_nm }}</p>
-          <p><strong>연금수령액</strong> : {{ option.pnsn_recp_amt }}원</p>
-        </div>
-      </div>
-    </div>
-
     </div>
   </template>
   
@@ -176,26 +158,5 @@ const goHomepage = function () {
 
 .card-container {
   text-align: center;
-}
-.option-card {
-  display: inline-block;
-  background-color: #fff;
-  border: 1px solid #2ecc71;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 240px;
-  height: 300px;
-  text-align: left;
-  transition: background-color 0.3s ease;
-}
-
-.option-card-body {
-  cursor: pointer;
-  padding: 20px;
-  font-size: 15px;
-}
-
-.option-card:hover {
-  background-color: #f5f5f5;
 }
 </style>

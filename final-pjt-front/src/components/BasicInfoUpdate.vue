@@ -1,13 +1,14 @@
 <template>
   <!-- 프로필 페이지 기본 정보 -->
-  <div class="container mt-4">
+  <div>
     <div v-if="status === '1'" class="row">
-      <div class="col-md-12">
+      <div class="col-12">
         <div>
-          <h2>기본정보</h2>
+          <h4 class="fw-bold">기본정보</h4>
         </div>
-        <div>
-          <p><strong>아이디</strong> : {{ userStore.user.username }}</p>
+        <hr>
+        <div style="font-size: 20px;">
+          <p><strong>아이디 : </strong>{{ userStore.user.username }}</p>
           <p><strong>별명</strong> : {{ userStore.user.nickname }}</p>
           <p v-if="userStore.user.gender === 'M'">
             <strong>성별</strong> : 남자
@@ -21,43 +22,44 @@
           <p><strong>MBTI</strong> : {{ userStore.user.mbti }}</p>
           <p><strong>현재자산</strong> : {{ userStore.user.money }} 만원</p>
           <p><strong>목표자산</strong> : {{ userStore.user.target_asset }} 만원</p>
-          <button @click="goUpdate" class="btn btn-primary mt-3">수정하기</button>
+          <button @click="goUpdate" class="btn btn-success mt-3">수정</button>
         </div>
       </div>
     </div>
     <div v-else>
-      <h1 class="mb-4">기본정보 수정</h1>
-      <form @submit.prevent="updateUser">
+      <h4 class="fw-bold">기본정보수정</h4>
+      <hr>
+      <form @submit.prevent="updateUser" style="font-size: 20px;">
         <p><strong>아이디</strong> : {{ userStore.user.username }}</p>
-        <div class="mb-3">
-          <label for="nickname" class="form-label">별명</label>
+        <div class="">
+          <label for="nickname" class="form-label fw-bold">별명</label>
           <input type="text" class="form-control" id="nickname" v-model.trim="user.nickname">
         </div>
-        <div class="mb-3">
-          <label for="age" class="form-label">나이</label>
-          <input type="age" class="form-control" id="age" v-model.trim="user.age"><br>
+        <div class="">
+          <label for="age" class="form-label fw-bold">나이</label>
+          <input type="age" class="form-control" id="age" v-model.trim="user.age">
         </div>
-        <div class="mb-3">
-          <label for="address" class="form-label">주소</label>
-          <input type="address" class="form-control" id="address" v-model.trim="user.address"><br>
+        <div class="">
+          <label for="address" class="form-label fw-bold">주소</label>
+          <input type="address" class="form-control" id="address" v-model.trim="user.address">
         </div>
-        <div class="mb-3">
-          <label for="salary" class="form-label">연봉</label>
-          <input type="salary" class="form-control" id="salary" v-model.trim="user.salary"><br>
+        <div class="">
+          <label for="salary" class="form-label fw-bold">연봉(만원)</label>
+          <input type="salary" class="form-control" id="salary" v-model.trim="user.salary">
         </div>
-        <div class="mb-3">
-          <label for="mbti" class="form-label">MBTI</label>
-          <input type="mbti" class="form-control" id="mbti" v-model.trim="user.mbti"><br>
+        <div class="">
+          <label for="mbti" class="form-label fw-bold">MBTI</label>
+          <input type="mbti" class="form-control" id="mbti" v-model.trim="user.mbti">
         </div>
-        <div class="mb-3">
-          <label for="money" class="form-label">현재자산</label>
-          <input type="money" class="form-control" id="money" v-model.trim="user.money"><br>
+        <div class="">
+          <label for="money" class="form-label fw-bold">현재자산(만원)</label>
+          <input type="money" class="form-control" id="money" v-model.trim="user.money">
         </div>
-        <div class="mb-3">
-          <label for="target_asset" class="form-label">목표자산</label>
-          <input type="target_asset" class="form-control" id="target_asset" v-model.trim="user.target_asset"><br>
+        <div class="">
+          <label for="target_asset" class="form-label fw-bold">목표자산(만원)</label>
+          <input type="target_asset" class="form-control" id="target_asset" v-model.trim="user.target_asset">
         </div>
-        <button type="submit" class="btn btn-primary mt-3">수정하기</button>
+        <button type="submit" class="btn btn-success mt-3">수정완료</button>
       </form>
     </div>
   </div>

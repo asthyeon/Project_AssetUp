@@ -1,35 +1,32 @@
 <template>
   <div class="container d-flex flex-column p-2">
     <!-- 상품 추천 -->
-    <div class="mb-4">
-      <h3>상품 추천</h3>
-    </div>
+    <h4 class="fw-bold">상품추천</h4>
+    <p>선택한 카테고리에 따라 <strong>{{ userStore.user.username }}</strong>님과 유사한 이용자의 가입 상품을 추천합니다</p>
+    <hr>
     <!-- 포트폴리오, 추천 카테고리, 상품 추천 -->
     <div class="d-flex">
       <!-- 왼쪽 영역 (카드) -->
       <div class="flex-shrink-0 me-4">
-        <!-- 포트폴리오 -->
-        <div class="mb-4">
-          <div class="fw-bold">포트폴리오</div>
-        </div>
         <!-- 추천 카테고리 -->
         <div class="mb-4">
-          <div class="fw-bold">추천 카테고리</div>
+          <div class="fw-bold">카테고리</div>
+          <hr>
           <div class="form-check">
             <input class="form-check-input" type="checkbox" v-model="selectedOptions.age" @change="recommendStore.updateRecommendation(selectedOptions)" />
-            <label class="form-check-label">나이({{ ages }}대)</label>
+            <label class="form-check-label">나이<strong>({{ ages }}대)</strong></label>
           </div>
           <div class="form-check">
             <input class="form-check-input" type="checkbox" v-model="selectedOptions.gender" @change="recommendStore.updateRecommendation(selectedOptions)" />
-            <label class="form-check-label">성별({{ userStore.user.gender }})</label>
+            <label class="form-check-label">성별<strong>({{ gender === 'M' ? '남성' : '여성' }})</strong></label>
           </div>
           <div class="form-check">
             <input class="form-check-input" type="checkbox" v-model="selectedOptions.mbti" @change="recommendStore.updateRecommendation(selectedOptions)" />
-            <label class="form-check-label">MBTI({{ userStore.user.mbti }})</label>
+            <label class="form-check-label">MBTI<strong>({{ userStore.user.mbti }})</strong></label>
           </div>
           <div class="form-check">
             <input class="form-check-input" type="checkbox" v-model="selectedOptions.salary" @change="recommendStore.updateRecommendation(selectedOptions)" />
-            <label class="form-check-label">연봉(±10%)</label>
+            <label class="form-check-label">연봉<strong>(±10%)</strong></label>
           </div>
 
         </div>
@@ -37,19 +34,16 @@
       <!-- 오른쪽 영역 (상품 추천) -->
       <div class="flex-grow-1 overflow-auto">
         <div>
-          <div class="fw-bold">상품추천</div>
+          <div class="fw-bold"></div>
           <!-- 인기 상품들 카드 -->
           <div>
             <!-- 필터링된 상품 출력 -->
             <div v-if="recommendStore.rankedProductsList.length > 0">
-              <h4 class="mb-3">
-                추천된 상품
-                <span>
-                  
-                </span>
-              </h4>
               <div v-for="product in recommendStore.rankedProductsList" :key="product?.product?.fin_prdt_cd" class="card mb-3">
-                <div class="card-body" v-if="product && product.product" @click="goDetail(product.product.fin_prdt_cd, product.product.fin_prdt_nm)">
+                <div class="product-box" v-if="product && product.product" 
+                @click="goDetail(product.product.fin_prdt_cd, product.product.fin_prdt_nm)"
+                :style="{ backgroundColor: getRandomColor(0.8), borderColor: getRandomColor(1) }"
+                >
                   <strong>
                     {{ product.product.kor_co_nm }}
                   </strong>
@@ -82,6 +76,7 @@ const userStore = useUserStore()
 const recommendStore = useRecommendStore()
 const financeStore = useFinanceStore()
 const ages = Math.floor(userStore.user.age / 10) * 10
+const gender = userStore.user.gender
 
 const router = useRouter()
 financeStore.getAllProducts()
@@ -121,10 +116,33 @@ const goDetail = function (finPrdtCd, finPrdtNm) {
   }
 }
 
+// 랜덤 색깔 부여
+const getRandomColor = (opacity) => {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color + (opacity !== undefined ? Math.round(opacity * 255).toString(16) : '');
+}
+
 </script>
 
 <style scoped>
 .overflow-auto {
   max-height: 400px; /* 원하는 높이로 조절하세요 */
+}
+
+.product-box {
+  padding: 15px;
+  border-radius: 8px;
+  border: none;
+  color: rgb(33, 30, 30);
+  transition: background-color 0.3s ease-in-out;
+  font-size: 15px;
+}
+
+.product-box:hover {
+  background-color: rgba(5, 244, 104, 0.9) !important;
 }
 </style>

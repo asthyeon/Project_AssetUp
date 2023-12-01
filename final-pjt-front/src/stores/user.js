@@ -92,7 +92,7 @@ export const useUserStore = defineStore('user', () => {
         // 로그아웃 성공 시 로컬 상태 초기화
         token.value = null
         localStorage.removeItem('user')
-        router.push({ name: 'login'})
+        router.push({ name: 'main'})
       })
       .catch(err => console.log(err.response.data))
   }

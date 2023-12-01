@@ -1,6 +1,6 @@
 <template>
   <!-- 가입 상품 -->
-  <div>
+  <div style="background-color: white; border: 1px solid; border-radius: 10px; padding: 20px; text-align: center;">
     <h1>내가 가입한 상품</h1>
     <div class="chart-container">
       <canvas id="lineChart" width="100" height="100"></canvas>

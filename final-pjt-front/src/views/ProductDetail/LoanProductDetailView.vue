@@ -95,23 +95,6 @@
         </div>
       </div>
     </div>
-
-    <!-- 신용 대출 -->
-    <div class="card-container d-flex flex-wrap" v-if="'crdt_prdt_type' in financeStore.loanProduct.options[0]">
-      <h3 class="w-100">옵션 목록</h3>
-      <div class="col-md-4 option-card p-3 m-3" style="height: 480px;" v-for="(option, index) in financeStore.loanProduct.options" :key="index">
-        <div class="option-card-body">
-          <p class="font-weight-bold">{{ index + 1 }}번 옵션</p>
-          <p><strong>금리 구분</strong> : {{ option.crdt_lend_rate_type_nm }}</p>
-          <div v-if="'crdt_prdt_type' in financeStore.loanProduct.options[0]">
-            <p><strong>신용 등급에 따른 금리</strong> : </p>
-            <p v-for="grade in crdtGrade" :key="grade">
-              {{ `${grade} 등급 : ${financeStore.loanProduct.options[0][`crdt_grad_${grade}`] !== null ? financeStore.loanProduct.options[0][`crdt_grad_${grade}`] + '%' : '금리 정보 없음'}` }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -236,26 +219,5 @@ const goBack = () => {
 
 .card-container {
   text-align: center;
-}
-.option-card {
-  display: inline-block;
-  background-color: #fff;
-  border: 1px solid #2ecc71;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 250px;
-  height: 270px;
-  text-align: left;
-  transition: background-color 0.3s ease;
-}
-
-.option-card-body {
-  cursor: pointer;
-  padding: 20px;
-  font-size: 15px;
-}
-
-.option-card:hover {
-  background-color: #f5f5f5;
 }
 </style>

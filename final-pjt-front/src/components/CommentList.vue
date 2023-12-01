@@ -7,15 +7,15 @@
       <!-- 수정 중인 경우 댓글 수정 폼 표시 -->
       <span v-if="isEditing">
         <input v-model.trim="editedContent" id="editedContent" type="text">
-        <button @click="saveEditedComment">저장</button>
-        <button @click="cancelEdit">취소</button>
+        <button style="margin-left: 5px; font-size: 15px; padding: 5px;" @click="saveEditedComment" class="product-type-buttons-submit">저장</button>
+        <button style="margin-left: 5px; font-size: 15px; padding: 5px;" @click="cancelEdit" class="product-type-buttons-submit">취소</button>
       </span>
       
       <span v-if="comment.username === store.name">
-        <button @click="toggleEdit" v-if="!isEditing">
+        <button style="margin-left: 5px; font-size: 15px; padding: 5px;" class="product-type-buttons-submit" @click="toggleEdit" v-if="!isEditing">
           수정
         </button>
-        <button @click="commentDelete">
+        <button style="margin-left: 5px; font-size: 15px; padding: 5px;" class="product-type-buttons-submit" @click="commentDelete">
           삭제
         </button>
       </span>
@@ -85,5 +85,19 @@ const commentDelete = function () {
 </script>
 
 <style scoped>
+.product-type-buttons-submit {
+  margin-top: 10px;
+  background-color: #2ecc71;
+  color: #ffffff;
+  padding: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 5px;
+}
+
+.product-type-buttons-submit:hover {
+  background-color: #27ae60;
+}
 
 </style>

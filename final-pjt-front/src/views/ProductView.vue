@@ -1,7 +1,8 @@
 <template>
       <div>
         <div>
-          <strong>가입상품 목록</strong>
+          <h4 class="fw-bold">가입상품 목록</h4>
+          <hr>
           <ul v-if="userStore.user.financial_products && userStore.user.financial_products.length > 0">
             <li v-for="product in userProducts" :key="product.id">
               <!-- 상품명-->
@@ -14,7 +15,8 @@
           </ul>
         </div>
         <div>
-          <strong>가입상품 금리</strong>
+          <h4 class="fw-bold">가입상품 금리</h4>
+          <hr>
           <ProductChart />
         </div>
       </div>
@@ -98,7 +100,7 @@ const goBack = function () {
   margin-bottom: 20px;
 }
 
-.product-type-buttons button {
+.product-type-buttons{
   margin-right: 10px;
   background-color: #2ecc71;
   color: #ffffff;
@@ -106,9 +108,11 @@ const goBack = function () {
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  border-radius: 5px;
+  margin-left: 5px;
 }
 
-.product-type-buttons button:hover {
+.product-type-buttons:hover {
   background-color: #27ae60;
 }
 </style>

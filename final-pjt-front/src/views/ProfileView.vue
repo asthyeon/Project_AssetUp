@@ -1,31 +1,36 @@
 <template>
-  <div class="d-flex flex-column profile-container">
+  <div class="d-flex flex-column profile-container" style="background-color: gainsboro;">
 
-    <header class="header">
-      <h3>{{ userStore.user.nickname }}님의 프로필</h3>
+    <header class="welcome">
+      <h4><strong>{{ userStore.user.nickname }}</strong>님의 마이페이지<br><span>상품추천을 받아보세요!</span></h4>
+      <div class="progress-bar-container">
+      <div class="progress" @mouseover="isAssetGaugeVisible = true" @mouseout="isAssetGaugeVisible = false">
+        <div class="progress-bar" role="progressbar" 
+        :aria-valuenow="calculateProgress" aria-valuemin="0" 
+        :aria-valuemax="userStore.user.target_asset" 
+        :style="{ width: calculateProgress + '%' }"
+        >
+          <!-- 텍스트를 나타내는 progress-label 추가 -->
+          <p class="progress-label">{{ calculateProgress.toFixed(2) }}%</p>
+          <!-- 창을 표시할 부분 -->
+          <div v-show="isAssetGaugeVisible" class="asset-gauge-info">
+            <strong>자산게이지(목표자산 달성률)</strong>
+            <div>매일 가입상품의 금리를 계산해 현재자산이 증가합니다</div>
+          </div>
+        </div>
+      </div>
+    </div>
     </header>
 
-    <div class="profile-text">
-
-      <!-- 게이지 -->
-      <div class="progress-bar-container">
-        <div class="progress">
-          <div class="progress-bar" role="progressbar" :aria-valuenow="calculateProgress" aria-valuemin="0" :aria-valuemax="userStore.user.target_asset" :style="{ width: calculateProgress + '%' }"></div>
-        </div>
-        <p class="progress-label">{{ calculateProgress.toFixed(2) }}%</p>
-      </div>
-
-    </div>
-
+    <div style="background-color: gainsboro; padding: 20px;">
     <div class="container">
       <!-- 왼쪽 메뉴 -->
       <div id="left" class="left-menu">
-        <div @click="change(1)" class="left-menu-buttons">가입상품</div>
+        <div @click="change(1)" class="product-type-buttons">가입상품</div>
         <hr>
-        <div @click="change(2)" class="left-menu-buttons">상품추천</div>
+        <div @click="change(2)" class="product-type-buttons">상품추천</div>
         <hr>
-        <div @click="change(3)" class="left-menu-buttons">기본정보</div>
-        <hr>
+        <div @click="change(3)" class="product-type-buttons">기본정보</div>
       </div>
 
       <!-- 오른쪽 컨텐츠 -->
@@ -41,6 +46,8 @@
         </div>
       </div>
     </div>
+  </div>
+  <p>　</p>
   </div>
 </template>
 
@@ -61,6 +68,9 @@ const allProducts = ref([])
 const userProducts = ref([])
 const status = ref('1')
 const progress = ref(50); // 임의의 값, 실제 값에 따라 변경
+
+// isAssetGaugeVisible 상태를 관리하는 ref 추가
+const isAssetGaugeVisible = ref(false);
 
 onMounted(async () => {
   await financeStore.getDepositProducts()
@@ -115,17 +125,58 @@ const calculateProgress = computed(() => {
 </script>
 
 <style scoped>
-.header {
-  background-color: #ffffff;
-  color: #2ecc71;
+.welcome {
+  background-image: url('@/assets/upup2.png');
+  background-size: 150px; /* 배경 이미지를 커버하도록 설정 */
+  background-repeat: no-repeat;
+  background-position: 10px; /* 이미지를 가운데 정렬 */
+  padding: 20px;
+  border-bottom: 20px solid green;
+  background-color: white;
+  text-align: end;
+  height: 160px;
+}
+
+.asset-gauge-info {
+  position: fixed;
+  top: 25%;
+  right: 2%;
+  background-color: #fefefe;
   padding: 10px;
-  text-align: right;
+  border: 1px solid #ddd;
+  z-index: 1;
+  color: black;
+  border-radius: 5px;
 }
-/* 마우스를 올렸을 때 효과 */
-.left-menu-buttons:hover {
-  background-color: #e0e0e0;
-  cursor: pointer;
+
+.progress-bar-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end; /* 내용을 오른쪽으로 정렬 */
 }
+
+.progress {
+  height: 20px;
+  width: 300px;
+  position: relative; /* 상대 위치 설정 */
+  height: 30px;
+}
+
+.progress-bar {
+  border-radius: 10px;
+  background-color: #05f240; /* 초록색으로 변경 */
+}
+
+.progress-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* 가운데로 이동시키는 CSS */
+  text-align: center;
+  font-weight: bold;
+  color: black;
+}
+
 
 /* 그리드 레이아웃 스타일 */
 .profile-container {
@@ -137,8 +188,10 @@ const calculateProgress = computed(() => {
 .container {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 20px;
-  margin: auto;
+  background-color: white;
+  border: 1px solid;
+  border-radius: 10px;
+  padding: 10px;
 }
 
 .content-section {
@@ -147,36 +200,31 @@ const calculateProgress = computed(() => {
   border-radius: 8px;
 }
 
-/* 기타 수정 및 추가된 스타일 */
-.left-menu-buttons {
-  background-color: #f5f5f5;
+.product-type-buttons {
+  margin-bottom: 20px;
+}
+
+.product-type-buttons {
+  margin-top: 10px;
+  background-color: #2ecc71;
+  color: #ffffff;
+  padding: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
   border-radius: 5px;
-  padding: 10px;
 }
 
-.header {
-  background-color: #ffffff;
-  color: #2ecc71;
-  padding: 10px;
-  text-align: right;
+.product-type-buttons:hover {
+  background-color: #27ae60;
 }
 
-.progress-bar-container {
-  margin-top: 20px;
+.left-menu {
+  border-right: 5px solid green; /* 세로줄 스타일 추가 */
+  padding-right: 5px;
 }
 
-.progress {
-  height: 20px;
+.right-content {
 }
 
-/* Bootstrap 스타일 적용 */
-.progress-bar {
-  border-radius: 10px;
-}
-
-.progress-label {
-  margin-top: 5px;
-  text-align: center;
-  font-weight: bold;
-}
 </style>

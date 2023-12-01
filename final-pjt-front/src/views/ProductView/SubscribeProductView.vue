@@ -1,31 +1,23 @@
 <template>
+  <div class="welcome">
+    <!-- 금융상품 가입 페이지 -->
+    <h1>상품가입</h1>
   <!-- 뒤로 가기 -->
   <div class='product-type-buttons'>
     <button class='product-type-buttons' @click="goBack">뒤로가기</button>
   </div>
-  <!-- 금융상품 가입 페이지 -->
-  <div class='product-type-buttons'>
-    <h1>금융상품 가입 페이지</h1>
+</div>
+  <div style="background-color: gainsboro; padding: 10px; background-size: cover;">
+    <div style="background-color: white; border: 1px solid; border-radius: 10px; padding: 20px;">
     <div class='product-type-buttons'>
         <!-- 예치금 및 월 납입금, 가입하기 -->
-        <form @submit.prevent="userStore.subscribe(financeStore.OneProduct.product.fin_prdt_cd, payment)" style="">
-
-          <div v-if="financeStore.OneProduct.product.fin_prdt_nm.includes('예금')">
-            <label for="payment">예치금 : </label>
-            <input type="payment" name="payment" id="payment" v-model="payment">
-            
-          </div>
-
-          <div v-else-if="financeStore.OneProduct.product.fin_prdt_nm.includes('적금')">
-            <label for="payment">월 납입금 : </label>
-            <input type="payment" name="payment" id="payment" v-model="payment">
-          </div>
-
-          <div v-else>
-          </div>
-          
-          <button class='product-type-buttons'>가입하기</button>
+        <form @submit.prevent="userStore.subscribe(financeStore.OneProduct.product.fin_prdt_cd, payment)" style="text-align: center;">
+          <label class="fs-5 fw-bold" v-if="financeStore.OneProduct.product.fin_prdt_nm.includes('예금')" for="payment">예치금　</label>
+          <label class="fs-5 fw-bold" v-else for="payment">월 납입금　</label>
+          <input type="payment" name="payment" id="payment" v-model="payment">
+          <button style="margin-left: 10px;" class='product-type-buttons'>가입하기</button>
         </form>
+        <hr>
           <!-- 금융 상품 상세 정보 -->
           <p>공시제출월 : {{ financeStore.OneProduct.product.dcls_month }}</p>
           <p>금융회사명 : {{ financeStore.OneProduct.product.kor_co_nm }}</p>
@@ -38,6 +30,8 @@
             <p v-html="formatSpecialConditions(financeStore.OneProduct.product.spcl_cnd)"></p>
           </div>
       </div>
+    </div>
+    <p>　</p>
   </div>
 </template>
 
@@ -80,18 +74,30 @@ const goBack = () => {
 </script>
 
 <style  scoped>
+.welcome {
+  background-image: url('@/assets/upup2.png');
+  background-size: 150px; /* 배경 이미지를 커버하도록 설정 */
+  background-repeat: no-repeat;
+  background-position: 10px; /* 이미지를 가운데 정렬 */
+  padding: 20px;
+  border-bottom: 20px solid green;
+  background-color: white;
+  text-align: end;
+  height: 160px;
+}
 .product-type-buttons {
   margin-bottom: 20px;
 }
 
 .product-type-buttons button {
-  margin-right: 10px;
+  margin-top: 10px;
   background-color: #2ecc71;
   color: #ffffff;
   padding: 8px;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  border-radius: 5px;
 }
 
 .product-type-buttons button:hover {
