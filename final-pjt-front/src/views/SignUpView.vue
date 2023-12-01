@@ -1,32 +1,35 @@
 <template>
-  <div>
-    <h1 class="text-center mb-4 pt-4">회원가입</h1>
+  <div class="welcome">
+    <h1>회원가입</h1>
+    <p>자산up!과 함께 자산을 증가시켜보아요</p>
+  </div>
+  <div style="background-color: gainsboro; padding: 20px;">
     <!-- 회원가입 form -->
     <div class="signup-container">
 
     <form @submit.prevent="signUp" class="signup-form">
       <div class="">
-        <label for="username" class="form-label">아이디</label>
+        <label for="username" class="form-label fw-bold">아이디</label>
         <input type="text" id="username" class="form-control" v-model.trim="username" required>
       </div>
 
       <div class="">
-        <label for="password1" class="form-label">비밀번호</label>
+        <label for="password1" class="form-label fw-bold">비밀번호</label>
         <input type="password" id="password1" class="form-control" v-model.trim="password1" required>
       </div>
 
       <div class="">
-        <label for="password2" class="form-label">비밀번호 확인</label>
+        <label for="password2" class="form-label fw-bold">비밀번호확인</label>
         <input type="password" id="password2" class="form-control" v-model.trim="password2" required>
       </div>
 
       <div class="">
-        <label for="nickname" class="form-label">별명</label>
+        <label for="nickname" class="form-label fw-bold">별명</label>
         <input type="text" id="nickname" class="form-control" v-model.trim="nickname">
       </div>
 
       <div class="">
-        <label class="form-label">성별</label>
+        <label class="form-label fw-bold">성별</label>
         <div class="gender-radio">
             <input type="radio" id="male" value="M" v-model="gender" required>
             <label for="male">남자</label>
@@ -36,32 +39,32 @@
       </div>
 
       <div class="">
-        <label for="age" class="form-label">나이</label>
+        <label for="age" class="form-label fw-bold">나이</label>
         <input type="number" id="age" class="form-control" v-model.trim="age">
       </div>
 
       <div class="">
-        <label for="address" class="form-label">주소</label>
+        <label for="address" class="form-label fw-bold">주소</label>
         <input type="text" id="address" class="form-control" v-model.trim="address" required>
       </div>
 
       <div class="">
-        <label for="salary" class="form-label">연봉 (만원)</label>
+        <label for="salary" class="form-label fw-bold">연봉(만원)</label>
         <input type="number" id="salary" class="form-control" v-model.trim="salary">
       </div>
 
       <div class="">
-        <label for="mbti" class="form-label">MBTI</label>
+        <label for="mbti" class="form-label fw-bold">MBTI</label>
         <input type="text" id="mbti" class="form-control" v-model.trim="mbti">
       </div>
 
       <div class="">
-        <label for="money" class="form-label">현재 자산 (만원)</label>
+        <label for="money" class="form-label fw-bold">현재자산(만원)</label>
         <input type="number" id="money" class="form-control" v-model.trim="money">
       </div>
 
       <div class="">
-        <label for="target_asset" class="form-label">목표 자산 (만원)</label>
+        <label for="target_asset" class="form-label fw-bold">목표자산(만원)</label>
         <input type="number" id="target_asset" class="form-control" v-model.trim="target_asset">
       </div>
 
@@ -76,6 +79,7 @@
         <button @click="hideWarning" class="btn btn-primary">닫기</button>
       </div>
     </div>
+    <p>　</p>
   </div>
 </template>
 
@@ -152,6 +156,18 @@ const hideWarning = function () {
 
 <style scoped>
 /* 가운데 정렬을 위한 스타일 */
+.welcome {
+  background-image: url('@/assets/upup2.png');
+  background-size: 150px; /* 배경 이미지를 커버하도록 설정 */
+  background-repeat: no-repeat;
+  background-position: 10px; /* 이미지를 가운데 정렬 */
+  padding: 20px;
+  border-bottom: 20px solid green;
+  background-color: white;
+  text-align: end;
+  height: 160px;
+}
+
 
 .signup-container {
   border: 2px solid #4CAF50; /* 초록색 테두리 */
@@ -159,6 +175,8 @@ const hideWarning = function () {
   padding: 20px;
   max-width: 400px;
   margin: 0 auto;
+  background-color: white;
+  text-align: center;;
 }
 .warning-modal {
   display: flex;
@@ -190,5 +208,6 @@ const hideWarning = function () {
 .gender-radio {
   display: flex;
   gap: 10px;
+  justify-content: center;
 }
 </style>

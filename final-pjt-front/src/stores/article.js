@@ -49,7 +49,6 @@ export const useArticleStore = defineStore('article', () => {
 
   // 게시글 단일 삭제
   const articleDelete = function (article_pk) {
-    token.value = userStore.token
     axios({
       method: 'delete',
       url: `${API_URL}/api/v1/articles/${article_pk}`,

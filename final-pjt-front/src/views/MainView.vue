@@ -2,11 +2,12 @@
   <div>
     <div v-if="!userStore.isLogin" class="header">
       <div class="welcome">
-        <h3>자산Up과 함께하는 금융상품 추천 서비스</h3>
-        <h6>로그인시 환율정보 및 은행검색 이용이 가능합니다.</h6>
+        <h3 class="fw-bold">자산Up!과 함께하는 금융상품 추천 서비스</h3>
+        <h6>로그인시 환율정보 및 은행검색 이용이 가능합니다</h6>
+        <h6>마이페이지에서 금융상품을 추천받으실 수 있습니다</h6>
       </div>
 
-      <div class="outer-container" :style="{ backgroundColor: '#ffffff' }">
+      <div class="outer-container">
         <div class="product-section">
           <h3>예금 Top5</h3>
           <div class="product-container">
@@ -16,16 +17,17 @@
               :key="dp[0].product.fin_prdt_cd"
               class="product-box"
               :style="{ backgroundColor: getRandomColor(0.3), borderColor: getRandomColor(1) }"
+              
             >
 
               <strong>{{ dp[0].product.fin_prdt_nm }}</strong>
               <p>{{ dp[0].product.kor_co_nm }}</p>
+              <hr>
               <p>금리 : 연 {{ dp[0].options[0].intr_rate }}%</p>
             </div>
           </div>
         </div>
 
-        <hr class="separator">
 
         <div class="product-section">
           <h3>적금 Top5</h3>
@@ -39,6 +41,7 @@
             >
               <strong>{{ sp[0].product.fin_prdt_nm }}</strong>
               <p>{{ sp[0].product.kor_co_nm }}</p>
+              <hr>
               <p>금리 : 연 {{ sp[0].options[0].intr_rate }}%</p>
             </div>
           </div>
@@ -50,19 +53,28 @@
 
     <div v-else>
       <div class="welcome">
-        <h4><strong>{{ userStore.user.nickname }}</strong>님 어서오세요!<br>오늘도 자산 Up!</h4>
+        <h4><strong>{{ userStore.user.nickname }}</strong>님 어서오세요.<br><span></span>오늘도 <span class="fw-bold">자산Up!</span></h4>
         <div>
           <div class="progress-bar-container">
-      <div class="progress">
-        <div class="progress-bar" role="progressbar" :aria-valuenow="calculateProgress" aria-valuemin="0" :aria-valuemax="userStore.user.target_asset" :style="{ width: calculateProgress + '%' }">
+      <div class="progress" @mouseover="isAssetGaugeVisible = true" @mouseout="isAssetGaugeVisible = false">
+        <div class="progress-bar" role="progressbar" 
+        :aria-valuenow="calculateProgress" aria-valuemin="0" 
+        :aria-valuemax="userStore.user.target_asset" 
+        :style="{ width: calculateProgress + '%' }"
+        >
           <!-- 텍스트를 나타내는 progress-label 추가 -->
           <p class="progress-label">{{ calculateProgress.toFixed(2) }}%</p>
+          <!-- 창을 표시할 부분 -->
+          <div v-show="isAssetGaugeVisible" class="asset-gauge-info">
+            <strong>자산게이지(목표자산 달성률)</strong>
+            <div>매일 가입상품의 금리를 계산해 현재자산이 증가합니다</div>
+          </div>
         </div>
       </div>
     </div>
         </div>
       </div>
-
+      <div class="outer-container">
       <div class="content-container">
         <div class="left-menu">
           <div>
@@ -80,6 +92,7 @@
           </div>
         </div>
       </div>
+    </div>
     </div>
   </div>
 </template>
@@ -101,9 +114,14 @@ const store = useHomeStore()
 const userStore = useUserStore()
 const recommendStore = useRecommendStore()
 
+
+
 // 현재 자산과 목표 자산을 가져오기
 const currentMoney = ref(userStore.user.money)
 const targetAsset = ref(userStore.user.target_asset)
+
+// isAssetGaugeVisible 상태를 관리하는 ref 추가
+const isAssetGaugeVisible = ref(false);
 
 // 현재 상태 계산
 const calculateProgress = computed(() => {
@@ -137,12 +155,28 @@ const goDetail = function (finPrdtCd, finPrdtNm) {
 
 <style scoped>
 .welcome {
-  background-color: #f7f7f7;
+  background-image: url('@/assets/upup2.png');
+  background-size: 150px; /* 배경 이미지를 커버하도록 설정 */
+  background-repeat: no-repeat;
+  background-position: 10px; /* 이미지를 가운데 정렬 */
   padding: 20px;
-  border-bottom: 10px solid green;
+  border-bottom: 20px solid green;
   background-color: white;
   text-align: end;
-  height: 150px;
+  height: 160px;
+}
+
+/* 창 스타일 */
+.asset-gauge-info {
+  position: fixed;
+  top: 25%;
+  right: 2%;
+  background-color: #fefefe;
+  padding: 10px;
+  border: 1px solid #ddd;
+  z-index: 1;
+  color: black;
+  border-radius: 5px;
 }
 
 .separator {
@@ -151,15 +185,16 @@ const goDetail = function (finPrdtCd, finPrdtNm) {
 }
 
 .outer-container {
-  background-color: #ffffff;
+  background-color: gainsboro;
 }
 
 .product-section {
   padding: 20px;
   border-radius: 10px;
-  background-color: rgb(232, 230, 230);
+  background-color: white;
+  border: 1px solid;
   text-align: center;
-  margin: 40px 40px;
+  margin: 20px 20px;
 }
 
 .product-container {
@@ -172,14 +207,16 @@ const goDetail = function (finPrdtCd, finPrdtNm) {
 .product-box {
   padding: 15px;
   border-radius: 8px;
-  border: 1px solid;
+  border: none;
   color: rgb(33, 30, 30);
   transition: background-color 0.3s ease-in-out;
+  font-size: 15px;
 }
 
 .product-box:hover {
-  background-color: rgba(39, 174, 96, 0.9);
+  background-color: rgba(5, 244, 104, 0.9) !important;
 }
+
 .chart-container {
   max-width: 400px; /* 원하는 최대 너비 설정 */
   max-height: 200px; /* 원하는 최대 높이 설정 */
@@ -227,5 +264,9 @@ const goDetail = function (finPrdtCd, finPrdtNm) {
   text-align: center;
   font-weight: bold;
   color: black;
+}
+
+.header {
+  background-color: gainsboro;
 }
 </style>

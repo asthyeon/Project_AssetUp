@@ -2,9 +2,6 @@
     <div>
         <!-- 검색하기 옵션 설정 -->
         <div class="search-options">
-            <h3>검색하기</h3>
-            <h4>검색조건을 입력하세요</h4>
-
             <!-- 은행 -->
             <label for="bank">은행 선택:</label>
             <select v-model="selectCompany">
@@ -152,6 +149,7 @@
 <style scoped>
 .search-options {
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .search-options h3 {
@@ -179,10 +177,11 @@
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  border-radius: 5px;
 }
 
 .search-options button:hover {
-  background-color: #27ae60;
+  background-color: green !important;
 }
 
 .search-results table {
@@ -224,6 +223,7 @@
 
 .pagination {
   margin-top: 20px;
+  justify-content: center;
 }
 
 .pagination button {
@@ -234,10 +234,12 @@
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  border-radius: 5px;
+  width: 50px;
 }
 
 .pagination button:hover {
-  background-color: #27ae60;
+  background-color: green !important;
 }
 
 .pagination button.active {

@@ -1,11 +1,12 @@
 <template>
   <div class="comparison-container">
-    <h1>금융상품 비교</h1>
-
+    <div class="welcome">
+      <h1>상품비교</h1>
+      <p>금융상품을 종류별로 비교할 수 있습니다</p>
     <!-- 상품 유형 선택 버튼 -->
     <div class="product-type-buttons">
       <!-- 정기예금 -->
-      <button @click="changeToDeposit" :class="{ active: productType === 'deposit' }">정기예금</button>
+      <button @click="changeToDeposit" :class="{ active: productType === 'deposit' }">예금</button>
 
       <!-- 적금 -->
       <button @click="changeToSaving" :class="{ active: productType === 'saving' }">적금</button>
@@ -17,17 +18,22 @@
       <button @click="changeToLoan" :class="{ active: productType === 'loan' }">대출</button>
     </div>
 
-    <div v-if="productType === 'deposit'">
-        <DepositProductsView />
     </div>
-    <div v-else-if="productType === 'saving'">
-        <SavingProductsView />
-    </div>
-    <div v-else-if="productType === 'annuity'">
-        <AnnuitySavingProductsView />
-    </div>
-    <div v-else>
-        <LoanProductsView />
+    <div class="menu">
+      <div class="menu2">
+        <div v-if="productType === 'deposit'">
+            <DepositProductsView />
+        </div>
+        <div v-else-if="productType === 'saving'">
+            <SavingProductsView />
+        </div>
+        <div v-else-if="productType === 'annuity'">
+            <AnnuitySavingProductsView />
+        </div>
+        <div v-else>
+            <LoanProductsView />
+        </div>
+      </div>  
     </div>
 
   </div>
@@ -97,11 +103,34 @@ const changeToLoan = function () {
 
 <style scoped>
 /* 스타일이 필요한 경우 추가 */
-.comparison-container {
-  background-color: white;
+.menu {
+  background-color: gainsboro;
   padding: 20px;
+}
+
+.menu2 {
+  background-color: white;
+  border: 1px solid;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+
+.welcome {
+  background-image: url('@/assets/upup2.png');
+  background-size: 150px; /* 배경 이미지를 커버하도록 설정 */
+  background-repeat: no-repeat;
+  background-position: 10px; /* 이미지를 가운데 정렬 */
+  padding: 20px;
+  border-bottom: 20px solid green;
+  background-color: white;
+  text-align: end;
+  height: 160px;
+}
+
+.comparison-container {
+  background-color: gainsboro;
   border-radius: 5px;
-  margin-bottom: 20px;
 }
 
 .product-type-buttons {
@@ -109,13 +138,14 @@ const changeToLoan = function () {
 }
 
 .product-type-buttons button {
-  margin-right: 10px;
+  margin-right: 5px;
   background-color: #2ecc71;
   color: #ffffff;
   padding: 8px;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  border-radius: 5px;
 }
 
 .product-type-buttons button:hover {

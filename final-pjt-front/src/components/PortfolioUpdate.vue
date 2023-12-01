@@ -1,6 +1,8 @@
 <template>
   <div class="profile-box">
-    <h1>{{ user.nickname }}의 포트폴리오</h1>
+    <h4 class="fw-bold">저축성향선택</h4>
+    <p>저축성향에 따라 예상 만기 후 이자 및 원금 합계를 파악합니다</p>
+    <hr>
 
     <div class="portfolio-info">
       <div>연봉 : {{ user.salary }}</div>
@@ -8,21 +10,22 @@
         <label for="salary">월급 : </label>
         <input @click="updatePercent" type="salary" name="salary" id="salary" v-model="salary">
       </div>
+      <br>
       <p>
-        <strong>저축 성향</strong> : 
+        <strong>저축성향</strong> : 
         <label>
           <input type="radio" v-model="savingsType" value="careful"/> 근검형
         </label>
         <label>
-          <input type="radio" v-model="savingsType" value="challenging"/> 실속형
+          <input style="margin-left: 10px;" type="radio" v-model="savingsType" value="challenging"/> 실속형
         </label>
         <label>
-          <input type="radio" v-model="savingsType" value="diligent"/> 욜로형
+          <input style="margin-left: 10px;" type="radio" v-model="savingsType" value="diligent"/> 욜로형
         </label>
       </p>
-      <p>월저축비중 : {{ percent }} %</p>
-      <p>월저축금액 : {{ percentMoney }}</p>
-      <button @click="updatePercent">월저축비중수정</button>
+      <div>월저축비중 : {{ percent }} %</div>
+      <div>월저축금액 : {{ percentMoney }}</div>
+      <button @click="updatePercent">저축성향선택</button>
     </div>
     <hr>
     <div>
@@ -39,7 +42,6 @@ import { useRouter } from 'vue-router'
 import axios from 'axios'
 import RecommendProduct from './RecommendProduct.vue'
 import { computed } from '@vue/reactivity'
-import LogInView from '../views/LogInView.vue'
 
 const financeStore = useFinanceStore()
 const userStore = useUserStore()
@@ -92,7 +94,6 @@ const updatePercent = () => {
 <style scoped>
 .profile-box {
   background-color: white;
-  padding: 10px;
   border-radius: 5px;
   margin-bottom: 10px;
 }
@@ -109,6 +110,7 @@ button {
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  border-radius: 5px;
 }
 
 button:hover {

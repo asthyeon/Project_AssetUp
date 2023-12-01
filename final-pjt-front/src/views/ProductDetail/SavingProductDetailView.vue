@@ -1,10 +1,16 @@
 <template>
-  <div class="product-type-buttons">
-    <button @click="goBack">뒤로가기</button>
+  <div class="welcome">
+    <div>
+      <h1>적금상세정보</h1>
+    </div>
+    <div class="product-type-buttons">
+      <button @click="goBack">뒤로가기</button>
+    </div>
   </div>
-  <div>
-    <h1>금융상품 상세 정보</h1>
-    <div v-if="userStore.isLogin" class='product-type-buttons'>
+    <div style="background-color: gainsboro; padding: 20px;">
+      <div style="background-color: white; border: 1px solid; border-radius: 10px;">
+      <h2 style="text-align: center; margin-top: 20px;">{{ financeStore.savingProduct[0].product.fin_prdt_nm }}</h2>
+    <div v-if="userStore.isLogin" class='product-type-buttons' style="text-align: center;">
       <!-- 구독 중인 상품인 경우 -->
       <div v-if="userProductsArray.some(item => item[1] === financeStore.savingProduct[0].product.fin_prdt_cd)">
           <p>이미 구독 중인 상품입니다.</p>
@@ -16,20 +22,25 @@
         <button @click="goSubscribe(financeStore.savingProduct[0].product.fin_prdt_nd)">가입하기</button>
       </div>
     </div>
+    <hr style="margin-left: 5px; margin-right: 5px;">
     <div class="product-info">
-      <p class="section-title">상품 정보</p>
-      <div class="">
+      <div class="info-container">
+        <div style="padding-left: 50px;">
         <p>공시제출월 : {{ financeStore.savingProduct[0].product.dcls_month }}</p>
         <p>금융회사명 : <span class="clickable-text">{{ financeStore.savingProduct[0].product.kor_co_nm }}</span></p>
-        <p>상품명 : {{ financeStore.savingProduct[0].product.fin_prdt_nm }}</p>
         <p>가입제한 : {{ JOIN_DENY_CHOICES[financeStore.savingProduct[0].product.join_deny] }}</p>
         <p>가입방법 : {{ financeStore.savingProduct[0].product.join_way }}</p>
+      </div>
+      <div style="padding-right: 50px;">
         <p>우대조건 :</p>
         <p>{{ financeStore.savingProduct[0].product.spcl_cnd }}</p>
         <p v-html="formatSpecialConditions(financeStore.savingProduct[0].product.spcl_cnd)"></p>
       </div>
+      </div>
     </div>
   </div>
+  　
+</div>
 </template>
 
 <script setup>
@@ -108,6 +119,17 @@ const goHomepage = function () {
 </script>
 
 <style scoped>
+.welcome {
+  background-image: url('@/assets/upup2.png');
+  background-size: 150px; /* 배경 이미지를 커버하도록 설정 */
+  background-repeat: no-repeat;
+  background-position: 10px; /* 이미지를 가운데 정렬 */
+  padding: 20px;
+  border-bottom: 20px solid green;
+  background-color: white;
+  text-align: end;
+  height: 160px;
+}
 
 .product-info {
     margin-top: 20px;
@@ -133,13 +155,14 @@ const goHomepage = function () {
 }
 
 .product-type-buttons button {
-    margin-right: 10px;
+    margin-top: 10px;
     background-color: #2ecc71;
     color: #ffffff;
     padding: 8px;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    border-radius: 5px;
 }
 
 .product-type-buttons button:hover {
