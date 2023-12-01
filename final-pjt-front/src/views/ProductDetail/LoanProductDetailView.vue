@@ -64,37 +64,6 @@
         </div>
       </div>
     </div>
-
-    <hr style="border-top: 3px solid #2ecc71">
-
-    <!-- 상품의 옵션 리스트 -->
-    <!-- 주택 담보 대출 -->
-    <div class="card-container d-flex flex-wrap" v-if="'mrtg_type' in financeStore.loanProduct.options[0]">
-      <h3 class="w-100">옵션 목록</h3>
-      <div class="col-md-4 option-card p-3 m-3" v-for="(option, index) in financeStore.loanProduct.options" :key="index">
-        <div class="option-card-body">
-          <p class="font-weight-bold">{{ index+1 }}번 옵션</p>
-          <p><strong>대출 금리 유형</strong> : {{ option.lend_rate_type_nm }}</p>
-          <p><strong>대출 상환 유형</strong> : {{ option.rpay_type_nm }}개월</p>
-          <p><strong>대출 최저 금리</strong> : {{ option.lend_rate_min }}%</p>
-          <p><strong>대출 최고 금리</strong> : {{ option.lend_rate_max }}%</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- 전세 자금 대출 -->
-    <div class="card-container d-flex flex-wrap" v-if="!financeStore.loanProduct.options[0]['mrtg_type'] && 'rpay_type' in financeStore.loanProduct.options[0]">
-      <h3 class="w-100">옵션 목록</h3>
-      <div class="col-md-4 option-card p-3 m-3" v-for="(option, index) in financeStore.loanProduct.options" :key="index">
-        <div class="option-card-body">
-          <p class="font-weight-bold">{{ index+1 }}번 옵션</p>
-          <p><strong>대출 금리 유형</strong> : {{ option.lend_rate_type_nm }}</p>
-          <p><strong>대출 상환 유형</strong> : {{ option.rpay_type_nm }}개월</p>
-          <p><strong>대출 최저 금리</strong> : {{ option.lend_rate_min }}%</p>
-          <p><strong>대출 최고 금리</strong> : {{ option.lend_rate_max }}%</p>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
