@@ -22,18 +22,18 @@
         <button @click="goSubscribe(financeStore.savingProduct[0].product.fin_prdt_nd)">가입하기</button>
       </div>
     </div>
-    <hr style="margin-left: 5px; margin-right: 5px;">
+    <hr style="margin-left: 10px; margin-right: 10px;">
     <div class="product-info">
       <div class="info-container">
         <div style="padding-left: 50px;">
-        <p>공시제출월 : {{ financeStore.savingProduct[0].product.dcls_month }}</p>
-        <p>금융회사명 : <span class="clickable-text">{{ financeStore.savingProduct[0].product.kor_co_nm }}</span></p>
-        <p>가입제한 : {{ JOIN_DENY_CHOICES[financeStore.savingProduct[0].product.join_deny] }}</p>
-        <p>가입방법 : {{ financeStore.savingProduct[0].product.join_way }}</p>
+        <p><strong>공시제출월</strong> : {{ financeStore.savingProduct[0].product.dcls_month }}</p>
+        <p><strong>금융회사명</strong> : <span class="clickable-text">{{ financeStore.savingProduct[0].product.kor_co_nm }}</span></p>
+        <p><strong>가입제한</strong> : {{ JOIN_DENY_CHOICES[financeStore.savingProduct[0].product.join_deny] }}</p>
+        <p><strong>가입방법</strong> : {{ financeStore.savingProduct[0].product.join_way }}</p>
       </div>
 
       <div style="padding-right: 50px;">
-        <p>우대조건 :</p>
+        <p><strong>우대조건 :</strong></p>
         <p>{{ financeStore.savingProduct[0].product.spcl_cnd }}</p>
         <p v-html="formatSpecialConditions(financeStore.savingProduct[0].product.spcl_cnd)"></p>
       </div>

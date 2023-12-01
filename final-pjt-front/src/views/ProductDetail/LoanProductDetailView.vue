@@ -1,10 +1,16 @@
 <template>
-  <div class="product-type-buttons">
-    <button @click="goBack">뒤로가기</button>
+  <div class="welcome">
+    <div>
+      <h1>연금상세정보</h1>
+    </div>
+    <div class="product-type-buttons">
+      <button @click="goBack">뒤로가기</button>
+    </div>
   </div>
-  <div>
-    <h1>금융상품 상세 정보</h1>
-    <div v-if="userStore.isLogin" class='product-type-buttons'>
+  <div style="background-color: gainsboro; padding: 20px;">
+      <div style="background-color: white; border: 1px solid; border-radius: 10px;">
+      <h2 style="text-align: center; margin-top: 20px;">{{ financeStore.loanProduct.product.fin_prdt_nm }}</h2>
+    <div v-if="userStore.isLogin" class='product-type-buttons' style="text-align: center;">
       <div v-if="userProductsArray.some(item => item[1] === financeStore.loanProduct.product.fin_prdt_cd)">
         <p>이미 구독 중인 상품입니다.</p>
         <button class='product-type-buttons' @click="updateUser(false)">해제하기</button>
@@ -14,10 +20,9 @@
         <button class='product-type-buttons' @click="goSubscribe(financeStore.loanProduct.product.fin_prdt_nd)">가입하기</button>
       </div>
     </div>
+    <hr style="margin-left: 10px; margin-right: 10px;">
     <div class="product-info">
-
       <!-- 예금 상품 상세 정보 -->
-      <p class="section-title">상품 정보</p>
       <div class="info-container">
         <div style="padding-left: 50px;">
           <p><strong>공시제출월</strong> : {{ financeStore.loanProduct.product.dcls_month }}</p>
@@ -65,6 +70,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script setup>
@@ -138,6 +144,17 @@ const goBack = () => {
 </script>
 
 <style scoped>
+.welcome {
+  background-image: url('@/assets/upup2.png');
+  background-size: 150px; /* 배경 이미지를 커버하도록 설정 */
+  background-repeat: no-repeat;
+  background-position: 10px; /* 이미지를 가운데 정렬 */
+  padding: 20px;
+  border-bottom: 20px solid green;
+  background-color: white;
+  text-align: end;
+  height: 160px;
+}
 .product-info {
   margin-top: 20px;
 }
@@ -162,13 +179,14 @@ const goBack = () => {
 }
 
 .product-type-buttons button {
-  margin-right: 10px;
+  margin-top: 10px;
   background-color: #2ecc71;
   color: #ffffff;
   padding: 8px;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  border-radius: 5px;
 }
 
 .product-type-buttons button:hover {

@@ -1,12 +1,4 @@
 <template>
-  <div>
-    <label for="productType">상품 종류:</label>
-    <select v-model="selectedProductType" id="productType">
-      <option value="all">전체</option>
-      <option value="예금">예금</option>
-      <option value="적금">적금</option>
-    </select>
-  </div>
 
   <div>
     <Bar :data="chartData" :options="chartOptions" />

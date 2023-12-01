@@ -12,9 +12,9 @@
     <div class='product-type-buttons'>
         <!-- 예치금 및 월 납입금, 가입하기 -->
         <form @submit.prevent="userStore.subscribe(financeStore.OneProduct.product.fin_prdt_cd, payment)" style="text-align: center;">
-          <label class="fs-5 fw-bold" v-if="financeStore.OneProduct.product.fin_prdt_nm.includes('예금')" for="payment">예치금　</label>
-          <label class="fs-5 fw-bold" v-else for="payment">월 납입금　</label>
-          <input type="payment" name="payment" id="payment" v-model="payment">
+          <label class="fs-5 fw-bold" v-if="financeStore.OneProduct.product.fin_prdt_nm.includes('예금')" for="payment">예치금(만원)　</label>
+          <label class="fs-5 fw-bold" v-else-if="financeStore.OneProduct.product.fin_prdt_nm.includes('적금')" for="payment">월 납입금(만원)　</label>
+          <input v-if="financeStore.OneProduct.product.fin_prdt_nm.includes('예금') || financeStore.OneProduct.product.fin_prdt_nm.includes('적금')" type="payment" name="payment" id="payment" v-model="payment">
           <button style="margin-left: 10px;" class='product-type-buttons'>가입하기</button>
         </form>
         <hr>

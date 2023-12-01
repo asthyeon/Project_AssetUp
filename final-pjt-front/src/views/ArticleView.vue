@@ -13,7 +13,7 @@
       <ArticleList :articles="store.articles" />
     </div>
     <div v-else>
-      <h3 class="no-articles-message">글이 없습니다.</h3>
+      <h3 class="no-articles-message" style="text-align: center;">글이 없습니다</h3>
     </div>
   </div>
   <p>　</p>

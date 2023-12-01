@@ -1,10 +1,16 @@
 <template>
-  <div class="product-type-buttons">
-    <button @click="goBack">뒤로가기</button>
+  <div class="welcome">
+    <div>
+      <h1>연금상세정보</h1>
+    </div>
+    <div class="product-type-buttons">
+      <button @click="goBack">뒤로가기</button>
+    </div>
   </div>
-  <div>
-    <h1>금융상품 상세 정보</h1>
-    <div v-if="userStore.isLogin" class='product-type-buttons'>
+  <div style="background-color: gainsboro; padding: 20px;">
+      <div style="background-color: white; border: 1px solid; border-radius: 10px;">
+      <h2 style="text-align: center; margin-top: 20px;">{{ financeStore.anniutyProduct[0].product.fin_prdt_nm }}</h2>
+    <div v-if="userStore.isLogin" class='product-type-buttons' style="text-align: center;">
       <div v-if="userProductsArray.some(item => item[1] === financeStore.anniutyProduct[0].product.fin_prdt_cd)">
         <p>이미 구독 중인 상품입니다.</p>
         <button class='product-type-buttons' @click="updateUser(false)">해제하기</button>
@@ -14,24 +20,25 @@
         <button class='product-type-buttons' @click="goSubscribe(financeStore.anniutyProduct[0].product.fin_prdt_nd)">가입하기</button>
       </div>
     </div>
+    <hr style="margin-left: 10px; margin-right: 10px;">
     <div class="product-info">
-      <p class="section-title">상품 정보</p>
       <div class="info-container">
         <div style="padding-left: 50px;">
-          <p>공시제출월 : {{ financeStore.anniutyProduct[0].product.dcls_month }}</p>
-          <p>금융회사명 : <span class="clickable-text">{{ financeStore.anniutyProduct[0].product.kor_co_nm }}</span></p>
-          <p>상품명 : {{ financeStore.anniutyProduct[0].product.fin_prdt_nm }}</p>
-          <p>상품 종류 : {{ financeStore.anniutyProduct[0].product.pnsn_kind_nm }}</p>
-          <p>상품 유형 : {{ financeStore.anniutyProduct[0].product.prdt_type_nm }}</p>
+          <p><strong>공시제출월</strong> : {{ financeStore.anniutyProduct[0].product.dcls_month }}</p>
+          <p><strong>금융회사명</strong> : <span class="clickable-text">{{ financeStore.anniutyProduct[0].product.kor_co_nm }}</span></p>
+          <p><strong>상품명</strong> : {{ financeStore.anniutyProduct[0].product.fin_prdt_nm }}</p>
+          <p><strong>상품 종류</strong> : {{ financeStore.anniutyProduct[0].product.pnsn_kind_nm }}</p>
+          <p><strong>상품 유형</strong> : {{ financeStore.anniutyProduct[0].product.prdt_type_nm }}</p>
       </div>
       <div style="padding-right: 50px;">
-          <p>평균 수익률 : {{ financeStore.anniutyProduct[0].product.avg_prft_rate }}%</p>
-          <p>공시 이율 : {{ financeStore.anniutyProduct[0].product.dcls_rate }}%</p>
-          <p>보장 금리 :</p>
+          <p><strong>평균 수익률</strong> : {{ financeStore.anniutyProduct[0].product.avg_prft_rate }}%</p>
+          <p><strong>공시 이율</strong> : {{ financeStore.anniutyProduct[0].product.dcls_rate }}%</p>
+          <p><strong>보장 금리</strong> :</p>
           <p v-html="formatSpecialConditions(financeStore.anniutyProduct[0].product.guar_rate)"></p>
 
         </div>
       </div>
+    </div>
     </div>
     </div>
   </template>
@@ -108,6 +115,18 @@ const goHomepage = function () {
 </script>
   
 <style scoped>
+.welcome {
+  background-image: url('@/assets/upup2.png');
+  background-size: 150px; /* 배경 이미지를 커버하도록 설정 */
+  background-repeat: no-repeat;
+  background-position: 10px; /* 이미지를 가운데 정렬 */
+  padding: 20px;
+  border-bottom: 20px solid green;
+  background-color: white;
+  text-align: end;
+  height: 160px;
+}
+
 .product-info {
   margin-top: 20px;
 }
@@ -132,13 +151,14 @@ const goHomepage = function () {
 }
 
 .product-type-buttons button {
-  margin-right: 10px;
+  margin-top: 10px;
   background-color: #2ecc71;
   color: #ffffff;
   padding: 8px;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  border-radius: 5px;
 }
 
 .product-type-buttons button:hover {

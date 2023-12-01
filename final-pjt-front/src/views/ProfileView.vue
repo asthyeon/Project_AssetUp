@@ -22,7 +22,7 @@
     </div>
     </header>
 
-    <div style="background-color: gainsboro; padding: 20px;">
+    <div style="background-color: gainsboro; padding: 5px;">
     <div class="container">
       <!-- 왼쪽 메뉴 -->
       <div id="left" class="left-menu">
@@ -220,11 +220,13 @@ const calculateProgress = computed(() => {
 }
 
 .left-menu {
-  border-right: 5px solid green; /* 세로줄 스타일 추가 */
   padding-right: 5px;
 }
 
 .right-content {
+  border: 2px solid;
+  border-radius: 10px;
+  border-color: green;
 }
 
 </style>

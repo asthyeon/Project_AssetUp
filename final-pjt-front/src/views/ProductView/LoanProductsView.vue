@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h1>대출</h1>
         <!-- 검색하기 옵션 설정 -->
         <div class="search-options">
             <!-- 은행 -->
@@ -208,6 +207,7 @@
 
 .pagination {
   margin-top: 20px;
+  justify-content: center;
 }
 
 .pagination button {

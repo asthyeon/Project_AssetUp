@@ -15,7 +15,7 @@
           :article="article"
         >
           <td style="text-align: center;">{{ store.articles.length - index }}</td>
-          <td>
+          <td style="text-align: center;">
             <RouterLink :to="{ name: 'article_detail', params: { article_id: article.id }}">
               {{ article.title }}
             </RouterLink>
