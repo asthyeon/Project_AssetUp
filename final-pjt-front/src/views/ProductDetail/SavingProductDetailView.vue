@@ -16,19 +16,43 @@
         <button @click="goSubscribe(financeStore.savingProduct[0].product.fin_prdt_nd)">가입하기</button>
       </div>
     </div>
+
     <div class="product-info">
+      <!-- 적금 상품 상세 정보 -->
       <p class="section-title">상품 정보</p>
-      <div class="">
-        <p>공시제출월 : {{ financeStore.savingProduct[0].product.dcls_month }}</p>
-        <p>금융회사명 : <span class="clickable-text">{{ financeStore.savingProduct[0].product.kor_co_nm }}</span></p>
-        <p>상품명 : {{ financeStore.savingProduct[0].product.fin_prdt_nm }}</p>
-        <p>가입제한 : {{ JOIN_DENY_CHOICES[financeStore.savingProduct[0].product.join_deny] }}</p>
-        <p>가입방법 : {{ financeStore.savingProduct[0].product.join_way }}</p>
-        <p>우대조건 :</p>
-        <p>{{ financeStore.savingProduct[0].product.spcl_cnd }}</p>
-        <p v-html="formatSpecialConditions(financeStore.savingProduct[0].product.spcl_cnd)"></p>
+      <div class="info-container">
+        <div style="padding-left: 50px;">
+          <p>공시제출월 : {{ financeStore.savingProduct[0].product.dcls_month }}</p>
+          <p>금융회사명 : <span class="clickable-text">{{ financeStore.savingProduct[0].product.kor_co_nm }}</span></p>
+          <p>상품명 : {{ financeStore.savingProduct[0].product.fin_prdt_nm }}</p>
+          <p>가입제한 : {{ JOIN_DENY_CHOICES[financeStore.savingProduct[0].product.join_deny] }}</p>
+          <p>가입방법 : {{ financeStore.savingProduct[0].product.join_way }}</p>
+        </div>
+        
+        <div style="padding-right: 50px;">
+          <p>우대조건 :</p>
+          <p>{{ financeStore.savingProduct[0].product.spcl_cnd }}</p>
+          <p v-html="formatSpecialConditions(financeStore.savingProduct[0].product.spcl_cnd)"></p>
+        </div>
       </div>
     </div>
+
+    <hr style="border-top: 3px solid #2ecc71">
+
+    <!-- 상품의 옵션 리스트 -->
+    <div class="card-container d-flex flex-wrap">
+      <h3 class="w-100">옵션 목록</h3>
+      <div class="col-md-4 option-card p-3 m-3 " v-for="(option, index) in financeStore.savingProduct[0].options" :key="index">
+        <div class="option-card-body">
+          <p class="font-weight-bold">{{ index+1 }}번 옵션</p>
+          <p><strong>금리 유형</strong> : {{ option.intr_rate_type_nm }}</p>
+          <p><strong>예치 기간</strong> : {{ option.save_trm }}개월</p>
+          <p><strong>저축 금리</strong> : {{ option.intr_rate }}%</p>
+          <p><strong>우대 금리</strong> : {{ option.intr_rate2 }}%</p>
+        </div>
+      </div>
+    </div>
+    
   </div>
 </template>
 
@@ -108,42 +132,41 @@ const goHomepage = function () {
 </script>
 
 <style scoped>
-
 .product-info {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .section-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .info-container {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .info-container div {
-    width: 48%; /* 조정 가능한 너비 */
+  width: 48%; /* 조정 가능한 너비 */
 }
 
 .product-type-buttons {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .product-type-buttons button {
-    margin-right: 10px;
-    background-color: #2ecc71;
-    color: #ffffff;
-    padding: 8px;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  margin-right: 10px;
+  background-color: #2ecc71;
+  color: #ffffff;
+  padding: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .product-type-buttons button:hover {
-    background-color: #27ae60;
+  background-color: #27ae60;
 }
 
 .clickable-text {
@@ -155,5 +178,30 @@ const goHomepage = function () {
 
 .clickable-text:hover {
   color: #2980b9;
+}
+
+.card-container {
+  text-align: center;
+}
+.option-card {
+  display: inline-block;
+  background-color: #fff;
+  border: 1px solid #2ecc71;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 200px;
+  height: 250px;
+  text-align: left;
+  transition: background-color 0.3s ease;
+}
+
+.option-card-body {
+  cursor: pointer;
+  padding: 20px;
+  font-size: 15px;
+}
+
+.option-card:hover {
+  background-color: #f5f5f5;
 }
 </style>

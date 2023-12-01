@@ -144,30 +144,30 @@ export const useUserStore = defineStore('user', () => {
     const updatedProducts = existingProducts.filter(productCode => productCode[1] !== finPrdtCd)
     console.log('구독을 해제합니다.')
 
-      axios({
-        method: 'put',
-        url: `${API_URL}/accounts/update-user/`,
-        headers: {
-          Authorization: `Token ${token.value}`,
-        },
-        data: { financial_products: updatedProducts },
+    axios({
+      method: 'put',
+      url: `${API_URL}/accounts/update-user/`,
+      headers: {
+        Authorization: `Token ${token.value}`,
+      },
+      data: { financial_products: updatedProducts },
+    })
+      .then((res) => {
+        user.value = res.data
+        console.log(res.data)
       })
-        .then((res) => {
-          user.value = res.data
-          console.log(res.data)
-        })
-        .catch((err) => console.log(err))
-    }
+      .catch((err) => console.log(err))
+  }
 
-    // 현재 날짜 반환 함수
-    const getCurrentDate = () => {
-      const currentDate = new Date();
-      const year = String(currentDate.getFullYear()).slice(-2)
-      const month = String(currentDate.getMonth() + 1).padStart(2, '0')
-      const day = String(currentDate.getDate()).padStart(2, '0')
-      console.log(year+month+day);
-      return year + month + day
-    }
+  // 현재 날짜 반환 함수
+  const getCurrentDate = () => {
+    const currentDate = new Date();
+    const year = String(currentDate.getFullYear()).slice(-2)
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0')
+    const day = String(currentDate.getDate()).padStart(2, '0')
+    console.log(year+month+day);
+    return year + month + day
+  }
 
   // 구독
   const subscribe = function (finPrdtCd, payment) {

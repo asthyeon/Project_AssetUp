@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h1>대출</h1>
         <!-- 검색하기 옵션 설정 -->
         <div class="search-options">
             <h3>검색하기</h3>
@@ -18,22 +19,41 @@
         <!-- 검색 결과 상품 테이블 -->
         <div class="search-results">
             <table>
-            <thead>
-                <tr>
-                <!-- 클릭시 정렬 -->
-                <th @click="financeStore.sortProducts('dcls_month')">공시제출월</th>
-                <th @click="financeStore.sortProducts('kor_co_nm')">금융회사명</th>
-                <th @click="financeStore.sortProducts('fin_prdt_nm')">상품명</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- 상품 나열, 클릭 시 상품 상세 페이지로 이동 -->
-                <tr v-for="product in paginatedProducts" :key="product.product.id">
-                <td>{{ product.product.dcls_month }}</td>
-                <td>{{ product.product.kor_co_nm }}</td>
-                <td class="clickable-text" @click="goDetail(product.product.fin_prdt_cd)">{{ product.product.fin_prdt_nm }}</td>
-                </tr>
-            </tbody>
+              <thead>
+                  <tr>
+                  <!-- 클릭시 정렬 -->
+                  <th @click="financeStore.sortProducts('dcls_month')">공시제출월</th>
+                  <th @click="financeStore.sortProducts('kor_co_nm')">금융회사명</th>
+                  <th @click="financeStore.sortProducts('fin_prdt_nm')">상품명</th>
+                  <th>대출 종류</th>
+                  <th>금리 유형</th>
+                  <th>평균 금리</th>
+                  <th>상환 방식</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <!-- 상품 나열, 클릭 시 상품 상세 페이지로 이동 -->
+                  <tr v-for="product in paginatedProducts" :key="product.product.id">
+                  <td>{{ product.product.dcls_month }}</td>
+                  <td>{{ product.product.kor_co_nm }}</td>
+                  <td class="clickable-text" @click="goDetail(product.product.fin_prdt_cd)">{{ product.product.fin_prdt_nm }}</td>
+
+                  <td v-if="'mrtg_type' in product.options[0]">주택 담보 대출</td>
+                  <td v-if="'mrtg_type' in product.options[0]">{{ product.options[0].lend_rate_type_nm }}</td>
+                  <td v-if="'mrtg_type' in product.options[0]">{{ ((product.options[0].lend_rate_min + product.options[0].lend_rate_max) / 2).toFixed(2) }}%</td>
+                  <td v-if="'mrtg_type' in product.options[0]">{{ product.options[0].rpay_type_nm }}</td>
+
+                  <td v-if="'crdt_prdt_type' in product.options[0]">신용 대출</td>
+                  <td v-if="'crdt_prdt_type' in product.options[0]">{{ product.options[0].crdt_lend_rate_type_nm }}</td>
+                  <td v-if="'crdt_prdt_type' in product.options[0]">{{ product.options[0].crdt_grad_avg }}%</td>
+                  <td v-if="'crdt_prdt_type' in product.options[0]">--</td>
+                  
+                  <td v-if="!product.options[0]['mrtg_type'] && 'rpay_type' in product.options[0]">전세 자금 대출</td>
+                  <td v-if="!product.options[0]['mrtg_type'] && 'rpay_type' in product.options[0]">{{ product.options[0].lend_rate_type_nm }}</td>
+                  <td v-if="!product.options[0]['mrtg_type'] && 'rpay_type' in product.options[0]">{{ ((product.options[0].lend_rate_min + product.options[0].lend_rate_max) / 2).toFixed(2) }}%</td>
+                  <td v-if="!product.options[0]['mrtg_type'] && 'rpay_type' in product.options[0]">{{ product.options[0].rpay_type_nm }}</td>
+                  </tr>
+              </tbody>
             </table>
     
             <!-- 테이블 페이지 구현 -->
@@ -68,14 +88,14 @@
     
   // 예금 상품 상세페이지로 이동
   const goDetail = function (finPrdtCd) {
-    // router.push({name:'deposit_product_detail', params:{fin_prdt_cd: finPrdtCd}})
+    router.push({name:'loan_product_detail', params:{fin_prdt_cd: finPrdtCd}})
   }
   
   // 검색 결과 상품 목록
   const filteredProducts = computed(() => financeStore.filteredProducts)
     
   // 검색하기 옵션 적용
-  const applyOptions = function (type) {
+  const applyOptions = function () {
     const fin_co_no = selectCompany.value || '전체'
     financeStore.searchLoanProducts(fin_co_no)
   }
@@ -102,7 +122,6 @@
   const paginatedProducts = computed(() => {
     const start = (currentPage.value - 1) * itemsPerPage;
     const end = start + itemsPerPage
-    console.log(filteredProducts.value)
     return filteredProducts.value.slice(start, end)
   })
   
@@ -161,7 +180,7 @@
 .search-results th, .search-results td {
   border: 1px solid #ddd;
   padding: 10px;
-  text-align: left;
+  text-align: center;
 }
 
 .search-results th {

@@ -9,9 +9,21 @@
     <div class='product-type-buttons'>
         <!-- 예치금 및 월 납입금, 가입하기 -->
         <form @submit.prevent="userStore.subscribe(financeStore.OneProduct.product.fin_prdt_cd, payment)" style="">
-          <label v-if="financeStore.OneProduct.product.fin_prdt_nm.includes('예금')" for="payment">예치금 : </label>
-          <label v-else for="payment">월 납입금 : </label>
-          <input type="payment" name="payment" id="payment" v-model="payment">
+
+          <div v-if="financeStore.OneProduct.product.fin_prdt_nm.includes('예금')">
+            <label for="payment">예치금 : </label>
+            <input type="payment" name="payment" id="payment" v-model="payment">
+            
+          </div>
+
+          <div v-else-if="financeStore.OneProduct.product.fin_prdt_nm.includes('적금')">
+            <label for="payment">월 납입금 : </label>
+            <input type="payment" name="payment" id="payment" v-model="payment">
+          </div>
+
+          <div v-else>
+          </div>
+          
           <button class='product-type-buttons'>가입하기</button>
         </form>
           <!-- 금융 상품 상세 정보 -->

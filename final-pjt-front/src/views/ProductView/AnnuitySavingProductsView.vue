@@ -68,7 +68,6 @@
   import { useFinanceStore } from '@/stores/finance'
   import { useRouter } from 'vue-router'
   
-  
   const financeStore = useFinanceStore()
   
   onMounted(() => {
@@ -177,7 +176,7 @@
 .search-results th, .search-results td {
   border: 1px solid #ddd;
   padding: 10px;
-  text-align: left;
+  text-align: center;
 }
 
 .search-results th {

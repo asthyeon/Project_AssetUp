@@ -91,14 +91,26 @@ export const useFinanceStore = defineStore('finance', () => {
   // 연금 저축 상품 검색
   const searchLoanProducts = function (fin_co_no) {
       fin_co_no = fin_co_no || '전체'
-      console.log(fin_co_no);
     axios({
         method: 'get',
         url: `${API_URL}/finances/search-loan-products/${fin_co_no}/`
     }).then(res => {
         console.log('대출 상품 검색 완료')
         filteredProducts.value = res.data
-        console.log(filteredProducts.value)
+    }).catch(err => console.log(err))
+  }
+
+  const loanProduct = ref({})
+  // 단일 대출 상품 조회
+  const getLoanProductDetail = function (finPrdtCd) {
+    console.log(finPrdtCd)
+    axios({
+        method: 'get',
+        url: `${API_URL}/finances/get-loan-product-detail/${finPrdtCd}/`,
+    }).then(res => {
+        console.log('단일 대출 상품 조회 완료')
+        loanProduct.value = res.data
+        console.log(loanProduct.value)
     }).catch(err => console.log(err))
   }
 
@@ -187,7 +199,6 @@ export const useFinanceStore = defineStore('finance', () => {
         url: `${API_URL}/finances/get-annuity-saving-product-detail/${finPrdtCd}/`
     }).then(res => {
         console.log('단일 연금 상품 상세 조회 성공')
-        console.log(res.data)
         anniutyProduct.value = res.data
     }).catch(err => console.log(err))
   }
@@ -200,7 +211,6 @@ export const useFinanceStore = defineStore('finance', () => {
     }).then(res => {
         console.log('단일 예금 상품 옵션 조회 성공');
         depositProductOptionList.value = res.data
-        console.log(depositProductOptionList.value)
     }).catch(err => console.log(err))
   }
 
@@ -262,14 +272,14 @@ export const useFinanceStore = defineStore('finance', () => {
         }
     })
 
-    if (key === 'dcls_month' || key === 'fin_prdt_nm' || key === 'kor_co_nm' || key === 'pnsn_kind_nm' || key === 'prdt_type_nm') {
+    if (key === 'dcls_month' || key === 'fin_prdt_nm' || key === 'kor_co_nm' || key === 'pnsn_kind_nm' || key === 'prdt_type_nm' || key === 'lend_rate_type_nm' || key === 'rpay_type_nm') {
         filteredProducts.value.sort((a, b) => {
             const valueA = a.product[key]
             const valueB = b.product[key]
 
             return isSorted ? valueB.localeCompare(valueA) : valueA.localeCompare(valueB)
         })
-    } else if (key === 'dcls_rate' || key === 'avg_prft_rate') {
+    } else if (key === 'dcls_rate' || key === 'avg_prft_rate' || key === 'lend_rate_avg') {
         filteredProducts.value.sort((a, b) => {
           const valueA = a.product[key]
           const valueB = b.product[key]
@@ -312,20 +322,16 @@ export const useFinanceStore = defineStore('finance', () => {
   }
 
   const OneProduct = ref({})
+  // 단일 상품 조회
   const getOneProduct = (finPrdtCd) => {
-    // allProductList.value이 배열인지 확인
-    if (Array.isArray(allProductList.value)) {
-      // 주어진 fin_prdt_cd와 일치하는 제품을 찾기 위해 find 메서드 사용
-      OneProduct.value = allProductList.value.find(product => product.product.fin_prdt_cd === finPrdtCd);
-  
-      if (OneProduct.value) {
-        console.log('제품을 찾았습니다:', OneProduct.value);
-      } else {
-        console.log('제품을 찾을 수 없습니다.');
-      }
-    } else {
-      console.error('allProductList.value이 배열이 아닙니다.');
-    }
+    axios({
+        method: 'get',
+        url: `${API_URL}/finances/get-all-product-detail/${finPrdtCd}`
+    }).then((res) => {
+      OneProduct.value = res.data
+      console.log(OneProduct.value)
+      console.log('단일 상품 조회 완료.')
+    }).catch(err => console.log(err))
   }
   
   return {
@@ -336,5 +342,5 @@ export const useFinanceStore = defineStore('finance', () => {
     getSavingProducts, getSavingProductOptions,
     getSavingProductDetail,
     filteredProducts, searchDepositProducts, searchSavingProducts, sortProducts, getAllProducts, getAnnuitySavingProducts, getOneProduct,
-    searchAnnuitySavingProducts, anniutyProduct, getAnnuitySavingProductDetail, getCompanyDetail, getLoanProducts, loanProductsList, searchLoanProducts }
+    searchAnnuitySavingProducts, anniutyProduct, getAnnuitySavingProductDetail, getCompanyDetail, getLoanProducts, loanProductsList, searchLoanProducts, getLoanProductDetail, loanProduct }
 }, { persist: true })

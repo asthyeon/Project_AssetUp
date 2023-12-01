@@ -14,6 +14,7 @@
         <button class='product-type-buttons' @click="goSubscribe(financeStore.depositProduct[0].product.fin_prdt_nd)">가입하기</button>
       </div>
     </div>
+
     <div class="product-info">
       <!-- 예금 상품 상세 정보 -->
       <p class="section-title">상품 정보</p>
@@ -25,6 +26,7 @@
           <p>가입제한 : {{ JOIN_DENY_CHOICES[financeStore.depositProduct[0].product.join_deny] }}</p>
           <p>가입방법 : {{ financeStore.depositProduct[0].product.join_way }}</p>
         </div>
+
         <div style="padding-right: 50px;">
           <p>우대조건 :</p>
           <p>{{ financeStore.depositProduct[0].product.spcl_cnd }}</p>
@@ -32,13 +34,15 @@
         </div>
       </div>
     </div>
+
     <hr style="border-top: 3px solid #2ecc71">
+
     <!-- 상품의 옵션 리스트 -->
     <div class="card-container d-flex flex-wrap">
       <h3 class="w-100">옵션 목록</h3>
       <div class="col-md-4 option-card p-3 m-3 " v-for="(option, index) in financeStore.depositProduct[0].options" :key="index">
         <div class="option-card-body">
-          <p class="font-weight-bold">{{ index }}번 옵션</p>
+          <p class="font-weight-bold">{{ index+1 }}번 옵션</p>
           <p><strong>금리 유형</strong> : {{ option.intr_rate_type_nm }}</p>
           <p><strong>예치 기간</strong> : {{ option.save_trm }}개월</p>
           <p><strong>저축 금리</strong> : {{ option.intr_rate }}%</p>
@@ -46,6 +50,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -187,7 +192,7 @@ const goBack = () => {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 200px;
   height: 250px;
-  text-align: center;
+  text-align: left;
   transition: background-color 0.3s ease;
 }
 

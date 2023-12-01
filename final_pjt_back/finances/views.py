@@ -1190,6 +1190,43 @@ def get_all_products(request):
             'options':serializer1.data
         }
         products_contain_options.append(serializer)
+    
+    # 주택 담보 대출 목록 불러오기
+    mortgage_products = MortgageLoanProduct.objects.all()
+    for product in mortgage_products:
+        option_list = MortgageLoanOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
+        serializer1 = MortgageLoanOptionSerializer(option_list, many=True)
+        serializer2 = MortgageLoanProductSerializer(product)
+        serializer = {
+            'product':serializer2.data,
+            'options':serializer1.data
+        }
+        products_contain_options.append(serializer)
+ 
+    # 전세 자금 대출 목록 불러오기
+    rent_house_products = RentHouseLoanProduct.objects.all()
+    for product in rent_house_products:
+        option_list = RentHouseLoanOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
+        serializer1 = RentHouseLoanOptionSerializer(option_list, many=True)
+        serializer2 = RentHouseLoanProductSerializer(product)
+        serializer = {
+            'product':serializer2.data,
+            'options':serializer1.data
+        }
+        products_contain_options.append(serializer)
+ 
+    # 신용 대출 목록 불러오기
+    credit_products = CreditLoanProduct.objects.all()
+    for product in credit_products:
+        option_list = CreditLoanOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
+        serializer1 = CreditLoanOptionSerializer(option_list, many=True)
+        serializer2 = CreditLoanProductSerializer(product)
+        serializer = {
+            'product':serializer2.data,
+            'options':serializer1.data
+        }
+        products_contain_options.append(serializer)
+
     return Response(products_contain_options)
 
 # 대출 상품 검색
@@ -1198,7 +1235,11 @@ def search_loan_products(request, fin_co_no):
     filtered_products = []
     
     # 주택 담보 대출
-    mortgage_products = MortgageLoanProduct.objects.filter(fin_co_no=fin_co_no)
+    if fin_co_no != '전체':
+        mortgage_products = MortgageLoanProduct.objects.filter(fin_co_no=fin_co_no)
+    else:
+        mortgage_products = MortgageLoanProduct.objects.all()
+        
     for product in mortgage_products:
         option_list = MortgageLoanOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
         serializer1 = MortgageLoanOptionSerializer(option_list, many=True)
@@ -1210,7 +1251,11 @@ def search_loan_products(request, fin_co_no):
         filtered_products.append(serializer)
         
     # 전세자금 대출
-    rent_house_products = RentHouseLoanProduct.objects.filter(fin_co_no=fin_co_no)
+    if fin_co_no != '전체':
+        rent_house_products = RentHouseLoanProduct.objects.filter(fin_co_no=fin_co_no)
+    else:
+        rent_house_products = RentHouseLoanProduct.objects.all()
+        
     for product in rent_house_products:
         option_list = RentHouseLoanOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
         serializer1 = RentHouseLoanOptionSerializer(option_list, many=True)
@@ -1222,7 +1267,11 @@ def search_loan_products(request, fin_co_no):
         filtered_products.append(serializer)
         
     # 신용 대출
-    credit_products = CreditLoanProduct.objects.filter(fin_co_no=fin_co_no)
+    if fin_co_no != '전체':
+        credit_products = CreditLoanProduct.objects.filter(fin_co_no=fin_co_no)
+    else:
+        credit_products = CreditLoanProduct.objects.all()
+        
     for product in credit_products:
         option_list = CreditLoanOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
         serializer1 = CreditLoanOptionSerializer(option_list, many=True)
@@ -1276,6 +1325,44 @@ def get_loan_products(request):
         }
         products_contain_options.append(serializer)
     return Response(products_contain_options)
+
+# 단일 대출 상품 조회
+@api_view(['GET'])
+def get_loan_product_detail(request, fin_prdt_cd):
+    # 주택 담보 탐색
+    product = {}
+    if MortgageLoanProduct.objects.filter(fin_prdt_cd=fin_prdt_cd).exists():
+        product = MortgageLoanProduct.objects.get(fin_prdt_cd=fin_prdt_cd)
+        option_list = MortgageLoanOption.objects.filter(fin_prdt_cd=fin_prdt_cd)
+        
+        serializer1 = MortgageLoanOptionSerializer(option_list, many=True)
+        serializer2 = MortgageLoanProductSerializer(product)
+        serializer = {
+            'product':serializer2.data,
+            'options':serializer1.data
+        }
+        
+    elif RentHouseLoanProduct.objects.filter(fin_prdt_cd=fin_prdt_cd).exists():
+        product = RentHouseLoanProduct.objects.get(fin_prdt_cd=fin_prdt_cd)
+        option_list = RentHouseLoanOption.objects.filter(fin_prdt_cd=fin_prdt_cd)
+        
+        serializer1 = RentHouseLoanOptionSerializer(option_list, many=True)
+        serializer2 = RentHouseLoanProductSerializer(product)
+        serializer = {
+            'product':serializer2.data,
+            'options':serializer1.data
+        }
+    else:
+        product = CreditLoanProduct.objects.get(fin_prdt_cd=fin_prdt_cd)
+        option_list = CreditLoanOption.objects.filter(fin_prdt_cd=fin_prdt_cd)
+        
+        serializer1 = CreditLoanOptionSerializer(option_list, many=True)
+        serializer2 = CreditLoanProductSerializer(product)
+        serializer = {
+            'product':serializer2.data,
+            'options':serializer1.data
+        }
+    return Response(serializer)
 
 
 # 예금 top3
@@ -1414,41 +1501,80 @@ def best_three(request):
     return Response(best_three)
 
 
-# 전체상품 단일조회
+# 상품 단일조회
+@api_view(['GET'])
 def get_all_product_detail(request, fin_prdt_cd):
-    try:
+    if DepositProduct.objects.filter(fin_prdt_cd=fin_prdt_cd).exists():
         product = DepositProduct.objects.get(fin_prdt_cd=fin_prdt_cd)
-        print(product)
-        if product:
-            print('예금상품입니다')
-            products_contain_options = []
-            option_list = DepositOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
-            seralizer1 = DepositOptionSerializer(option_list, many=True)
-            seralizer2 = DepositProductSerializer(product)
-            seralizer = {
-                'product': seralizer2.data,
-                'options': seralizer1.data
-            }
-            products_contain_options.append(seralizer)
-            return Response(products_contain_options)
-    except DepositProduct.DoesNotExist:
-        pass  # 예외 처리 로직을 추가하세요
-
-    try:
-        print('적금상품입니다')
+        option_list = DepositOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
+        
+        seralizer1 = DepositOptionSerializer(option_list, many=True)
+        seralizer2 = DepositProductSerializer(product)
+        seralizer = {
+            'product': seralizer2.data,
+            'options': seralizer1.data
+        }
+        return Response(seralizer)
+    
+    if SavingProduct.objects.filter(fin_prdt_cd=fin_prdt_cd).exists():
         product = SavingProduct.objects.get(fin_prdt_cd=fin_prdt_cd)
-        products_contain_options = []
         option_list = SavingOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
+        
         seralizer1 = SavingOptionSerializer(option_list, many=True)
         seralizer2 = SavingProductSerializer(product)
         seralizer = {
             'product': seralizer2.data,
             'options': seralizer1.data
         }
-        products_contain_options.append(seralizer)
-        return Response(products_contain_options)
-    except SavingProduct.DoesNotExist:
-        pass  # 예외 처리 로직을 추가하세요
+        return Response(seralizer)
+    
+    if AnnuitySavingProduct.objects.filter(fin_prdt_cd=fin_prdt_cd).exists():
+        product = AnnuitySavingProduct.objects.get(fin_prdt_cd=fin_prdt_cd)
+        option_list = AnnuitySavingOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
+        
+        seralizer1 = AnnuitySavingOptionSerializer(option_list, many=True)
+        seralizer2 = AnnuitySavingProductSerializer(product)
+        seralizer = {
+            'product': seralizer2.data,
+            'options': seralizer1.data
+        }
+        return Response(seralizer)
+    
+    if MortgageLoanProduct.objects.filter(fin_prdt_cd=fin_prdt_cd).exists():
+        product = MortgageLoanProduct.objects.get(fin_prdt_cd=fin_prdt_cd)
+        option_list = MortgageLoanOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
+        
+        seralizer1 = MortgageLoanOptionSerializer(option_list, many=True)
+        seralizer2 = MortgageLoanProductSerializer(product)
+        seralizer = {
+            'product': seralizer2.data,
+            'options': seralizer1.data
+        }
+        return Response(seralizer)
+    
+    if RentHouseLoanProduct.objects.filter(fin_prdt_cd=fin_prdt_cd).exists():
+        product = RentHouseLoanProduct.objects.get(fin_prdt_cd=fin_prdt_cd)
+        option_list = RentHouseLoanOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
+        
+        seralizer1 = RentHouseLoanOptionSerializer(option_list, many=True)
+        seralizer2 = RentHouseLoanProductSerializer(product)
+        seralizer = {
+            'product': seralizer2.data,
+            'options': seralizer1.data
+        }
+        return Response(seralizer)
+    
+    if CreditLoanProduct.objects.filter(fin_prdt_cd=fin_prdt_cd).exists():
+        product = CreditLoanProduct.objects.get(fin_prdt_cd=fin_prdt_cd)
+        option_list = CreditLoanOption.objects.filter(fin_prdt_cd=product.fin_prdt_cd)
+        
+        seralizer1 = CreditLoanOptionSerializer(option_list, many=True)
+        seralizer2 = CreditLoanProductSerializer(product)
+        seralizer = {
+            'product': seralizer2.data,
+            'options': seralizer1.data
+        }
+        return Response(seralizer)
 
 
 # # 연금 top3
