@@ -95,7 +95,13 @@ def save_deposit_products(request):
             
             # 예금 목록 순회
             for li in response.get("result").get("baseList"):
-                company = Company.objects.get(fin_co_no=li['fin_co_no'])
+                # company = Company.objects.get(fin_co_no=li['fin_co_no'])
+                companies = Company.objects.filter(fin_co_no=li['fin_co_no'])
+
+                if companies.exists():
+                    company = companies.first() 
+
+
                 
                 # 이미 존재하는 데이터 패스
                 if DepositProduct.objects.filter(fin_prdt_cd=li['fin_prdt_cd']).exists():
@@ -103,7 +109,7 @@ def save_deposit_products(request):
                 
                 # 예금 상품 데이터 할당
                 save_data = {
-                    'company': company.pk,
+                    'company': company.pk if company else None,
                     'dcls_month': li['dcls_month'],
                     'fin_co_no': li['fin_co_no'],
                     'kor_co_nm': li['kor_co_nm'],
@@ -173,7 +179,12 @@ def save_saving_products(request):
             
             # 적금 상품 목록 순회
             for li in response.get("result").get("baseList"):
-                company = Company.objects.get(fin_co_no=li['fin_co_no'])
+                # company = Company.objects.get(fin_co_no=li['fin_co_no'])
+                companies = Company.objects.filter(fin_co_no=li['fin_co_no'])
+
+                if companies.exists():
+                    company = companies.first() 
+
                 
                 # 중복 데이터 패스
                 if SavingProduct.objects.filter(fin_prdt_cd=li['fin_prdt_cd']).exists():
@@ -181,7 +192,7 @@ def save_saving_products(request):
                 
                 # 적금 상품 데이터 할당
                 save_data = {
-                    'company': company.pk,
+                    'company': company.pk if company else None,
                     'dcls_month': li['dcls_month'],
                     'fin_co_no': li['fin_co_no'],
                     'kor_co_nm': li['kor_co_nm'],
@@ -359,7 +370,13 @@ def save_mortgage_loan_products(request):
             
             # 주택담보 대출 상품 목록 순회
             for li in response.get("result").get("baseList"):
-                company = Company.objects.get(fin_co_no=li['fin_co_no'])
+                # company = Company.objects.get(fin_co_no=li['fin_co_no'])
+
+                companies = Company.objects.filter(fin_co_no=li['fin_co_no'])
+
+                if companies.exists():
+                    company = companies.first() 
+
                 
                 # 중복 데이터 패스
                 if MortgageLoanProduct.objects.filter(fin_prdt_cd=li['fin_prdt_cd']).exists():
@@ -367,7 +384,7 @@ def save_mortgage_loan_products(request):
                 
                 # 연금저축 상품 데이터 할당
                 save_data = {
-                    'company': company.pk,
+                    'company': company.pk if company else None,
                     'dcls_month': li['dcls_month'],
                     'fin_co_no': li['fin_co_no'],
                     'kor_co_nm': li['kor_co_nm'],
@@ -450,7 +467,13 @@ def save_rent_house_loan_products(request):
             
             # 전세자금 대출 상품 목록 순회
             for li in response.get("result").get("baseList"):
-                company = Company.objects.get(fin_co_no=li['fin_co_no'])
+                # company = Company.objects.get(fin_co_no=li['fin_co_no'])
+                companies = Company.objects.filter(fin_co_no=li['fin_co_no'])
+
+                if companies.exists():
+                    company = companies.first() 
+
+
                 
                 # 중복 데이터 패스
                 if RentHouseLoanProduct.objects.filter(fin_prdt_cd=li['fin_prdt_cd']).exists():
@@ -458,7 +481,7 @@ def save_rent_house_loan_products(request):
                 
                 # 전세자금 상품 데이터 할당
                 save_data = {
-                    'company': company.pk,
+                    'company': company.pk if company else None,
                     'dcls_month': li['dcls_month'],
                     'fin_co_no': li['fin_co_no'],
                     'kor_co_nm': li['kor_co_nm'],
