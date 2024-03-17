@@ -115,7 +115,7 @@
 
 ### Tools
 
-[![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-1.85.1-blue.svg?style=flat&logo=visual-studio-code)](https://code.visualstudio.com/)
+[![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-blue.svg?style=flat&logo=visual-studio-code)](https://code.visualstudio.com/)
 
 ### Infra
 
