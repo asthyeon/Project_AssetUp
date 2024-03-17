@@ -125,4 +125,4 @@
 ![ERD](images/erd.png)
 
 ## 🎨 와이어프레임
-<img src="/images/와이어프레임.png"  width="400px" height="600px">
+![figma](images/figma.png)
